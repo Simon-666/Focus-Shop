@@ -12,9 +12,8 @@
     <meta property="og:description" content="متجر فوكس - تسوق أفضل المنتجات بأفضل الأسعار.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://foucsshop.example.com/">
-    <meta property="og:image" <meta name="google-site-verification"
-        content="uy8H8AykwFee5AGngwOMJOdWFexUXfs8b3LkNHMMaAo" />
-    content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
+    <meta name="google-site-verification" content="uy8H8AykwFee5AGngwOMJOdWFexUXfs8b3LkNHMMaAo" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
 
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Noto+Naskh+Arabic:wght@400;700&display=swap"
@@ -23,6 +22,7 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="shortcut icon" href="logo.svg">
 </head>
 
 <body>
@@ -113,8 +113,19 @@
 
             <!-- Filter & Search -->
             <div class="shop-controls">
-                <div class="search-bar">
-                    <input type="text" id="search-input" placeholder="ابحث عن منتج...">
+                <div class="search-sort-container">
+                    <div class="search-bar">
+                        <input type="text" id="search-input" placeholder="ابحث عن منتج...">
+                    </div>
+                    <div class="sort-bar">
+                        <select id="sort-select">
+                            <option value="default">الترتيب الافتراضي</option>
+                            <option value="price-asc">السعر: من الأقل للأعلى</option>
+                            <option value="price-desc">السعر: من الأعلى للأقل</option>
+                            <option value="date-desc">الأحدث أولاً</option>
+                            <option value="date-asc">الأقدم أولاً</option>
+                        </select>
+                    </div>
                 </div>
                 <div id="category-filters" class="category-filters">
                     <!-- Categories added by JS -->

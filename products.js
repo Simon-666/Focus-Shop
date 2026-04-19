@@ -37,7 +37,8 @@ const products = [
         "description": "كاميرا احترافية بدقة 4K مع عدسة 50mm، مثالية للمصورين المحترفين والمبتدئين.",
         "url": "https://amazon.com",
         "featured": false,
-        "isDemo": true
+        "isDemo": true,
+        "sortOrder": 1
     },
     {
         "id": 2,
@@ -50,7 +51,8 @@ const products = [
         "description": "خيمة واسعة تتسع لـ 4 أشخاص، مقاومة للماء والرياح، سهلة التركيب.",
         "url": "https://amazon.com",
         "featured": false,
-        "isDemo": true
+        "isDemo": true,
+        "sortOrder": 1
     },
     {
         "id": 3,
@@ -63,7 +65,8 @@ const products = [
         "description": "حذاء مريح وخفيف الوزن، مصمم خصيصاً للجري والمسافات الطويلة.",
         "url": "https://amazon.com",
         "featured": false,
-        "isDemo": true
+        "isDemo": true,
+        "sortOrder": 1
     },
     {
         "id": 4,
@@ -76,7 +79,8 @@ const products = [
         "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=600&q=80",
         "description": "شاشة عالية الدقة 144Hz، ألوان زاهية، مثالية للألعاب والإنتاجية.",
         "url": "https://amazon.com",
-        "featured": false
+        "featured": false,
+        "sortOrder": 1
     },
     {
         "id": 5,
@@ -89,7 +93,8 @@ const products = [
         "image": "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&w=600&q=80",
         "description": "لوحة مفاتيح بإضاءة RGB، مفاتيح زرقاء سريعة الاستجابة.",
         "url": "https://amazon.com",
-        "featured": false
+        "featured": false,
+        "sortOrder": 1
     },
     {
         "id": 7,
@@ -102,7 +107,8 @@ const products = [
         "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",
         "description": "حقيبة متينة ومقاومة للماء، مع مساحة مخصصة للكمبيوتر المحمول.",
         "url": "https://amazon.com",
-        "featured": false
+        "featured": false,
+        "sortOrder": 1
     },
     {
         "id": 10,
@@ -115,7 +121,8 @@ const products = [
         "image": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=600&q=80",
         "description": "مصباح مكتب بإضاءة قابلة للتعديل والتحكم باللمس، مريح للعين.",
         "url": "https://amazon.com",
-        "featured": false
+        "featured": false,
+        "sortOrder": 1
     },
     {
         "id": 1776611502245,
@@ -129,7 +136,8 @@ const products = [
         "url": "https://littlehippo.com/products/mella",
         "featured": true,
         "isDemo": false,
-        "noCrop": true
+        "noCrop": true,
+        "sortOrder": 1
     },
     {
         "id": 1776611664989,
@@ -143,7 +151,8 @@ const products = [
         "url": "https://www.quntis.com/products/monitor-light-bar-pro-with-remote-control-eye-care-technology-computer-monitor-lamp-with-auto-dimming-no-screen-glare",
         "featured": true,
         "isDemo": false,
-        "noCrop": true
+        "noCrop": true,
+        "sortOrder": 1
     },
     {
         "id": 1776611968243,
@@ -157,6 +166,7 @@ const products = [
         "url": "https://meikeglobal.com/products/speedbooster?variant=44212080804068",
         "featured": true,
         "isDemo": false,
-        "noCrop": true
+        "noCrop": true,
+        "sortOrder": 1
     }
 ];

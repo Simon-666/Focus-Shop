@@ -137,8 +137,34 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderProducts() {
         if (typeof products === 'undefined') return;
 
-        // Render Featured Products (first 3 that are featured)
-        const featuredProducts = products.filter(p => p.featured).slice(0, 3);
+        const sortMode = document.getElementById('sort-select')?.value || 'default';
+        
+        // Sort products based on selected mode
+        let sortedProducts = [...products];
+        
+        if (sortMode === 'default') {
+            sortedProducts.sort((a, b) => {
+                const orderA = a.sortOrder || 1;
+                const orderB = b.sortOrder || 1;
+                if (orderA !== orderB) return orderA - orderB;
+                return b.id - a.id;
+            });
+        } else if (sortMode === 'price-asc') {
+            sortedProducts.sort((a, b) => Number(a.price) - Number(b.price));
+        } else if (sortMode === 'price-desc') {
+            sortedProducts.sort((a, b) => Number(b.price) - Number(a.price));
+        } else if (sortMode === 'date-desc') {
+            sortedProducts.sort((a, b) => b.id - a.id);
+        } else if (sortMode === 'date-asc') {
+            sortedProducts.sort((a, b) => a.id - b.id);
+        }
+
+        // Render Featured Products (first 3 that are featured) - Always use default sort for featured
+        const featuredProducts = [...products]
+            .sort((a, b) => (a.sortOrder || 1) - (b.sortOrder || 1) || b.id - a.id)
+            .filter(p => p.featured)
+            .slice(0, 3);
+
         if (featuredGrid && featuredProducts.length > 0) {
             featuredGrid.innerHTML = featuredProducts.map(createProductCard).join('');
         } else if (featuredGrid) {
@@ -147,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Render All Products
         if (mainGrid) {
-            mainGrid.innerHTML = products.map(createProductCard).join('');
+            mainGrid.innerHTML = sortedProducts.map(createProductCard).join('');
         }
     }
 
@@ -196,6 +222,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (searchInput) {
         searchInput.addEventListener('input', () => {
+            const activeFilter = categoryFiltersContainer.querySelector('.active').dataset.filter;
+            filterProducts(activeFilter);
+        });
+    }
+
+    const sortSelect = document.getElementById('sort-select');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+            renderProducts();
             const activeFilter = categoryFiltersContainer.querySelector('.active').dataset.filter;
             filterProducts(activeFilter);
         });
