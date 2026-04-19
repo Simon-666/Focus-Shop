@@ -1146,6 +1146,35 @@ img {
     background-color: #1f2937 !important; /* Dark background for tables */
 }
 
+/* General Blog Table Styles */
+.post-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.post-content th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 700;
+    padding: 12px 15px;
+    text-align: right;
+}
+
+.post-content td {
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+}
+
+.post-content tr:nth-child(even) {
+    background-color: var(--bg-alt);
+}
+
+
 /* Ensure links are still visible but maybe a bit different */
 [data-theme="dark"] .post-content a {
     color: #60a5fa !important;

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://foucsshop.com/sitemap.xml
+Sitemap: https://simon-666.github.io/Focus-Shop/sitemap.xml
