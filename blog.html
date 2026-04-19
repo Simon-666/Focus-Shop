@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المدونة | متجر فوكس</title>
+
+    <!-- SEO & Open Graph Meta Tags -->
+    <meta name="description" id="meta-desc" content="اكتشف أحدث المقالات والنصائح حول التصوير، التخييم، والمزيد في مدونة متجر فوكس.">
+    <meta property="og:title" id="og-title" content="المدونة | متجر فوكس">
+    <meta property="og:description" id="og-desc" content="اكتشف أحدث المقالات والنصائح حول التصوير، التخييم، والمزيد في مدونة متجر فوكس.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" id="og-image" content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .post-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+        .post-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .post-category {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        .post-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+        .post-meta {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .post-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+        .post-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-main);
+        }
+        .post-content h2, .post-content h3 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+        .post-content p {
+            margin-bottom: 20px;
+        }
+        .post-content img {
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div id="loader" class="loader-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">فوكس<span>.</span></a>
+
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+            <ul class="nav-links">
+                <li><a href="index.html#home">الرئيسية</a></li>
+                <li><a href="index.html#featured">المنتجات المميزة</a></li>
+                <li><a href="index.html#products">التسوق</a></li>
+                <li><a href="blog.html">المدونة</a></li>
+                <li><a href="index.html#about">من نحن</a></li>
+                <li><a href="https://wa.me/9647747597922" target="_blank" rel="noopener noreferrer">تواصل معنا</a></li>
+            </ul>
+
+            <button id="theme-toggle" class="theme-btn" aria-label="تبديل الوضع الليلي">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main style="margin-top: 80px; min-height: 70vh;">
+        <!-- Blog Listing Section -->
+        <section id="blog-listing" class="section">
+            <div class="container">
+                <h1 class="section-title">المدونة</h1>
+                <div id="blog-grid" class="blog-grid">
+                    <!-- Dynamically populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Single Post Section -->
+        <section id="single-post" class="section hidden">
+            <div class="container">
+                <div class="post-container">
+                    <a href="blog.html" class="back-link">&rarr; العودة للمدونة</a>
+                    <div id="post-content-area">
+                        <!-- Dynamically populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <h3>متجر فوكس<span>.</span></h3>
+                <p>وجهتك المفضلة للتسوق عبر الإنترنت.</p>
+            </div>
+            <div class="footer-links">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="index.html#home">الرئيسية</a></li>
+                    <li><a href="index.html#products">المنتجات</a></li>
+                    <li><a href="index.html#about">من نحن</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h4>تابعنا</h4>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/profile.php?id=61577430766611" target="_blank"
+                        rel="noopener noreferrer" aria-label="Facebook">FB</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 متجر فوكس. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <a href="#" id="back-to-top" class="back-to-top" aria-label="العودة للأعلى">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6" />
+        </svg>
+    </a>
+
+    <!-- Scripts -->
+    <script src="blogs.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const slug = urlParams.get('slug');
+            const id = urlParams.get('id');
+
+            const listingSection = document.getElementById('blog-listing');
+            const postSection = document.getElementById('single-post');
+            
+            // Find post if id or slug is present
+            let currentPost = null;
+            if (slug && typeof blogs !== 'undefined') {
+                currentPost = blogs.find(b => b.slug === slug);
+            } else if (id && typeof blogs !== 'undefined') {
+                currentPost = blogs.find(b => b.id == id);
+            }
+
+            if (currentPost) {
+                // Show Single Post
+                listingSection.classList.add('hidden');
+                postSection.classList.remove('hidden');
+
+                // Update SEO Meta Tags
+                if (currentPost.seoTitle) {
+                    document.title = currentPost.seoTitle;
+                    document.getElementById('og-title').setAttribute('content', currentPost.seoTitle);
+                } else {
+                    document.title = currentPost.title + ' | متجر فوكس';
+                    document.getElementById('og-title').setAttribute('content', currentPost.title + ' | متجر فوكس');
+                }
+
+                if (currentPost.seoDesc) {
+                    document.getElementById('meta-desc').setAttribute('content', currentPost.seoDesc);
+                    document.getElementById('og-desc').setAttribute('content', currentPost.seoDesc);
+                } else {
+                    document.getElementById('meta-desc').setAttribute('content', currentPost.excerpt);
+                    document.getElementById('og-desc').setAttribute('content', currentPost.excerpt);
+                }
+
+                document.getElementById('og-image').setAttribute('content', currentPost.image);
+
+                // Render Post Content
+                const postArea = document.getElementById('post-content-area');
+                postArea.innerHTML = `
+                    <div class="post-header">
+                        <span class="post-category">${currentPost.category}</span>
+                        <h1 class="post-title">${currentPost.title}</h1>
+                        <div class="post-meta">
+                            <span>بواسطة ${currentPost.author}</span>
+                            <span>${currentPost.date}</span>
+                        </div>
+                    </div>
+                    <img src="${currentPost.image}" alt="${currentPost.title}" class="post-image">
+                    <div class="post-content">
+                        ${currentPost.content}
+                    </div>
+                `;
+            } else {
+                // Show Blog Listing
+                listingSection.classList.remove('hidden');
+                postSection.classList.add('hidden');
+
+                const blogGrid = document.getElementById('blog-grid');
+                if (typeof blogs !== 'undefined' && blogs.length > 0) {
+                    blogGrid.innerHTML = blogs.map(b => `
+                        <article class="blog-card">
+                            <a href="blog.html?slug=${b.slug}" class="blog-image">
+                                <img src="${b.image}" alt="${b.title}" loading="lazy">
+                            </a>
+                            <div class="blog-content">
+                                <div class="blog-category">${b.category}</div>
+                                <h3 class="blog-title"><a href="blog.html?slug=${b.slug}">${b.title}</a></h3>
+                                <p class="blog-excerpt">${b.excerpt}</p>
+                                <div class="blog-meta">
+                                    <span>بواسطة ${b.author}</span>
+                                    <span>${b.date}</span>
+                                </div>
+                            </div>
+                        </article>
+                    `).join('');
+                } else {
+                    blogGrid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">لا توجد مقالات حالياً.</p>';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

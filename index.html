@@ -12,12 +12,17 @@
     <meta property="og:description" content="متجر فوكس - تسوق أفضل المنتجات بأفضل الأسعار.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://foucsshop.example.com/">
-    <meta property="og:image"
-        content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:image" <meta name="google-site-verification"
+        content="uy8H8AykwFee5AGngwOMJOdWFexUXfs8b3LkNHMMaAo" />
+    content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
 
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Noto+Naskh+Arabic:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Favicon (Replace the href with your icon URL) -->
+    <!-- <link rel="icon" type="image/x-icon" href="https://example.com/favicon.ico"> -->
 </head>
 
 <body>
@@ -39,11 +44,12 @@
             </label>
 
             <ul class="nav-links">
-                <li><a href="#home">الرئيسية</a></li>
-                <li><a href="#featured">المنتجات المميزة</a></li>
-                <li><a href="#products">التسوق</a></li>
+                <li><a href="index.html#home">الرئيسية</a></li>
+                <li><a href="index.html#featured">المنتجات المميزة</a></li>
+                <li><a href="index.html#products">التسوق</a></li>
+                <li><a href="blog.html">المدونة</a></li>
                 <li><a href="#about">من نحن</a></li>
-                <li><a href="#contact">تواصل معنا</a></li>
+                <li><a href="https://wa.me/9647747597922" target="_blank" rel="noopener noreferrer">تواصل معنا</a></li>
             </ul>
 
             <button id="theme-toggle" class="theme-btn" aria-label="تبديل الوضع الليلي">
@@ -69,10 +75,20 @@
 
     <!-- Hero Section -->
     <header id="home" class="hero">
-        <div class="hero-content">
-            <h1>اكتشف عالم التسوق مع متجر فوكس</h1>
-            <p>وجهتك الأولى لأحدث المنتجات، من التصوير إلى المنزل وأكثر.</p>
-            <a href="#products" class="btn btn-primary">تسوق الآن</a>
+        <div class="hero-container">
+            <div class="hero-text">
+                <div class="hero-content">
+                    <h1>اكتشف عالم التسوق،<br>مرحباً بك في فوكس.</h1>
+                    <p>متجر يضع التركيز عليك وعلى احتياجاتك. تسوق أحدث المنتجات من التصوير إلى التخييم بكل سهولة.</p>
+                    <a href="#products" class="btn btn-glow">تسوق الآن <span>&darr;</span></a>
+                </div>
+            </div>
+
+            <div class="announcement-banner">
+                <h3>جديد في متجر فوكس: منتجات حصرية والمزيد</h3>
+                <p>تصفح أحدث الكاميرات ومعدات التخييم المضافة حديثاً. احصل على شحن سريع وتجربة تسوق لا تُنسى.</p>
+                <a href="#featured">اكتشف المزيد</a>
+            </div>
         </div>
     </header>
 
@@ -97,35 +113,29 @@
                     <input type="text" id="search-input" placeholder="ابحث عن منتج...">
                 </div>
                 <div id="category-filters" class="category-filters">
-                    <!-- Categories dynamically generated here -->
+                    <!-- Categories added by JS -->
                 </div>
             </div>
 
-            <!-- Product Grid -->
             <div id="main-products-grid" class="products-grid">
                 <!-- Dynamically populated by JS -->
             </div>
-
-            <div id="no-results" class="no-results hidden">
-                <p>عذراً، لا توجد منتجات تطابق بحثك.</p>
+            
+            <div id="no-results" class="hidden" style="text-align: center; padding: 2rem; width: 100%;">
+                <p>عذراً، لم يتم العثور على منتجات مطابقة لبحثك.</p>
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section">
+    <section id="about" class="section bg-light">
         <div class="container about-container">
             <div class="about-text">
                 <h2 class="section-title text-right">من نحن</h2>
-                <p>قبل كل شي، حبيت أعرفكم بنفسي وبمشروعي الصغير حتى تكون الصورة واضحة للكل وتكون علاقتنا مبنية على الثقة والمحبة.
-أنا أخوكم، طالب كلية وبنفس الوقت أحاول أبني مستقبلي بخطوات بسيطة. بدأت هذا المشروعي برأس مال "على قد الحال"، وهذا يخليني ما أقدر أشتري بضاعة بالجملة، فآخذ قطع محدودة ومختارة بعناية.
-ليش أسعاري مو هي الأرخص بالسوق؟ 🤔
-بصراحة ومثل ما يقولون "أهلنا": (الغالي سعره بيه). لأن ما عندي إمكانية أجيب كميات ضخمة، أركز جهدي كله حتى أوفر لكم قطع مميزة، نوعية ممتازة، وشغلات "لقطة" ما تلقوها بكل مكان.
-✅ هدفي: أوفر لكم جودة تبيض الوجه وقطع "كشخة" ومميزة.
-⚠️ اعتذاري: للي يدور أرخص سعر بالسوق، حالياً ما أقدر أنافس المحلات الكبيرة لأن هذا يحتاج رأس مال ووقت وتفرغ تام، وأنا بين دراستي وبين هذا المشروع.
-أتمنى تكون تجربتكم وياي تجربة حلوة ومرتبة، وتأكدوا أي قطعة تطلع من عندي وراها "ذوق وحرص".
-🌹✨</p>
-    
+                <p>متجر فوكس (Foucs Shop) هو منصة تجارة إلكترونية رائدة تهدف إلى توفير تشكيلة واسعة من المنتجات عالية
+                    الجودة لتلبي كافة احتياجاتك اليومية. سواء كنت تبحث عن أدوات تصوير احترافية، مستلزمات التخييم، أجهزة
+                    الكمبيوتر، أو حتى الملابس والأدوات المنزلية، نحن هنا لنقدم لك الأفضل.</p>
+                <p>نحن نؤمن بأن التسوق عبر الإنترنت يجب أن يكون تجربة سهلة، سريعة، وممتعة.</p>
             </div>
             <div class="about-image">
                 <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80"
@@ -174,7 +184,8 @@
             <div class="footer-social">
                 <h4>تابعنا</h4>
                 <div class="social-icons">
-                    <a href="https://www.facebook.com/profile.php?id=61577430766611" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
+                    <a href="https://www.facebook.com/profile.php?id=61577430766611" target="_blank"
+                        rel="noopener noreferrer" aria-label="Facebook">FB</a>
                 </div>
             </div>
         </div>

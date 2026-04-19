@@ -125,23 +125,25 @@ const products = [
         "currency": "د.ع",
         "category": "home",
         "image": "https://littlehippo.com/cdn/shop/files/Pink-bluegreen-light_edit_2048x.jpg?v=1729104363",
-        "description": "ساعة متطورة لتعليم الاطفال النوم",
+        "description": "\nميلا (Mella) من Little Hippo هي ساعة تدريب ذكية ومضيئة للأطفال، صُممت لتحسين عادات النوم.\nالمزايا:\nمؤشر ضوئي: ألوان تعليمية (أحمر للنوم، أصفر للاستعداد، أخضر للاستيقاظ).\nوقت القيلولة: إعدادات مخصصة للقيلولة.\nأصوات مهدئة: تحتوي على أصوات طبيعية وموسيقى هادئة.\nشاشة رقمية: واجهة بسيطة لتعلم الوقت.\nخاصية قفل الأمان: لمنع الأطفال من تغيير الإعدادات.\nتساعد طفلك على معرفة وقت النوم والنهوض بشكل ممتع وآمن.\n",
         "url": "https://littlehippo.com/products/mella",
-        "featured": false,
-        "isDemo": false
+        "featured": true,
+        "isDemo": false,
+        "noCrop": true
     },
     {
         "id": 1776611664989,
-        "title": "Quntis Monitor Light Bar Focus ",
-        "price": "120000",
-        "originalPrice": "50000",
+        "title": "Quntis Monitor Light Bar Focus Black, PRO+",
+        "price": "50000",
+        "originalPrice": "120000",
         "currency": "د.ع",
         "category": "pc",
         "image": "https://www.quntis.com/cdn/shop/files/31279278096450.jpg?v=1710310541&width=1000",
-        "description": "لايت بار خرافي بمميزات خرافية و ريموت تحكم",
+        "description": "مصباح Quntis Monitor Light Bar PRO+ (51 سم) هو حل إضاءة احترافي يتميز بـ:\nتصميم ذكي: يتناسب مع الشاشات المسطحة والمنحنية، مع ريموت كنترول لاسلكي للتحكم السهل.\nحماية العين: تقنية تمنع الوهج وانعكاس الضوء على الشاشة، مما يقلل إجهاد العين.\nتحكم ذكي: مستشعر مدمج للتعتيم التلقائي حسب إضاءة الغرفة، مع إمكانية تعديل السطوع ودرجة اللون يدوياً.\nمثالي للعمل والألعاب: يوفر إضاءة مكتبية مركزة توفر مساحة على الطاولة بفضل التصميم المعلق.",
         "url": "https://www.quntis.com/products/monitor-light-bar-pro-with-remote-control-eye-care-technology-computer-monitor-lamp-with-auto-dimming-no-screen-glare",
         "featured": true,
-        "isDemo": false
+        "isDemo": false,
+        "noCrop": true
     },
     {
         "id": 1776611968243,
@@ -154,6 +156,7 @@ const products = [
         "description": "محول عدسة افضل من الاصلي أهم مميزات محول Meike 0.71x Locking في نقاط مختصرة:\nزيادة الإضاءة: يمنحك وقفة ضوئية إضافية (مثلاً تتحول f/4 إلى f/2.8).\nتوسيع الزاوية: يقلل البعد البؤري بمقدار 0.71x لتعويض \"الكروب سنسور\".\nقفل سينمائي: نظام تثبيت دوار يمنع اهتزاز العدسة نهائياً (Zero Play).\nجودة بصرية: يحتوي على 5 عناصر زجاجية لتركيز الضوء على الحساس.\nمتانة المعدن: تصميم قوي من الفولاذ المقاوم للصدأ مع حماية من الطقس.\nدعم إلكتروني: نقل كامل لبيانات الـ EXIF ودعم الفوكس التلقائي (AF).",
         "url": "https://meikeglobal.com/products/speedbooster?variant=44212080804068",
         "featured": true,
-        "isDemo": false
+        "isDemo": false,
+        "noCrop": true
     }
 ];
