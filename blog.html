@@ -11,6 +11,7 @@
     <meta property="og:title" id="og-title" content="المدونة | متجر فوكس">
     <meta property="og:description" id="og-desc" content="اكتشف أحدث المقالات والنصائح حول التصوير، التخييم، والمزيد في مدونة متجر فوكس.">
     <meta property="og:type" content="website">
+    <meta property="og:url" id="og-url" content="https://simon-666.github.io/Focus-Shop/blog.html">
     <meta property="og:image" id="og-image" content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
@@ -246,6 +247,7 @@
                 }
 
                 document.getElementById('og-image').setAttribute('content', currentPost.image);
+                document.getElementById('og-url').setAttribute('content', window.location.href);
 
                 // Render Post Content
                 const postArea = document.getElementById('post-content-area');
