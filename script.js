@@ -110,11 +110,15 @@ document.addEventListener('DOMContentLoaded', () => {
             ? `<button class="btn btn-disabled" onclick="alert('هذا منتج تجريبي للعرض فقط')">منتج تجريبي</button>`
             : `<a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">شراء الآن</a>`;
 
+        const conditionLabel = product.condition === 'used' ? 'مستخدم' : 'جديد';
+        const conditionClass = product.condition === 'used' ? 'condition-used' : 'condition-new';
+
         return `
             <div class="product-card" data-category="${product.category}">
                 <div class="product-image ${product.noCrop ? 'no-crop' : ''}">
                     ${badgeHtml}
                     ${sourceBadge}
+                    <span class="condition-badge ${conditionClass}">${conditionLabel}</span>
                     <img src="${product.image}" alt="${product.title}" loading="lazy">
                 </div>
                 <div class="product-info">

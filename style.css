@@ -1119,3 +1119,68 @@ img {
     border-top: 1px solid var(--border-color);
     padding-top: 15px;
 }
+
+/* ==============================
+   Blog Content Dark Mode Fixes
+   ============================== */
+[data-theme="dark"] .post-content,
+[data-theme="dark"] .post-content *,
+[data-theme="dark"] .blog-excerpt,
+[data-theme="dark"] .blog-excerpt * {
+    /* Force text to be white/light in dark mode, ignoring inline styles from the editor */
+    color: #ffffff !important;
+    background-color: transparent !important;
+}
+
+/* Ensure images and tables still look okay */
+[data-theme="dark"] .post-content img {
+    filter: none !important;
+}
+
+[data-theme="dark"] .post-content table,
+[data-theme="dark"] .post-content tr,
+[data-theme="dark"] .post-content td,
+[data-theme="dark"] .post-content th {
+    border-color: #4b5563 !important;
+    color: #ffffff !important;
+    background-color: #1f2937 !important; /* Dark background for tables */
+}
+
+/* Ensure links are still visible but maybe a bit different */
+[data-theme="dark"] .post-content a {
+    color: #60a5fa !important;
+    text-decoration: underline !important;
+}
+
+
+/* Ensure the container stays dark but the text remains readable */
+[data-theme="dark"] .post-container,
+[data-theme="dark"] .blog-card {
+    background-color: var(--card-bg);
+}
+
+/* ==============================
+   Condition Badges
+   ============================== */
+.condition-badge {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.condition-new {
+    color: #34d399; /* Light Green */
+}
+
+.condition-used {
+    color: #fbbf24; /* Amber/Yellow */
+}
