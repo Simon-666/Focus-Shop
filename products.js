@@ -116,5 +116,44 @@ const products = [
         "description": "مصباح مكتب بإضاءة قابلة للتعديل والتحكم باللمس، مريح للعين.",
         "url": "https://amazon.com",
         "featured": false
+    },
+    {
+        "id": 1776611502245,
+        "title": "Mella ساعة ذكية لتعليم وقت النوم للاطفال",
+        "price": "25000",
+        "originalPrice": "77500",
+        "currency": "د.ع",
+        "category": "home",
+        "image": "https://littlehippo.com/cdn/shop/files/Pink-bluegreen-light_edit_2048x.jpg?v=1729104363",
+        "description": "ساعة متطورة لتعليم الاطفال النوم",
+        "url": "https://littlehippo.com/products/mella",
+        "featured": false,
+        "isDemo": false
+    },
+    {
+        "id": 1776611664989,
+        "title": "Quntis Monitor Light Bar Focus ",
+        "price": "120000",
+        "originalPrice": "50000",
+        "currency": "د.ع",
+        "category": "pc",
+        "image": "https://www.quntis.com/cdn/shop/files/31279278096450.jpg?v=1710310541&width=1000",
+        "description": "لايت بار خرافي بمميزات خرافية و ريموت تحكم",
+        "url": "https://www.quntis.com/products/monitor-light-bar-pro-with-remote-control-eye-care-technology-computer-monitor-lamp-with-auto-dimming-no-screen-glare",
+        "featured": true,
+        "isDemo": false
+    },
+    {
+        "id": 1776611968243,
+        "title": "Meike lens adapter EF - EOS R 0.71 X",
+        "price": "120000",
+        "originalPrice": "353400",
+        "currency": "د.ع",
+        "category": "photography",
+        "image": "https://meikeglobal.com/cdn/shop/files/B29A7949.png?v=1717129704&width=1985",
+        "description": "محول عدسة افضل من الاصلي أهم مميزات محول Meike 0.71x Locking في نقاط مختصرة:\nزيادة الإضاءة: يمنحك وقفة ضوئية إضافية (مثلاً تتحول f/4 إلى f/2.8).\nتوسيع الزاوية: يقلل البعد البؤري بمقدار 0.71x لتعويض \"الكروب سنسور\".\nقفل سينمائي: نظام تثبيت دوار يمنع اهتزاز العدسة نهائياً (Zero Play).\nجودة بصرية: يحتوي على 5 عناصر زجاجية لتركيز الضوء على الحساس.\nمتانة المعدن: تصميم قوي من الفولاذ المقاوم للصدأ مع حماية من الطقس.\nدعم إلكتروني: نقل كامل لبيانات الـ EXIF ودعم الفوكس التلقائي (AF).",
+        "url": "https://meikeglobal.com/products/speedbooster?variant=44212080804068",
+        "featured": true,
+        "isDemo": false
     }
 ];
