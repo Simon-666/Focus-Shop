@@ -284,6 +284,15 @@ img {
     font-size: 1.8rem;
     font-weight: 800;
     color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-logo {
+    height: 35px;
+    width: auto;
+    object-fit: contain;
 }
 
 .logo span {
