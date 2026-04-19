@@ -28,7 +28,6 @@ const categories = [
 const products = [
     {
         "id": 1,
-        "isDemo": true,
         "title": "كاميرا رقمية احترافية",
         "price": "450000",
         "originalPrice": "500000",
@@ -37,11 +36,11 @@ const products = [
         "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=600&q=80",
         "description": "كاميرا احترافية بدقة 4K مع عدسة 50mm، مثالية للمصورين المحترفين والمبتدئين.",
         "url": "https://amazon.com",
-        "featured": true
+        "featured": false,
+        "isDemo": true
     },
     {
         "id": 2,
-        "isDemo": true,
         "title": "خيمة تخييم عائلية",
         "price": "120000",
         "originalPrice": "150000",
@@ -50,11 +49,11 @@ const products = [
         "image": "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&w=600&q=80",
         "description": "خيمة واسعة تتسع لـ 4 أشخاص، مقاومة للماء والرياح، سهلة التركيب.",
         "url": "https://amazon.com",
-        "featured": true
+        "featured": false,
+        "isDemo": true
     },
     {
         "id": 3,
-        "isDemo": true,
         "title": "حذاء رياضي للجري",
         "price": "85000",
         "originalPrice": "100000",
@@ -63,7 +62,8 @@ const products = [
         "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80",
         "description": "حذاء مريح وخفيف الوزن، مصمم خصيصاً للجري والمسافات الطويلة.",
         "url": "https://amazon.com",
-        "featured": true
+        "featured": false,
+        "isDemo": true
     },
     {
         "id": 4,
