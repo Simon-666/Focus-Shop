@@ -758,7 +758,29 @@ img {
     color: var(--text-muted);
     line-height: 1.8;
 }
+.demo-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #6b7280;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    z-index: 10;
+}
 
+.btn-disabled {
+    background-color: #9ca3af;
+    color: white;
+    cursor: not-allowed;
+}
+
+.btn-disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
 .testimonial-author {
     font-weight: bold;
     color: var(--primary-color);

@@ -28,6 +28,7 @@ const categories = [
 const products = [
     {
         "id": 1,
+        "isDemo": true,
         "title": "كاميرا رقمية احترافية",
         "price": "450000",
         "originalPrice": "500000",
@@ -40,6 +41,7 @@ const products = [
     },
     {
         "id": 2,
+        "isDemo": true,
         "title": "خيمة تخييم عائلية",
         "price": "120000",
         "originalPrice": "150000",
@@ -52,6 +54,7 @@ const products = [
     },
     {
         "id": 3,
+        "isDemo": true,
         "title": "حذاء رياضي للجري",
         "price": "85000",
         "originalPrice": "100000",
@@ -64,6 +67,7 @@ const products = [
     },
     {
         "id": 4,
+        "isDemo": true,
         "title": "شاشة كمبيوتر 27 بوصة",
         "price": "210000",
         "originalPrice": "250000",
@@ -76,6 +80,7 @@ const products = [
     },
     {
         "id": 5,
+        "isDemo": true,
         "title": "لوحة مفاتيح ميكانيكية",
         "price": "65000",
         "originalPrice": "80000",
@@ -88,6 +93,7 @@ const products = [
     },
     {
         "id": 7,
+        "isDemo": true,
         "title": "حقيبة ظهر للسفر",
         "price": "45000",
         "originalPrice": "55000",
@@ -100,6 +106,7 @@ const products = [
     },
     {
         "id": 10,
+        "isDemo": true,
         "title": "مصباح مكتبي ذكي",
         "price": "40000",
         "originalPrice": "50000",

@@ -67,8 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
             priceHtml = `<span class="product-price">${formattedPrice} ${product.currency}</span>`;
         }
 
+        // Check if product is a demo/mockup
+        const isDemo = product.isDemo === true;
+        if (isDemo) {
+            badgeHtml += `<div class="demo-badge">تجريبي</div>`;
+        }
+
         const waMessage = encodeURIComponent(`مرحباً، أود شراء هذا المنتج:\n\nاسم المنتج: ${product.title}\nالسعر: ${formattedPrice} ${product.currency}\nرمز المنتج: ${product.id}`);
         const waUrl = `https://wa.me/9647747597922?text=${waMessage}`;
+
+        const buyButton = isDemo 
+            ? `<button class="btn btn-disabled" onclick="alert('هذا منتج تجريبي للعرض فقط')">منتج تجريبي</button>`
+            : `<a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">شراء الآن</a>`;
 
         return `
             <div class="product-card" data-category="${product.category}">
@@ -81,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="product-desc">${product.description}</p>
                     <div class="product-meta">
                         ${priceHtml}
-                        <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">شراء الآن</a>
+                        ${buyButton}
                     </div>
                 </div>
             </div>
