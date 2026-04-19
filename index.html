@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر فوكس | Foucs Shop</title>
+
+    <!-- SEO & Open Graph Meta Tags -->
+    <meta name="description" content="متجر فوكس - وجهتك الأولى للتسوق الإلكتروني للمنزل، التصوير، التخييم، والمزيد.">
+    <meta property="og:title" content="متجر فوكس | Foucs Shop">
+    <meta property="og:description" content="متجر فوكس - تسوق أفضل المنتجات بأفضل الأسعار.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://foucsshop.example.com/">
+    <meta property="og:image"
+        content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div id="loader" class="loader-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">فوكس<span>.</span></a>
+
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+            <ul class="nav-links">
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#featured">المنتجات المميزة</a></li>
+                <li><a href="#products">التسوق</a></li>
+                <li><a href="#about">من نحن</a></li>
+                <li><a href="#contact">تواصل معنا</a></li>
+            </ul>
+
+            <button id="theme-toggle" class="theme-btn" aria-label="تبديل الوضع الليلي">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1>اكتشف عالم التسوق مع متجر فوكس</h1>
+            <p>وجهتك الأولى لأحدث المنتجات، من التصوير إلى المنزل وأكثر.</p>
+            <a href="#products" class="btn btn-primary">تسوق الآن</a>
+        </div>
+    </header>
+
+    <!-- Featured Products -->
+    <section id="featured" class="section">
+        <div class="container">
+            <h2 class="section-title">المنتجات المميزة</h2>
+            <div id="featured-grid" class="products-grid">
+                <!-- Dynamically populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Products Section -->
+    <section id="products" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">جميع المنتجات</h2>
+
+            <!-- Filter & Search -->
+            <div class="shop-controls">
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="ابحث عن منتج...">
+                </div>
+                <div id="category-filters" class="category-filters">
+                    <!-- Categories dynamically generated here -->
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="main-products-grid" class="products-grid">
+                <!-- Dynamically populated by JS -->
+            </div>
+
+            <div id="no-results" class="no-results hidden">
+                <p>عذراً، لا توجد منتجات تطابق بحثك.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container about-container">
+            <div class="about-text">
+                <h2 class="section-title text-right">من نحن</h2>
+                <p>متجر فوكس (Foucs Shop) هو منصة تجارة إلكترونية رائدة تهدف إلى توفير تشكيلة واسعة من المنتجات عالية
+                    الجودة لتلبي كافة احتياجاتك اليومية. سواء كنت تبحث عن أدوات تصوير احترافية، مستلزمات التخييم، أجهزة
+                    الكمبيوتر، أو حتى الملابس والأدوات المنزلية، نحن هنا لنقدم لك الأفضل.</p>
+                <p>نحن نؤمن بأن التسوق عبر الإنترنت يجب أن يكون تجربة سهلة، سريعة، وممتعة.</p>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80"
+                    alt="عن متجر فوكس" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">آراء عملائنا</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"100/100 اسلوب واخلاق ومهنية ومصداقية وتعامل لطيف …"</p>
+                    <div class="testimonial-author">-Adnan Hameed</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">ثقه ومصداقية وصراحة الله يرزقك ويزيدك"</p>
+                    <div class="testimonial-author">Roz Hela</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">تعامل جميل وراقي وحتى بعد البيع يشهد الله اني صالي مشكلة مع منتج وبقى
+                        صاحب البيج متواصل معي ربي يزيدة من فضلة"</p>
+                    <div class="testimonial-author">علي عبد الهادي خنجر</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <h3>متجر فوكس<span>.</span></h3>
+                <p>وجهتك المفضلة للتسوق عبر الإنترنت.</p>
+            </div>
+            <div class="footer-links">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#products">المنتجات</a></li>
+                    <li><a href="#about">من نحن</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h4>تابعنا</h4>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/profile.php?id=61577430766611" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 متجر فوكس. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <a href="#" id="back-to-top" class="back-to-top" aria-label="العودة للأعلى">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6" />
+        </svg>
+    </a>
+
+    <!-- Scripts -->
+    <script src="products.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
