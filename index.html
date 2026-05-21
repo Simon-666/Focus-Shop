@@ -81,7 +81,7 @@
     <header id="home" class="hero">
         <div class="hero-container">
             <div class="hero-text">
-                <div class="hero-content">
+                <div class="hero-content floating">
                     <h1>اكتشف عالم التسوق،<br>مرحباً بك في فوكس.</h1>
                     <p>متجر يضع التركيز عليك وعلى احتياجاتك. تسوق أحدث المنتجات من التصوير إلى التخييم بكل سهولة.</p>
                     <a href="#products" class="btn btn-glow">تسوق الآن <span>&darr;</span></a>
@@ -100,7 +100,7 @@
     <section id="featured" class="section">
         <div class="container">
             <h2 class="section-title">المنتجات المميزة</h2>
-            <div id="featured-grid" class="products-grid">
+            <div id="featured-grid" class="products-grid featured-grid-static">
                 <!-- Dynamically populated by JS -->
             </div>
         </div>
@@ -216,6 +216,10 @@
             <path d="M18 15l-6-6-6 6" />
         </svg>
     </a>
+
+    <!-- Product Detail Popup -->
+    <div id="product-popup-overlay" class="popup-overlay"></div>
+    <div id="product-popup" class="product-popup" role="dialog" aria-modal="true"></div>
 
     <!-- Scripts -->
     <script src="products.js"></script>
