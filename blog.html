@@ -14,12 +14,26 @@
     <meta property="og:url" id="og-url" content="https://simon-666.github.io/Focus-Shop/blog.html">
     <meta property="og:image" id="og-image" content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
 
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="logo.svg">
     <link rel="shortcut icon" href="logo.svg">
+    
+    <!-- Inline Theme Script (Prevents flash) -->
+    <script>
+        (function() {
+            var saved = localStorage.getItem('theme');
+            if (saved) {
+                document.documentElement.setAttribute('data-theme', saved);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
     
     <style>
         .post-container {
@@ -51,7 +65,9 @@
             font-size: 0.95rem;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .post-image {
             width: 100%;
@@ -93,6 +109,12 @@
 </head>
 
 <body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">تخطي إلى المحتوى الرئيسي</a>
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="scroll-progress-bar"></div>
+
     <!-- Loading Overlay -->
     <div id="loader" class="loader-overlay">
         <div class="spinner"></div>
@@ -107,7 +129,7 @@
             </a>
 
             <input type="checkbox" id="menu-toggle" class="menu-toggle">
-            <label for="menu-toggle" class="hamburger">
+            <label for="menu-toggle" class="hamburger" aria-label="القائمة الرئيسية">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -117,34 +139,46 @@
                 <li><a href="index.html#home">الرئيسية</a></li>
                 <li><a href="index.html#featured">المنتجات المميزة</a></li>
                 <li><a href="index.html#products">التسوق</a></li>
-                <li><a href="blog.html">المدونة</a></li>
+                <li><a href="blog.html" class="active">المدونة</a></li>
+                <li><a href="index.html#faq">الأسئلة الشائعة</a></li>
                 <li><a href="index.html#about">من نحن</a></li>
                 <li><a href="https://wa.me/9647747597922" target="_blank" rel="noopener noreferrer">تواصل معنا</a></li>
             </ul>
 
-            <button id="theme-toggle" class="theme-btn" aria-label="تبديل الوضع الليلي">
-                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-            </button>
+            <div class="header-actions">
+                <button id="search-trigger-btn" class="search-trigger-btn" aria-label="بحث شامل في الموقع">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <span>بحث...</span>
+                    <kbd class="search-shortcut-badge">Ctrl K</kbd>
+                </button>
+
+                <button id="theme-toggle" class="theme-btn" aria-label="تبديل الوضع الليلي">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </nav>
 
     <!-- Main Content Area -->
-    <main style="margin-top: 80px; min-height: 70vh;">
+    <main id="main-content" style="margin-top: 80px; min-height: 70vh;">
         <!-- Blog Listing Section -->
         <section id="blog-listing" class="section">
             <div class="container">
@@ -204,7 +238,60 @@
         </svg>
     </a>
 
+    <!-- Floating Contact Button (FAB) -->
+    <div id="floating-contact-container" class="floating-contact-container">
+        <button id="floating-contact-btn" class="floating-contact-btn" aria-label="تواصل معنا">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+        </button>
+        <div class="floating-contact-menu">
+            <a href="https://wa.me/9647747597922" target="_blank" rel="noopener noreferrer" class="contact-menu-item">
+                <span>💬 واتساب فوكس</span>
+            </a>
+            <a href="tel:+9647747597922" class="contact-menu-item">
+                <span>📞 اتصال مباشر</span>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61577430766611" target="_blank" rel="noopener noreferrer" class="contact-menu-item">
+                <span>📘 صفحة فيسبوك</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-banner-text">
+            <strong>نحن نهتم بتجربتك 🍪</strong><br>
+            نستخدم ملفات تعريف الارتباط وتقنيات التخزين المحلي لتحسين تجربتك وتفضيلاتك (مثل حفظ الوضع الليلي والمفضلة).
+        </div>
+        <div class="cookie-banner-actions">
+            <button id="accept-cookie-btn" class="btn btn-primary" style="padding: 8px 18px; font-size: 0.88rem;">موافق</button>
+            <button id="dismiss-cookie-btn" class="btn btn-outline" style="padding: 8px 14px; font-size: 0.88rem;">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- Full Site Search Modal (Omnibar) -->
+    <div id="search-modal-overlay" class="search-modal-overlay"></div>
+    <div id="search-modal" class="search-modal" role="dialog" aria-modal="true" aria-label="بحث شامل في الموقع">
+        <div class="search-modal-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="search-modal-input" class="search-modal-input" placeholder="ابحث في المنتجات، المقالات، والأسئلة الشائعة..." autocomplete="off">
+            <button id="search-modal-close" class="search-modal-close" aria-label="إغلاق">✕</button>
+        </div>
+        <div id="search-modal-results" class="search-modal-results">
+            <!-- Dynamically populated -->
+        </div>
+    </div>
+
+    <!-- Product Detail Popup -->
+    <div id="product-popup-overlay" class="popup-overlay"></div>
+    <div id="product-popup" class="product-popup" role="dialog" aria-modal="true"></div>
+
     <!-- Scripts -->
+    <script src="products.js"></script>
     <script src="blogs.js"></script>
     <script src="script.js"></script>
     <script>
@@ -256,8 +343,9 @@
                         <span class="post-category">${currentPost.category}</span>
                         <h1 class="post-title">${currentPost.title}</h1>
                         <div class="post-meta">
-                            <span>بواسطة ${currentPost.author}</span>
-                            <span>${currentPost.date}</span>
+                            <span>✍️ بواسطة ${currentPost.author}</span>
+                            <span>📅 نُشر في: ${currentPost.date}</span>
+                            <span class="last-updated-badge">🕒 آخر تحديث: ${currentPost.lastUpdated || currentPost.date}</span>
                         </div>
                     </div>
                     <img src="${currentPost.image}" alt="${currentPost.title}" class="post-image">
@@ -281,9 +369,9 @@
                                 <div class="blog-category">${b.category}</div>
                                 <h3 class="blog-title"><a href="blog.html?slug=${b.slug}">${b.title}</a></h3>
                                 <div class="blog-excerpt">${b.excerpt}</div>
-                                <div class="blog-meta">
-                                    <span>بواسطة ${b.author}</span>
-                                    <span>${b.date}</span>
+                                <div class="blog-meta" style="flex-wrap: wrap; gap: 8px; align-items: center;">
+                                    <span>📅 ${b.date}</span>
+                                    <span class="last-updated-badge" style="font-size:0.75rem;">🕒 آخر تحديث: ${b.lastUpdated || b.date}</span>
                                 </div>
                             </div>
                         </article>
@@ -292,6 +380,10 @@
                     blogGrid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">لا توجد مقالات حالياً.</p>';
                 }
             }
+
+            // Initialize code snippet copy and UTM links
+            if (window.initCodeSnippetCopy) window.initCodeSnippetCopy();
+            if (window.applyUtmToOutboundLinks) window.applyUtmToOutboundLinks();
         });
     </script>
 </body>

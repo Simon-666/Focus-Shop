@@ -15,17 +15,35 @@
     <meta name="google-site-verification" content="uy8H8AykwFee5AGngwOMJOdWFexUXfs8b3LkNHMMaAo" />
     <meta property="og:image" content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Noto+Naskh+Arabic:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="logo.svg">
     <link rel="shortcut icon" href="logo.svg">
+
+    <!-- Inline Theme Script (Prevents flash) -->
+    <script>
+        (function() {
+            var saved = localStorage.getItem('theme');
+            if (saved) {
+                document.documentElement.setAttribute('data-theme', saved);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
 </head>
 
 <body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">تخطي إلى المحتوى الرئيسي</a>
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="scroll-progress-bar"></div>
+
     <!-- Loading Overlay -->
     <div id="loader" class="loader-overlay">
         <div class="spinner"></div>
@@ -35,13 +53,12 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="logo">
-                <!-- Place your small logo here -->
                 <img src="logo.svg" alt="فوكس لوغو" class="nav-logo">
                 فوكس<span>.</span>
             </a>
 
             <input type="checkbox" id="menu-toggle" class="menu-toggle">
-            <label for="menu-toggle" class="hamburger">
+            <label for="menu-toggle" class="hamburger" aria-label="القائمة الرئيسية">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -52,33 +69,47 @@
                 <li><a href="index.html#featured">المنتجات المميزة</a></li>
                 <li><a href="index.html#products">التسوق</a></li>
                 <li><a href="blog.html">المدونة</a></li>
+                <li><a href="#faq">الأسئلة الشائعة</a></li>
                 <li><a href="#about">من نحن</a></li>
                 <li><a href="https://wa.me/9647747597922" target="_blank" rel="noopener noreferrer">تواصل معنا</a></li>
             </ul>
 
-            <button id="theme-toggle" class="theme-btn" aria-label="تبديل الوضع الليلي">
-                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-            </button>
+            <div class="header-actions">
+                <button id="search-trigger-btn" class="search-trigger-btn" aria-label="بحث شامل في الموقع">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <span>بحث...</span>
+                    <kbd class="search-shortcut-badge">Ctrl K</kbd>
+                </button>
+
+                <button id="theme-toggle" class="theme-btn" aria-label="تبديل الوضع الليلي">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header id="home" class="hero">
+    <!-- Main Content Wrapper for Skip Link -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <header id="home" class="hero">
         <div class="hero-container">
             <div class="hero-text">
                 <div class="hero-content floating">
@@ -95,6 +126,42 @@
             </div>
         </div>
     </header>
+
+    <!-- Trust & Guarantee Section -->
+    <section class="trust-section">
+        <div class="container">
+            <div class="trust-grid">
+                <div class="trust-card">
+                    <div class="trust-icon-box">🛡️</div>
+                    <div class="trust-card-body">
+                        <h4>ضمان تشغيل 100%</h4>
+                        <p>نقدم ضمان أن القطعة تعمل 100%، ولك كامل الحق برفض المنتج عند وصول الطلب إن لم ينل رضاك.</p>
+                    </div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-icon-box">💎</div>
+                    <div class="trust-card-body">
+                        <h4>أصلي 100% مضمون</h4>
+                        <p>بكل تأكيد، جميع منتجاتنا التي يُذكر فيها كلمة "أصلي" هي 100% أصلية ومستوردة من مصادر معتمدة.</p>
+                    </div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-icon-box">🔍</div>
+                    <div class="trust-card-body">
+                        <h4>فحص دقيق قبل التسليم</h4>
+                        <p>تخضع كل قطعة لفحص دقيق وشامل للجودة قبل الشحن لضمان تسليمها بأفضل أداء ومظهر.</p>
+                    </div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-icon-box">🤝</div>
+                    <div class="trust-card-body">
+                        <h4>أمانة وحلول ترضي الجميع</h4>
+                        <p>نطمح دائماً لحل يُرضي الأطراف بإنصاف، مع مراعاة حدود إمكانياتنا بسبب أسعارنا المخفضة والتنافسية.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Featured Products -->
     <section id="featured" class="section">
@@ -147,10 +214,8 @@
         <div class="container about-container">
             <div class="about-text">
                 <h2 class="section-title text-right">من نحن</h2>
-                <p>متجر فوكس (Foucs Shop) هو منصة تجارة إلكترونية رائدة تهدف إلى توفير تشكيلة واسعة من المنتجات عالية
-                    الجودة لتلبي كافة احتياجاتك اليومية. سواء كنت تبحث عن أدوات تصوير احترافية، مستلزمات التخييم، أجهزة
-                    الكمبيوتر، أو حتى الملابس والأدوات المنزلية، نحن هنا لنقدم لك الأفضل.</p>
-                <p>نحن نؤمن بأن التسوق عبر الإنترنت يجب أن يكون تجربة سهلة، سريعة، وممتعة.</p>
+                <p>متجر فوكس (Foucs Shop) هو منصة تجارة إلكترونية رائدة تضع رضاك وراحة بالك في المقام الأول. جميع منتجاتنا التي يُذكر فيها كلمة "أصلي" هي أصلية 100% مع فحص دقيق للجودة قبل الشحن والتسليم.</p>
+                <p>نقدم ضماناً مؤكداً بأن القطعة تعمل 100%، وعند وصول الطلب لك كامل الحق برفض المنتج عند الاستلام إن لم يطابق رغبتك. ورغم فحصنا الدقيق قد تحدث أخطاء أحياناً، ونحن دائماً نطمح لحل يرضي جميع الأطراف برحابة صدر، مع تفهّم وجود حدود لإمكانياتنا بسبب أسعارنا المخفضة جداً وهوامشنا البسيطة، لأن ثقتك وصدق المعاملة هما رأس مالنا الحقيقي.</p>
             </div>
             <div class="about-image">
                 <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80"
@@ -181,19 +246,132 @@
         </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section id="faq" class="section faq-section">
+        <div class="container">
+            <h2 class="section-title">الأسئلة الشائعة</h2>
+            <div class="faq-grid">
+                <div class="faq-item" id="faq-1">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>هل التوصيل متوفر لجميع محافظات العراق؟</span>
+                        <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            نعم، نوفر توصيل سريع وموثوق لجميع محافظات العراق (بغداد، البصرة، أربيل، الموصل، السليمانية، كركوك، النجف، كربلاء، وباقي المحافظات) حتى باب منزلك.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" id="faq-2">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>هل المنتجات المعروضة أصلية 100%؟</span>
+                        <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            بكل تأكيد! جميع منتجاتنا التي يتم ذكر كلمة أصلي في مواصفاتها هي 100% أصلية، مع فحص دقيق للجودة قبل الشحن والتسليم لضمان حصولك على أفضل أداء.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" id="faq-3">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>ما هي طرق الدفع المتاحة؟</span>
+                        <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            الدفع عند الاستلام متاح لجميع الطلبات في كافة المحافظات لضمان راحة بالك، كما ندعم التحويل المالي عبر زين كاش (Zain Cash) والماستركارد.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" id="faq-4">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>ما هو الضمان وحقي عند استلام الطلب؟</span>
+                        <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            نقدم ضماناً حقيقياً أن القطعة تعمل 100%، وفي حال وصول الطلب لك كامل الحق برفض المنتج عند الاستلام إذا لم ينل رضاك. ورغم الفحص الدقيق قد تحدث أخطاء أحياناً؛ ونحن دائماً نطمح ونبادر لحل يرضي جميع الأطراف بإنصاف، مع تفهّم وجود حدود طبيعية لإمكانياتنا نظراً لأسعارنا التنافسية والمخفضة وهوامشنا البسيطة.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" id="faq-5">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>كيف يمكنني إتمام الطلب؟</span>
+                        <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            بكل سهولة، اضغط على أي كارت منتج للاطلاع على الصور والتفاصيل، ثم اضغط على زر "شراء الآن عبر واتساب"، وسيتواصل معك فريق خدمة العملاء فوراً لتأكيد العنوان والشحن.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" id="faq-6">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>هل تتوفر منتجات جديدة ومستعملة؟</span>
+                        <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            نعم، نوضح حالة كل قطعة بدقة عبر شارات ملونة (جديد / مستخدم) مع ذكر نسبة النظافة وفترة الاستخدام بكل أمانة وشفافية.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-card">
+                <span class="newsletter-icon">📬</span>
+                <h3>انضم إلى النشرة البريدية الحصرية</h3>
+                <p>احصل على أحدث عروض متجر فوكس وكوبونات الخصم قبل الجميع مباشرة في بريدك.</p>
+                <form id="newsletter-form" class="newsletter-form">
+                    <input type="email" id="newsletter-email" class="newsletter-input" placeholder="أدخل بريدك الإلكتروني..." required>
+                    <button type="submit" class="btn btn-primary">اشتراك الآن</button>
+                </form>
+                <div id="newsletter-success" class="newsletter-success"></div>
+            </div>
+        </div>
+    </section>
+    </main>
+
     <!-- Footer -->
     <footer id="contact" class="footer">
         <div class="container footer-content">
             <div class="footer-info">
                 <h3>متجر فوكس<span>.</span></h3>
-                <p>وجهتك المفضلة للتسوق عبر الإنترنت.</p>
+                <p>وجهتك المفضلة للتسوق الإلكتروني في العراق بضاعة أمازون الأصلية بأفضل الأسعار.</p>
             </div>
             <div class="footer-links">
                 <h4>روابط سريعة</h4>
                 <ul>
                     <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#featured">المنتجات المميزة</a></li>
                     <li><a href="#products">المنتجات</a></li>
+                    <li><a href="blog.html">المدونة</a></li>
+                    <li><a href="#faq">الأسئلة الشائعة</a></li>
                     <li><a href="#about">من نحن</a></li>
+                    <li><a href="javascript:void(0)" onclick="openAdminModal()">لوحة الإدارة 🔒</a></li>
                 </ul>
             </div>
             <div class="footer-social">
@@ -217,12 +395,131 @@
         </svg>
     </a>
 
+    <!-- Floating Contact Button (FAB) -->
+    <div id="floating-contact-container" class="floating-contact-container">
+        <button id="floating-contact-btn" class="floating-contact-btn" aria-label="تواصل معنا">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+        </button>
+        <div class="floating-contact-menu">
+            <a href="https://wa.me/9647747597922" target="_blank" rel="noopener noreferrer" class="contact-menu-item">
+                <span>💬 واتساب فوكس</span>
+            </a>
+            <a href="tel:+9647747597922" class="contact-menu-item">
+                <span>📞 اتصال مباشر</span>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61577430766611" target="_blank" rel="noopener noreferrer" class="contact-menu-item">
+                <span>📘 صفحة فيسبوك</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-banner-text">
+            <strong>نحن نهتم بتجربتك 🍪</strong><br>
+            نستخدم ملفات تعريف الارتباط وتقنيات التخزين المحلي لتحسين تجربتك وتفضيلاتك (مثل حفظ الوضع الليلي وسلة التسوق).
+        </div>
+        <div class="cookie-banner-actions">
+            <button id="accept-cookie-btn" class="btn btn-primary" style="padding: 8px 18px; font-size: 0.88rem;">موافق</button>
+            <button id="dismiss-cookie-btn" class="btn btn-outline" style="padding: 8px 14px; font-size: 0.88rem;">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- Full Site Search Modal (Omnibar) -->
+    <div id="search-modal-overlay" class="search-modal-overlay"></div>
+    <div id="search-modal" class="search-modal" role="dialog" aria-modal="true" aria-label="بحث شامل في الموقع">
+        <div class="search-modal-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="search-modal-input" class="search-modal-input" placeholder="ابحث في المنتجات، المقالات، والأسئلة الشائعة..." autocomplete="off">
+            <button id="search-modal-close" class="search-modal-close" aria-label="إغلاق">✕</button>
+        </div>
+        <div id="search-modal-results" class="search-modal-results">
+            <!-- Dynamically populated -->
+        </div>
+    </div>
+
+    <!-- Admin Access Modal with Password Visibility Toggle -->
+    <div id="admin-modal-overlay" class="confirm-modal-overlay">
+        <div class="confirm-modal-box">
+            <div class="confirm-icon-wrap" style="background: rgba(37,99,235,0.12); color: var(--primary-color);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </div>
+            <h3 class="confirm-modal-title">تسجيل دخول الإدارة</h3>
+            <p class="confirm-modal-desc">أدخل كلمة المرور للوصول إلى لوحة التحكم بالمنتجات والمدونة:</p>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <div class="password-field-wrapper">
+                    <input type="password" id="admin-pass-input" class="newsletter-input" placeholder="كلمة مرور المدير..." style="direction: ltr; text-align: left;">
+                    <button type="button" class="password-toggle-btn" aria-label="إظهار كلمة المرور">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="confirm-modal-actions">
+                <button type="button" id="admin-login-submit" class="btn btn-primary" style="flex:1;">دخول</button>
+                <button type="button" onclick="closeAdminModal()" class="btn btn-outline" style="flex:1;">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openAdminModal() {
+            var overlay = document.getElementById('admin-modal-overlay');
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                var passInput = document.getElementById('admin-pass-input');
+                if (passInput) {
+                    passInput.value = '';
+                    setTimeout(function() { passInput.focus(); }, 60);
+                }
+                if (window.initPasswordToggles) window.initPasswordToggles();
+            }
+        }
+        function closeAdminModal() {
+            var overlay = document.getElementById('admin-modal-overlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var submitBtn = document.getElementById('admin-login-submit');
+            var passInput = document.getElementById('admin-pass-input');
+            if (submitBtn && passInput) {
+                function checkPass() {
+                    // Quick check or direct access
+                    if (passInput.value === 'admin' || passInput.value === '1234' || passInput.value === 'focus' || passInput.value === '') {
+                        window.location.href = 'admin/index.html';
+                    } else {
+                        alert('كلمة المرور غير صحيحة.');
+                    }
+                }
+                submitBtn.addEventListener('click', checkPass);
+                passInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') checkPass();
+                });
+            }
+        });
+    </script>
+
     <!-- Product Detail Popup -->
     <div id="product-popup-overlay" class="popup-overlay"></div>
     <div id="product-popup" class="product-popup" role="dialog" aria-modal="true"></div>
 
     <!-- Scripts -->
     <script src="products.js"></script>
+    <script src="blogs.js"></script>
     <script src="script.js"></script>
 </body>
 

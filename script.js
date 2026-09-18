@@ -56,9 +56,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('\n');
     }
 
+    // Helper: Check if a product is sold out
+    function isProductSoldOut(p) {
+        const qty = p.quantity !== undefined ? Number(p.quantity) : 1;
+        return p.isSoldOut === true || qty <= 0;
+    }
+
     // 5. Create a product card HTML string
     function createProductCard(product) {
         const fp = Number(product.price).toLocaleString('en-US');
+        const qty = product.quantity !== undefined ? Number(product.quantity) : 1;
+        const isSoldOut = isProductSoldOut(product);
+
         let priceHtml = '', badgeHtml = '';
         if (product.originalPrice && Number(product.originalPrice) > Number(product.price)) {
             const fo = Number(product.originalPrice).toLocaleString('en-US');
@@ -68,13 +77,26 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             priceHtml = `<span class="product-price">${fp} ${product.currency}</span>`;
         }
+
+        let stockStatusHtml = '';
+        if (isSoldOut) {
+            badgeHtml = `<div class="sold-out-badge">نفدت الكمية</div>` + badgeHtml;
+            stockStatusHtml = `<span class="stock-status stock-out">🔴 نفدت الكمية</span>`;
+        } else if (qty === 1) {
+            stockStatusHtml = `<span class="stock-status stock-urgent">🔥 متبقي قطعة واحدة فقط!</span>`;
+        } else if (qty <= 3) {
+            stockStatusHtml = `<span class="stock-status stock-low">⚡ متبقي ${qty} قطع فقط</span>`;
+        } else {
+            stockStatusHtml = `<span class="stock-status stock-available">🟢 متوفر بالمخزون</span>`;
+        }
+
         const src = product.url ? `<a href="${product.url}" target="_blank" rel="noopener noreferrer" class="source-badge" onclick="event.stopPropagation()">موقع</a>` : '';
         const cLabel = product.condition === 'used' ? 'مستخدم' : 'جديد';
         const cClass = product.condition === 'used' ? 'condition-used' : 'condition-new';
         const tags = (product.tags && product.tags.length > 0) ? `<div class="product-card-tags">${product.tags.map(t => `<span class="product-tag">${t}</span>`).join('')}</div>` : '';
         const readMore = (product.description && product.description.length > 60) ? `<button class="read-more-btn" onclick="event.stopPropagation(); var p=this.previousElementSibling; if(p) p.classList.toggle('expanded'); this.textContent=(p && p.classList.contains('expanded'))?'أقل':'المزيد';">المزيد</button>` : '';
 
-        return `<div class="product-card reveal" data-category="${product.category}" onclick="if(window._openPopup) window._openPopup(${product.id})" style="cursor:pointer;">
+        return `<div class="product-card ${isSoldOut ? 'is-sold-out' : ''} reveal" data-category="${product.category}" onclick="if(window._openPopup) window._openPopup(${product.id})" style="cursor:pointer;">
             <div class="product-image ${product.noCrop ? 'no-crop' : ''}">
                 ${badgeHtml}${src}
                 <span class="condition-badge ${cClass}">${cLabel}</span>
@@ -88,7 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="product-desc">${formatDescription(product.description)}</p>
                     ${readMore}
                 </div>
-                <div class="product-meta">${priceHtml}</div>
+                <div class="product-meta">
+                    ${priceHtml}
+                    ${stockStatusHtml}
+                </div>
             </div>
         </div>`;
     }
@@ -98,16 +123,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof products === 'undefined') return;
         const sortMode = document.getElementById('sort-select')?.value || 'default';
         let sorted = [...products];
-        if (sortMode === 'price-asc') sorted.sort((a, b) => Number(a.price) - Number(b.price));
-        else if (sortMode === 'price-desc') sorted.sort((a, b) => Number(b.price) - Number(a.price));
-        else if (sortMode === 'date-desc') sorted.sort((a, b) => b.id - a.id);
-        else if (sortMode === 'date-asc') sorted.sort((a, b) => a.id - b.id);
-        else sorted.sort((a, b) => (a.sortOrder || 1) - (b.sortOrder || 1) || b.id - a.id);
 
-        // Featured products
+        if (sortMode === 'price-asc') {
+            sorted.sort((a, b) => (isProductSoldOut(a) - isProductSoldOut(b)) || (Number(a.price) - Number(b.price)));
+        } else if (sortMode === 'price-desc') {
+            sorted.sort((a, b) => (isProductSoldOut(a) - isProductSoldOut(b)) || (Number(b.price) - Number(a.price)));
+        } else if (sortMode === 'date-desc') {
+            sorted.sort((a, b) => (isProductSoldOut(a) - isProductSoldOut(b)) || (b.id - a.id));
+        } else if (sortMode === 'date-asc') {
+            sorted.sort((a, b) => (isProductSoldOut(a) - isProductSoldOut(b)) || (a.id - b.id));
+        } else {
+            // Default sorting: Push all sold-out products all the way down to the bottom
+            sorted.sort((a, b) => (isProductSoldOut(a) - isProductSoldOut(b)) || ((a.sortOrder || 1) - (b.sortOrder || 1)) || (b.id - a.id));
+        }
+
+        // Featured products (prioritize available products so sold-out items are not shown first)
         const allFeatured = [...products]
-            .sort((a, b) => (a.sortOrder || 1) - (b.sortOrder || 1) || b.id - a.id)
-            .filter(p => p.featured);
+            .filter(p => p.featured)
+            .sort((a, b) => (isProductSoldOut(a) - isProductSoldOut(b)) || ((a.sortOrder || 1) - (b.sortOrder || 1)) || (b.id - a.id));
 
         const fg = document.getElementById('featured-grid');
         const fs = document.getElementById('featured');
@@ -164,22 +197,49 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 8. Back to Top & Navbar
+    // 8. Back to Top, Navbar & Scroll Progress Bar
     const backToTopBtn = document.getElementById('back-to-top');
     const navbar = document.querySelector('.navbar');
+    const scrollProgressBar = document.getElementById('scroll-progress');
+
     window.addEventListener('scroll', () => {
-        backToTopBtn.classList.toggle('visible', window.scrollY > 300);
-        navbar.style.boxShadow = window.scrollY > 10 ? 'var(--shadow-md)' : 'var(--shadow-sm)';
+        const scrollY = window.scrollY;
+        if (backToTopBtn) backToTopBtn.classList.toggle('visible', scrollY > 300);
+        if (navbar) {
+            navbar.classList.toggle('scrolled', scrollY > 15);
+        }
+        if (scrollProgressBar) {
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+            scrollProgressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+        }
     });
-    backToTopBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+
+    if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     // 9. Mobile Menu
     const menuToggle = document.getElementById('menu-toggle');
     document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => { if (window.innerWidth <= 768) menuToggle.checked = false; });
+        link.addEventListener('click', () => { 
+            if (window.innerWidth <= 768 && menuToggle) menuToggle.checked = false; 
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (menuToggle && menuToggle.checked && !e.target.closest('.nav-container')) {
+            menuToggle.checked = false;
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menuToggle && menuToggle.checked) {
+            menuToggle.checked = false;
+        }
     });
 
     // 10. SPA Navigation
@@ -250,19 +310,42 @@ document.addEventListener('DOMContentLoaded', () => {
         const fo = p.originalPrice ? Number(p.originalPrice).toLocaleString('en-US') : null;
         const disc = (p.originalPrice && Number(p.originalPrice) > Number(p.price))
             ? Math.round(((Number(p.originalPrice) - Number(p.price)) / Number(p.originalPrice)) * 100) : null;
-        const wa = `https://wa.me/9647747597922?text=${encodeURIComponent('مرحباً، أود شراء هذا المنتج:\n\nاسم المنتج: ' + p.title + '\nالسعر: ' + fp + ' ' + p.currency + '\nرمز المنتج: ' + p.id)}`;
+        
+        const qty = p.quantity !== undefined ? Number(p.quantity) : 1;
+        const isSoldOut = p.isSoldOut === true || qty <= 0;
         const isDemo = p.isDemo === true;
+
+        let popupStockHtml = '';
+        if (isSoldOut) {
+            popupStockHtml = `<span class="popup-stock-badge stock-out">🔴 نفدت الكمية من المخزون</span>`;
+        } else if (qty === 1) {
+            popupStockHtml = `<span class="popup-stock-badge stock-urgent">🔥 متبقي قطعة واحدة فقط!</span>`;
+        } else if (qty <= 3) {
+            popupStockHtml = `<span class="popup-stock-badge stock-low">⚡ متبقي ${qty} قطع فقط</span>`;
+        } else {
+            popupStockHtml = `<span class="popup-stock-badge stock-available">🟢 متوفر بالمخزون (${qty} قطعة)</span>`;
+        }
+
+        const waBuy = `https://wa.me/9647747597922?text=${encodeURIComponent('مرحباً، أود شراء هذا المنتج:\n\nاسم المنتج: ' + p.title + '\nالسعر: ' + fp + ' ' + p.currency + '\nرمز المنتج: ' + p.id)}`;
+        const waRestock = `https://wa.me/9647747597922?text=${encodeURIComponent('مرحباً، أود الاستفسار عن إمكانية توفير المنتج عند توفره مجدداً:\n\nاسم المنتج: ' + p.title + '\nالسعر: ' + fp + ' ' + p.currency + '\nرمز المنتج: ' + p.id)}`;
+
+        let buyBtn = '';
+        if (isDemo) {
+            buyBtn = `<button class="btn btn-disabled popup-buy-btn" onclick="alert('هذا منتج تجريبي للعرض فقط')">منتج تجريبي</button>`;
+        } else if (isSoldOut) {
+            buyBtn = `<a href="${waRestock}" target="_blank" rel="noopener noreferrer" class="popup-soldout-btn">🔔 طلب توفير عند التوفر عبر واتساب</a>`;
+        } else {
+            buyBtn = `<a href="${waBuy}" target="_blank" rel="noopener noreferrer" class="btn btn-primary popup-buy-btn">شراء الآن عبر واتساب</a>`;
+        }
+
         const cLabel = p.condition === 'used' ? 'مستخدم' : 'جديد';
         const cClass = p.condition === 'used' ? 'condition-used' : 'condition-new';
-        const buyBtn = isDemo
-            ? `<button class="btn btn-disabled popup-buy-btn" onclick="alert('هذا منتج تجريبي للعرض فقط')">منتج تجريبي</button>`
-            : `<a href="${wa}" target="_blank" rel="noopener noreferrer" class="btn btn-primary popup-buy-btn">شراء الآن عبر واتساب</a>`;
         const srcBtn = p.url ? `<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="btn popup-source-btn">زيارة الموقع الرسمي ↗</a>` : '';
         const tagsH = (p.tags && p.tags.length > 0) ? `<div class="popup-tags">${p.tags.map(t => `<span class="popup-tag">${t}</span>`).join('')}</div>` : '';
         const thumbs = imgs.length > 1
             ? `<div class="popup-thumbs">${imgs.map((im, i) => `<img src="${im}" class="popup-thumb${i===0?' active':''}" onclick="document.getElementById('popup-main-img').src='${im}'; document.querySelectorAll('.popup-thumb').forEach(t=>t.classList.remove('active')); this.classList.add('active');" alt="صورة ${i+1}">`).join('')}</div>`
             : '';
-        const discBadge = disc ? `<span class="popup-discount-badge">خصم ${disc}%</span>` : '';
+        const discBadge = (!isSoldOut && disc) ? `<span class="popup-discount-badge">خصم ${disc}%</span>` : '';
 
         popup.innerHTML = `
             <div class="popup-inner">
@@ -276,7 +359,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="popup-details">
                     <div class="popup-header">
-                        <span class="condition-badge ${cClass} popup-condition">${cLabel}</span>
+                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                            <span class="condition-badge ${cClass} popup-condition">${cLabel}</span>
+                            ${popupStockHtml}
+                        </div>
                         <h2 class="popup-title">${p.title}</h2>
                     </div>
                     ${tagsH}
@@ -287,6 +373,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="popup-desc-block">
                         <h4 class="popup-desc-title">تفاصيل المنتج</h4>
                         <p class="popup-desc-text">${formatDescription(p.description)}</p>
+                    </div>
+                    <div class="popup-guarantee-badge">
+                        <span style="font-size: 1.35rem;">🛡️</span>
+                        <div>
+                            <strong>ضمان فوكس 100%:</strong> القطعة تعمل 100%، ولك كامل الحق بفحص المنتج ورفضه عند الاستلام. الأصلي لدينا 100% أصلي مع فحص دقيق للجودة قبل التسليم.
+                        </div>
                     </div>
                     <div class="popup-actions">${buyBtn}${srcBtn}</div>
                 </div>
@@ -333,9 +425,478 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 6000);
     }
     // =============================================
-    // 13. Initial Render
+    // 13. Full Site Search (Omnibar Modal)
+    // =============================================
+    const searchModalOverlay = document.getElementById('search-modal-overlay');
+    const searchModal = document.getElementById('search-modal');
+    const searchModalInput = document.getElementById('search-modal-input');
+    const searchModalResults = document.getElementById('search-modal-results');
+    const searchTriggerBtn = document.getElementById('search-trigger-btn');
+    const searchModalClose = document.getElementById('search-modal-close');
+
+    const staticFaqs = [
+        { q: 'هل التوصيل متوفر لجميع محافظات العراق؟', a: 'نعم، نوفر توصيل سريع وموثوق لجميع محافظات العراق (بغداد، البصرة، أربيل، الموصل، السليمانية، كركوك، النجف، كربلاء، وباقي المحافظات) حتى باب منزلك.', id: 'faq-1' },
+        { q: 'هل المنتجات المعروضة أصلية 100%؟', a: 'بكل تأكيد، جميع منتجاتنا مستوردة مباشرة من مصادر عالمية معتمدة ومخازن أمازون الأصلية مع فحص دقيق للجودة قبل الشحن.', id: 'faq-2' },
+        { q: 'ما هي طرق الدفع المتاحة؟', a: 'الدفع عند الاستلام متاح لجميع الطلبات في كافة المحافظات لضمان راحة بالك، كما ندعم التحويل عبر زين كاش والماستركارد.', id: 'faq-3' },
+        { q: 'ما هو الضمان وسياسة الإرجاع؟', a: 'نقدم ضمان استبدال أو استرجاع لمدة 7 أيام في حال وجود أي عيب مصنعي أو اختلاف عن المواصفات المعروضة.', id: 'faq-4' },
+        { q: 'كيف يمكنني إتمام الطلب؟', a: 'يمكنك الضغط على زر "شراء الآن عبر واتساب" في تفاصيل أي منتج، وسيقوم فريقنا بتأكيد طلبك وتفاصيل التوصيل فوراً.', id: 'faq-5' },
+        { q: 'هل تتوفر منتجات جديدة ومستعملة؟', a: 'نعم، نوضح حالة كل قطعة بدقة عبر شارات (جديد / مستخدم) مع ذكر نسبة النظافة وفترة الاستخدام بكل شفافية.', id: 'faq-6' }
+    ];
+
+    function openSearchModal() {
+        if (!searchModal || !searchModalOverlay) return;
+        searchModalOverlay.classList.add('active');
+        searchModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        if (searchModalInput) {
+            searchModalInput.value = '';
+            renderSearchResults('');
+            setTimeout(() => searchModalInput.focus(), 60);
+        }
+    }
+
+    function closeSearchModal() {
+        if (!searchModal || !searchModalOverlay) return;
+        searchModalOverlay.classList.remove('active');
+        searchModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    if (searchTriggerBtn) searchTriggerBtn.addEventListener('click', openSearchModal);
+    if (searchModalClose) searchModalClose.addEventListener('click', closeSearchModal);
+    if (searchModalOverlay) {
+        searchModalOverlay.addEventListener('click', (e) => {
+            if (e.target === searchModalOverlay) closeSearchModal();
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            if (searchModal && searchModal.classList.contains('active')) {
+                closeSearchModal();
+            } else {
+                openSearchModal();
+            }
+        } else if (e.key === 'Escape' && searchModal && searchModal.classList.contains('active')) {
+            closeSearchModal();
+        }
+    });
+
+    function renderSearchResults(term) {
+        if (!searchModalResults) return;
+        const q = term.trim().toLowerCase();
+
+        // 1. Products
+        const matchedProducts = typeof products !== 'undefined' ? products.filter(p => {
+            if (!q) return true;
+            return (p.title && p.title.toLowerCase().includes(q)) ||
+                   (p.description && p.description.toLowerCase().includes(q)) ||
+                   (p.category && p.category.toLowerCase().includes(q));
+        }).slice(0, 5) : [];
+
+        // 2. Blogs
+        const matchedBlogs = typeof blogs !== 'undefined' ? blogs.filter(b => {
+            if (!q) return true;
+            return (b.title && b.title.toLowerCase().includes(q)) ||
+                   (b.excerpt && b.excerpt.toLowerCase().includes(q)) ||
+                   (b.category && b.category.toLowerCase().includes(q));
+        }).slice(0, 4) : [];
+
+        // 3. FAQs
+        const matchedFaqs = staticFaqs.filter(f => {
+            if (!q) return true;
+            return f.q.toLowerCase().includes(q) || f.a.toLowerCase().includes(q);
+        }).slice(0, 3);
+
+        if (matchedProducts.length === 0 && matchedBlogs.length === 0 && matchedFaqs.length === 0) {
+            searchModalResults.innerHTML = `
+                <div class="search-empty-state">
+                    <p>لم نجد نتائج مطابقة لـ "${term}".</p>
+                    <p style="font-size:0.85rem;margin-top:6px;">جرب البحث بكلمات أخرى مثل "كاميرا"، "أمازون"، أو "شحن".</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+
+        if (matchedProducts.length > 0) {
+            html += `<div class="search-result-group">
+                <div class="search-result-group-title">🛍️ المنتجات (${matchedProducts.length})</div>`;
+            matchedProducts.forEach(p => {
+                const fp = Number(p.price).toLocaleString('en-US');
+                html += `
+                    <div class="search-result-item" onclick="closeSearchModal(); if(window._openPopup) window._openPopup(${p.id});">
+                        <img src="${p.image}" class="search-result-thumb" alt="${p.title}">
+                        <div class="search-result-details">
+                            <div class="search-result-title">${p.title}</div>
+                            <div class="search-result-meta">${p.condition === 'used' ? 'مستخدم' : 'جديد'}</div>
+                        </div>
+                        <div class="search-result-price">${fp} ${p.currency}</div>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        }
+
+        if (matchedBlogs.length > 0) {
+            html += `<div class="search-result-group">
+                <div class="search-result-group-title">📝 مقالات المدونة (${matchedBlogs.length})</div>`;
+            matchedBlogs.forEach(b => {
+                html += `
+                    <a href="blog.html?slug=${b.slug}" class="search-result-item" onclick="closeSearchModal()">
+                        <div class="search-result-details">
+                            <div class="search-result-title">${b.title}</div>
+                            <div class="search-result-meta">قسم ${b.category} • ${b.date}</div>
+                        </div>
+                        <span style="color:var(--primary-color);font-weight:bold;">اقرأ &larr;</span>
+                    </a>
+                `;
+            });
+            html += `</div>`;
+        }
+
+        if (matchedFaqs.length > 0) {
+            html += `<div class="search-result-group">
+                <div class="search-result-group-title">❓ الأسئلة الشائعة (${matchedFaqs.length})</div>`;
+            matchedFaqs.forEach(f => {
+                html += `
+                    <div class="search-result-item" onclick="closeSearchModal(); scrollToFaq('${f.id}');">
+                        <div class="search-result-details">
+                            <div class="search-result-title">${f.q}</div>
+                            <div class="search-result-meta">${f.a.substring(0, 70)}...</div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        }
+
+        searchModalResults.innerHTML = html;
+    }
+
+    if (searchModalInput) {
+        searchModalInput.addEventListener('input', () => {
+            renderSearchResults(searchModalInput.value);
+        });
+    }
+
+    window.closeSearchModal = closeSearchModal;
+
+    // =============================================
+    // 14. Expandable FAQ Accordion
+    // =============================================
+    function initFaqAccordion() {
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const questionBtn = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
+            if (questionBtn && answer) {
+                questionBtn.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    // Close other items for smooth accordion
+                    faqItems.forEach(other => {
+                        if (other !== item) {
+                            other.classList.remove('active');
+                            const otherAns = other.querySelector('.faq-answer');
+                            if (otherAns) otherAns.style.maxHeight = null;
+                            const otherBtn = other.querySelector('.faq-question');
+                            if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    if (isActive) {
+                        item.classList.remove('active');
+                        answer.style.maxHeight = null;
+                        questionBtn.setAttribute('aria-expanded', 'false');
+                    } else {
+                        item.classList.add('active');
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                        questionBtn.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            }
+        });
+    }
+    initFaqAccordion();
+
+    window.scrollToFaq = function(faqId) {
+        const target = document.getElementById(faqId);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const btn = target.querySelector('.faq-question');
+            if (btn && !target.classList.contains('active')) {
+                btn.click();
+            }
+        }
+    };
+
+    // =============================================
+    // 15. Newsletter Signup with Success State
+    // =============================================
+    const newsletterForm = document.getElementById('newsletter-form');
+    const newsletterSuccess = document.getElementById('newsletter-success');
+    if (newsletterForm) {
+        const savedEmail = localStorage.getItem('focus_newsletter_subscribed');
+        if (savedEmail && newsletterSuccess) {
+            newsletterForm.style.display = 'none';
+            newsletterSuccess.classList.add('active');
+            newsletterSuccess.innerHTML = `<span>✓ أنت مشترك بالفعل بأحدث عروضنا (${savedEmail}). شكراً لك!</span>`;
+        }
+
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const input = document.getElementById('newsletter-email');
+            const email = input ? input.value.trim() : '';
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!email || !emailRegex.test(email)) {
+                alert('يرجى إدخال بريد إلكتروني صحيح.');
+                if (input) input.focus();
+                return;
+            }
+
+            const submitBtn = newsletterForm.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'جاري الحفظ...';
+            }
+
+            setTimeout(() => {
+                localStorage.setItem('focus_newsletter_subscribed', email);
+                newsletterForm.style.display = 'none';
+                if (newsletterSuccess) {
+                    newsletterSuccess.classList.add('active');
+                    newsletterSuccess.innerHTML = `<span>🎉 شكراً لاشتراكك! ستصلك أحدث العروض والخصومات فور صدورها على بريدك (${email}).</span>`;
+                }
+            }, 600);
+        });
+    }
+
+    // =============================================
+    // 16. Floating Contact Button (FAB)
+    // =============================================
+    const fabContainer = document.getElementById('floating-contact-container');
+    const fabBtn = document.getElementById('floating-contact-btn');
+    if (fabBtn && fabContainer) {
+        fabBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fabContainer.classList.toggle('open');
+        });
+        document.addEventListener('click', (e) => {
+            if (!fabContainer.contains(e.target)) {
+                fabContainer.classList.remove('open');
+            }
+        });
+    }
+
+    // =============================================
+    // 17. Simple Cookie Consent Banner
+    // =============================================
+    const cookieBanner = document.getElementById('cookie-banner');
+    const acceptCookieBtn = document.getElementById('accept-cookie-btn');
+    const dismissCookieBtn = document.getElementById('dismiss-cookie-btn');
+    if (cookieBanner) {
+        const consent = localStorage.getItem('cookie_consent');
+        if (!consent) {
+            setTimeout(() => {
+                cookieBanner.classList.add('visible');
+            }, 1200);
+        }
+        function handleConsent() {
+            localStorage.setItem('cookie_consent', 'accepted');
+            cookieBanner.classList.remove('visible');
+        }
+        if (acceptCookieBtn) acceptCookieBtn.addEventListener('click', handleConsent);
+        if (dismissCookieBtn) dismissCookieBtn.addEventListener('click', handleConsent);
+    }
+
+    // =============================================
+    // 18. Confirmation Modal for Destructive Actions
+    // =============================================
+    window.showConfirmModal = function(options) {
+        const {
+            title = 'تأكيد الحذف',
+            message = 'هل أنت متأكد من تنفيذ هذا الإجراء؟ لا يمكن التراجع عن هذه الخطوة.',
+            confirmText = 'نعم، احذف',
+            cancelText = 'إلغاء',
+            onConfirm = () => {},
+            onCancel = () => {}
+        } = options;
+
+        let overlay = document.getElementById('confirm-modal-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'confirm-modal-overlay';
+            overlay.className = 'confirm-modal-overlay';
+            overlay.innerHTML = `
+                <div class="confirm-modal-box" role="dialog" aria-modal="true">
+                    <div class="confirm-icon-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    </div>
+                    <h3 class="confirm-modal-title" id="confirm-modal-title">${title}</h3>
+                    <p class="confirm-modal-desc" id="confirm-modal-desc">${message}</p>
+                    <div class="confirm-modal-actions">
+                        <button type="button" id="confirm-modal-yes" class="btn btn-danger" style="flex:1;">${confirmText}</button>
+                        <button type="button" id="confirm-modal-no" class="btn btn-outline" style="flex:1;">${cancelText}</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        } else {
+            document.getElementById('confirm-modal-title').textContent = title;
+            document.getElementById('confirm-modal-desc').textContent = message;
+            document.getElementById('confirm-modal-yes').textContent = confirmText;
+            document.getElementById('confirm-modal-no').textContent = cancelText;
+        }
+
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        const yesBtn = document.getElementById('confirm-modal-yes');
+        const noBtn = document.getElementById('confirm-modal-no');
+
+        const cleanUp = () => {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            document.removeEventListener('keydown', handleKey);
+        };
+
+        const handleConfirm = () => {
+            cleanUp();
+            onConfirm();
+        };
+
+        const handleCancel = () => {
+            cleanUp();
+            onCancel();
+        };
+
+        const handleKey = (e) => {
+            if (e.key === 'Escape') handleCancel();
+        };
+
+        yesBtn.onclick = handleConfirm;
+        noBtn.onclick = handleCancel;
+        overlay.onclick = (e) => {
+            if (e.target === overlay) handleCancel();
+        };
+        document.addEventListener('keydown', handleKey);
+    };
+
+    // =============================================
+    // 19. Password Visibility Toggle
+    // =============================================
+    function initPasswordToggles() {
+        document.querySelectorAll('.password-field-wrapper').forEach(wrapper => {
+            const input = wrapper.querySelector('input');
+            const toggleBtn = wrapper.querySelector('.password-toggle-btn');
+            if (input && toggleBtn && !toggleBtn.dataset.initialized) {
+                toggleBtn.dataset.initialized = 'true';
+                toggleBtn.addEventListener('click', () => {
+                    const isPass = input.type === 'password';
+                    input.type = isPass ? 'text' : 'password';
+                    toggleBtn.innerHTML = isPass ? `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                            <line x1="1" y1="1" x2="23" y2="23"/>
+                        </svg>
+                    ` : `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    `;
+                });
+            }
+        });
+    }
+    initPasswordToggles();
+    window.initPasswordToggles = initPasswordToggles;
+
+    // =============================================
+    // 20. Outbound UTM Link Tracking
+    // =============================================
+    function applyUtmToOutboundLinks() {
+        const currentHost = window.location.hostname;
+        document.querySelectorAll('a[href]').forEach(link => {
+            const href = link.getAttribute('href');
+            if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+            try {
+                if (href.startsWith('http://') || href.startsWith('https://')) {
+                    const url = new URL(href, window.location.href);
+                    if (url.hostname !== currentHost && !url.searchParams.has('utm_source')) {
+                        url.searchParams.set('utm_source', 'focus_shop');
+                        url.searchParams.set('utm_medium', 'website');
+                        url.searchParams.set('utm_campaign', 'store_referral');
+                        link.setAttribute('href', url.toString());
+                    }
+                }
+            } catch (err) {
+                // Ignore parsing errors for custom schemes
+            }
+        });
+    }
+    applyUtmToOutboundLinks();
+    window.applyUtmToOutboundLinks = applyUtmToOutboundLinks;
+
+    // =============================================
+    // 21. Code Snippet Copy-to-Clipboard
+    // =============================================
+    function initCodeSnippetCopy() {
+        document.querySelectorAll('pre').forEach(pre => {
+            if (pre.parentElement && pre.parentElement.classList.contains('code-snippet-wrap')) return;
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-snippet-wrap';
+            pre.parentNode.insertBefore(wrapper, pre);
+            wrapper.appendChild(pre);
+
+            const copyBtn = document.createElement('button');
+            copyBtn.type = 'button';
+            copyBtn.className = 'code-copy-btn';
+            copyBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                <span>نسخ الكود</span>
+            `;
+
+            copyBtn.addEventListener('click', () => {
+                const text = pre.innerText || pre.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    const originalHtml = copyBtn.innerHTML;
+                    copyBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span style="color:#34d399;">تم النسخ! ✓</span>
+                    `;
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalHtml;
+                    }, 2000);
+                }).catch(() => {
+                    alert('تم النسخ يدوياً!');
+                });
+            });
+
+            wrapper.appendChild(copyBtn);
+        });
+    }
+    initCodeSnippetCopy();
+    window.initCodeSnippetCopy = initCodeSnippetCopy;
+
+    // =============================================
+    // 22. Initial Render
     // =============================================
     renderProducts();
     if (typeof filterProducts === 'function') filterProducts('all');
     observeReveals();
+    applyUtmToOutboundLinks();
 });
