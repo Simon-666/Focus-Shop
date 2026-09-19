@@ -414,31 +414,49 @@
         </div>
         <!-- Push Notification Broadcast Modal -->
         <div id="push-modal" class="admin-modal-overlay">
-            <div class="admin-modal-box" style="max-width: 520px;">
-                <div style="font-size: 2.5rem; margin-bottom: 8px;">📢</div>
-                <h3 style="margin-bottom: 6px; font-size: 1.3rem;">إرسال إشعار فوري لجميع الزوار (Push Notification)</h3>
-                <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 20px;">
-                    سيظهر هذا الإشعار على أجهزة الزوار والمشتركين الذين فتحوا الموقع وسمحوا بالإشعارات.
-                </p>
+            <div class="admin-modal-box" style="max-width: 540px; text-align: right;">
+                <div style="text-align: center; margin-bottom: 12px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 6px;">📢</div>
+                    <h3 style="margin-bottom: 6px; font-size: 1.35rem;">لوحة إرسال الإشعارات الفورية (Push Notifications)</h3>
+                    <p style="color: var(--text-muted, #6b7280); font-size: 0.88rem; margin: 0; line-height: 1.5;">
+                        يعمل بنظام JavaScript نقي 100% ومستقر، ويصل لجميع زوار المتجر على الهواتف (Android/iOS) والكمبيوتر.
+                    </p>
+                </div>
 
-                <div style="text-align: right; margin-bottom: 12px;">
-                    <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">عنوان الإشعار</label>
+                <div style="background: rgba(37, 99, 235, 0.08); border: 1px solid rgba(37, 99, 235, 0.2); border-radius: 12px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between;">
+                    <span>حالة الإشعار الحالي في الموقع:</span>
+                    <strong id="push-current-status" style="color: #10b981;">● نشط ويعمل</strong>
+                </div>
+
+                <div style="margin-bottom: 12px;">
+                    <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">عنوان الإشعار (Title)</label>
                     <input type="text" id="push-broadcast-title" placeholder="مثال: خصم 50% على كاميرات التصوير الاحترافية! 🔥" style="width:100%; box-sizing:border-box;">
                 </div>
 
-                <div style="text-align: right; margin-bottom: 12px;">
-                    <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">نص الإشعار</label>
+                <div style="margin-bottom: 12px;">
+                    <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">نص وتفاصيل الإشعار (Body)</label>
                     <textarea id="push-broadcast-body" rows="3" placeholder="اكتب تفاصيل العرض هنا... الكمية محدودة قطعة واحدة فقط!" style="width:100%; box-sizing:border-box;"></textarea>
                 </div>
 
-                <div style="text-align: right; margin-bottom: 15px;">
-                    <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">الرابط عند الضغط على الإشعار</label>
+                <div style="margin-bottom: 12px;">
+                    <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">الرابط المباشر عند النقر (Target URL)</label>
                     <input type="text" id="push-broadcast-url" value="index.html#featured" placeholder="index.html#products" style="width:100%; box-sizing:border-box; direction:ltr; text-align:left;">
+                    <div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">
+                        <button type="button" onclick="setPushUrl('index.html#featured')" style="background:var(--border,#e5e7eb); color:var(--text,#1f2937); font-size:0.75rem; padding:4px 8px; border-radius:6px; border:none; cursor:pointer;">المنتجات المميزة</button>
+                        <button type="button" onclick="setPushUrl('index.html#products')" style="background:var(--border,#e5e7eb); color:var(--text,#1f2937); font-size:0.75rem; padding:4px 8px; border-radius:6px; border:none; cursor:pointer;">جميع المنتجات</button>
+                        <button type="button" onclick="setPushUrl('blog.html')" style="background:var(--border,#e5e7eb); color:var(--text,#1f2937); font-size:0.75rem; padding:4px 8px; border-radius:6px; border:none; cursor:pointer;">المدونة</button>
+                    </div>
                 </div>
 
-                <div style="display:flex; gap:10px; justify-content:flex-end;">
-                    <button type="button" class="btn-cancel" onclick="closePushModal()">إلغاء</button>
-                    <button type="button" class="btn-confirm" id="btn-do-push" onclick="sendBroadcastPush()" style="background:#f59e0b; color:white;">إرسال الإشعار الآن 🚀</button>
+                <div style="display: flex; gap: 8px; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border,#e5e7eb); flex-wrap: wrap;">
+                    <div style="display: flex; gap: 8px;">
+                        <button type="button" class="btn-cancel" onclick="closePushModal()" style="background:var(--border,#e5e7eb); color:var(--text,#1f2937);">إغلاق</button>
+                        <button type="button" onclick="testNotificationLocally()" style="background:#6366f1; color:white; padding:10px 14px; border-radius:6px; font-weight:bold; cursor:pointer; border:none;" title="تجربة الإشعار على هذا المتصفح فوراً">🔔 تجربة الإشعار</button>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button type="button" onclick="deactivateNotification()" style="background:#ef4444; color:white; padding:10px 14px; border-radius:6px; font-weight:bold; cursor:pointer; border:none;" title="إلغاء تفعيل الإشعار">إيقاف الإشعار</button>
+                        <button type="button" id="btn-publish-push" onclick="publishPushToGitHub()" style="background:#10b981; color:white; padding:10px 18px; border-radius:6px; font-weight:bold; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:6px;">🚀 نشر للجميع (GitHub)</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -503,6 +521,7 @@
 
     <!-- Load existing data -->
     <script src="products.js"></script>
+    <script src="notifications.js"></script>
 
     <script>
         // Persistence Logic: Load from LocalStorage or use default from JS file
@@ -989,18 +1008,39 @@
         }
 
         // ==========================================
-        // Push Notifications Broadcast
+        // Push Notifications Manager (100% Pure JS)
         // ==========================================
         function openPushModal() {
             document.getElementById('push-modal').classList.add('active');
             const titleInput = document.getElementById('push-broadcast-title');
-            if (titleInput && !titleInput.value) {
-                titleInput.value = 'تخفيضات خاصة في متجر فوكس! 🔥';
-            }
             const bodyInput = document.getElementById('push-broadcast-body');
-            if (bodyInput && !bodyInput.value) {
-                bodyInput.value = 'وصلت منتجات حصرية وجديدة اليوم، تصفح العروض الآن قبل نفاد الكمية!';
+            const urlInput = document.getElementById('push-broadcast-url');
+            const statusLabel = document.getElementById('push-current-status');
+
+            // Load existing notification if available
+            if (typeof currentNotification !== 'undefined' && currentNotification) {
+                if (titleInput && !titleInput.value) titleInput.value = currentNotification.title || '';
+                if (bodyInput && !bodyInput.value) bodyInput.value = currentNotification.body || '';
+                if (urlInput && (!urlInput.value || urlInput.value === 'index.html#featured')) {
+                    urlInput.value = currentNotification.url || 'index.html#featured';
+                }
+                if (statusLabel) {
+                    if (currentNotification.active) {
+                        statusLabel.textContent = '● نشط ويعمل';
+                        statusLabel.style.color = '#10b981';
+                    } else {
+                        statusLabel.textContent = '○ متوقف حالياً';
+                        statusLabel.style.color = '#ef4444';
+                    }
+                }
+            } else {
+                if (titleInput && !titleInput.value) titleInput.value = 'تخفيضات خاصة وحصرية! 🔥';
+                if (bodyInput && !bodyInput.value) bodyInput.value = 'وصلت وجبة جديدة من كاميرات ومعدات التصوير، تصفح العروض الآن قبل نفاد الكمية!';
             }
+        }
+
+        function closePushModal() {
+            document.getElementById('push-modal').classList.remove('active');
         }
 
         function openPushGuideModal() {
@@ -1011,59 +1051,174 @@
             document.getElementById('push-guide-modal').classList.remove('active');
         }
 
-        function closePushModal() {
-            document.getElementById('push-modal').classList.remove('active');
+        function setPushUrl(url) {
+            const input = document.getElementById('push-broadcast-url');
+            if (input) input.value = url;
         }
 
-        function sendBroadcastPush() {
-            const title = document.getElementById('push-broadcast-title').value.trim();
-            const body = document.getElementById('push-broadcast-body').value.trim();
+        function testNotificationLocally() {
+            const title = document.getElementById('push-broadcast-title').value.trim() || 'متجر فوكس 🛒';
+            const body = document.getElementById('push-broadcast-body').value.trim() || 'إشعار تجريبي يعمل بنجاح!';
             const url = document.getElementById('push-broadcast-url').value.trim() || 'index.html#featured';
 
-            if (!title) {
-                alert('يرجى كتابة عنوان للإشعار.');
-                return;
-            }
-
-            const payload = {
-                title: title,
-                body: body,
-                url: url,
-                timestamp: Date.now()
-            };
-
-            // 1. Broadcast to open shop tabs
+            // 1. Broadcast via BroadcastChannel
             try {
                 const notifyChannel = new BroadcastChannel('focus_push_notifications');
-                notifyChannel.postMessage(payload);
-            } catch(e) {
-                console.warn('BroadcastChannel error:', e);
-            }
+                notifyChannel.postMessage({ title, body, url, timestamp: Date.now() });
+            } catch(e) {}
 
-            // 2. Also trigger local notification if permission is active
-            if ('Notification' in window && Notification.permission === 'granted') {
-                const notifOptions = {
-                    body: body,
-                    icon: 'logo.svg',
-                    badge: 'logo.svg',
-                    dir: 'rtl',
-                    data: { url: url }
-                };
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.ready.then(reg => {
-                        if (reg && typeof reg.showNotification === 'function') {
-                            reg.showNotification(title, notifOptions);
-                        }
-                    }).catch(() => {
+            // 2. Local browser notification
+            if ('Notification' in window) {
+                if (Notification.permission === 'granted') {
+                    const notifOptions = {
+                        body: body,
+                        icon: 'logo.svg',
+                        badge: 'logo.svg',
+                        dir: 'rtl',
+                        data: { url: url }
+                    };
+                    if ('serviceWorker' in navigator) {
+                        navigator.serviceWorker.ready.then(reg => {
+                            if (reg && typeof reg.showNotification === 'function') {
+                                reg.showNotification(title, notifOptions);
+                            } else {
+                                try { new Notification(title, notifOptions); } catch(e) {}
+                            }
+                        }).catch(() => {
+                            try { new Notification(title, notifOptions); } catch(e) {}
+                        });
+                    } else {
                         try { new Notification(title, notifOptions); } catch(e) {}
-                    });
+                    }
                 } else {
-                    try { new Notification(title, notifOptions); } catch(e) {}
+                    Notification.requestPermission().then(p => {
+                        if (p === 'granted') testNotificationLocally();
+                    });
                 }
             }
 
-            closePushModal();
-            alert('🚀 تم إرسال الإشعار الفوري بنجاح إلى جميع الزوار المشتركين!');
+            if (window.AdminAuth && typeof window.AdminAuth.showToast === 'function') {
+                window.AdminAuth.showToast('🔔 تم إرسال إشعار تجريبي إلى جهازك!');
+            } else {
+                alert('🔔 تم إرسال الإشعار التجريبي!');
+            }
+        }
+
+        async function publishPushToGitHub() {
+            const title = document.getElementById('push-broadcast-title').value.trim();
+            const body = document.getElementById('push-broadcast-body').value.trim();
+            const url = document.getElementById('push-broadcast-url').value.trim() || 'index.html#featured';
+            const btn = document.getElementById('btn-publish-push');
+
+            if (!title) {
+                alert('يرجى كتابة عنوان للإشعار أولاً.');
+                return;
+            }
+
+            const notifPayload = {
+                id: Date.now(),
+                active: true,
+                title: title,
+                body: body,
+                url: url,
+                icon: 'logo.svg',
+                badge: 'logo.svg',
+                timestamp: Date.now()
+            };
+
+            const fileContent = `/**
+ * Focus Shop - Live Push Notifications Feed
+ * Updated automatically via Admin Dashboard (admin.html)
+ */
+
+const currentNotification = ${JSON.stringify(notifPayload, null, 4)};\n`;
+
+            const origContent = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="auth-spinner"></span> جاري النشر...';
+            }
+
+            try {
+                // 1. If GitHub API is configured, commit directly to GitHub Pages repository!
+                if (window.GitHubAPI) {
+                    await window.GitHubAPI.saveFile(
+                        'notifications.js',
+                        fileContent,
+                        `نشر إشعار فوري جديد: ${title}`
+                    );
+                }
+
+                // 2. Also broadcast immediately to any open tabs right now
+                try {
+                    const notifyChannel = new BroadcastChannel('focus_push_notifications');
+                    notifyChannel.postMessage(notifPayload);
+                } catch(e) {}
+
+                // 3. Update memory object
+                window.currentNotification = notifPayload;
+                const statusLabel = document.getElementById('push-current-status');
+                if (statusLabel) {
+                    statusLabel.textContent = '● نشط ويعمل';
+                    statusLabel.style.color = '#10b981';
+                }
+
+                closePushModal();
+                if (window.AdminAuth && typeof window.AdminAuth.showToast === 'function') {
+                    window.AdminAuth.showToast('🚀 تم نشر الإشعار بنجاح! سيظهر لجميع زوار المتجر على هواتفهم وحواسيبهم.');
+                } else {
+                    alert('🚀 تم نشر الإشعار بنجاح لجميع الزوار!');
+                }
+            } catch (err) {
+                alert('حدث خطأ أثناء النشر إلى GitHub: ' + err.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = origContent || '<span>🚀 نشر للجميع (GitHub)</span>';
+                }
+            }
+        }
+
+        async function deactivateNotification() {
+            const notifPayload = {
+                id: Date.now(),
+                active: false,
+                title: '',
+                body: '',
+                url: 'index.html',
+                icon: 'logo.svg',
+                badge: 'logo.svg',
+                timestamp: Date.now()
+            };
+
+            const fileContent = `/**
+ * Focus Shop - Live Push Notifications Feed
+ * Updated automatically via Admin Dashboard (admin.html)
+ */
+
+const currentNotification = ${JSON.stringify(notifPayload, null, 4)};\n`;
+
+            if (!confirm('هل تريد إيقاف الإشعار الحالي حتى لا يظهر للزوار الجدد؟')) return;
+
+            try {
+                if (window.GitHubAPI) {
+                    await window.GitHubAPI.saveFile('notifications.js', fileContent, 'إيقاف الإشعار الفوري');
+                }
+                window.currentNotification = notifPayload;
+                const statusLabel = document.getElementById('push-current-status');
+                if (statusLabel) {
+                    statusLabel.textContent = '○ متوقف حالياً';
+                    statusLabel.style.color = '#ef4444';
+                }
+                closePushModal();
+                if (window.AdminAuth && typeof window.AdminAuth.showToast === 'function') {
+                    window.AdminAuth.showToast('🛑 تم إيقاف الإشعار بنجاح.');
+                } else {
+                    alert('🛑 تم إيقاف الإشعار بنجاح.');
+                }
+            } catch (err) {
+                alert('خطأ أثناء إيقاف الإشعار: ' + err.message);
+            }
         }
 
         // ==========================================

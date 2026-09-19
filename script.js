@@ -959,6 +959,47 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch(e) {}
 
     // =============================================
+    // 15c. Live Push Notification Feed (Pure JS - Across All Devices)
+    // =============================================
+    function checkLiveNotificationFeed() {
+        if (typeof currentNotification === 'undefined' || !currentNotification || !currentNotification.active) {
+            return;
+        }
+
+        const lastSeen = localStorage.getItem('focus_last_seen_push_id');
+        const notifId = String(currentNotification.id || currentNotification.timestamp || '');
+
+        if (notifId && lastSeen !== notifId) {
+            // New active notification found!
+            showPushNotification(currentNotification.title, {
+                body: currentNotification.body,
+                url: currentNotification.url || 'index.html#featured',
+                icon: currentNotification.icon || 'logo.svg',
+                badge: currentNotification.badge || 'logo.svg',
+                tag: 'live-feed-' + notifId
+            });
+
+            // Mark as seen so visitor isn't spammed repeatedly with the same notification
+            localStorage.setItem('focus_last_seen_push_id', notifId);
+        }
+    }
+
+    // Check on load after 2 seconds
+    setTimeout(checkLiveNotificationFeed, 2000);
+
+    // Periodically check notifications.js every 60 seconds while browsing
+    setInterval(() => {
+        const script = document.createElement('script');
+        script.src = `notifications.js?v=${Date.now()}`;
+        script.onload = () => {
+            checkLiveNotificationFeed();
+            script.remove();
+        };
+        script.onerror = () => script.remove();
+        document.head.appendChild(script);
+    }, 60000);
+
+    // =============================================
     // 15b. Push Notification 5-Minute Engagement Popup Trigger
     // =============================================
     const pushPopupOverlay = document.getElementById('push-popup-overlay');
