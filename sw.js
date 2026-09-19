@@ -44,13 +44,33 @@ self.addEventListener('notificationclick', (event) => {
     );
 });
 
+// Handle Message Event from Client Window (e.g. script.js or admin.html)
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'SHOW_NOTIFICATION') {
+        const title = event.data.title || 'متجر فوكس 🛒';
+        const options = Object.assign({
+            body: 'عروض وتخفيضات خاصة متوفرة الآن في متجر فوكس!',
+            icon: 'icon-192.png',
+            badge: 'icon-192.png',
+            dir: 'rtl',
+            lang: 'ar',
+            vibrate: [200, 100, 200],
+            data: { url: 'index.html#featured' }
+        }, event.data.options || {});
+
+        event.waitUntil(
+            self.registration.showNotification(title, options)
+        );
+    }
+});
+
 // Handle Push Event (if sent from backend or Web Push service)
 self.addEventListener('push', (event) => {
     let data = {
         title: 'متجر فوكس 🛒',
         body: 'وصلت عروض وتخفيضات حصرية جديدة في المتجر!',
-        icon: 'logo.svg',
-        badge: 'logo.svg',
+        icon: 'icon-192.png',
+        badge: 'icon-192.png',
         url: 'index.html#featured'
     };
 
@@ -64,13 +84,13 @@ self.addEventListener('push', (event) => {
 
     const options = {
         body: data.body,
-        icon: data.icon || 'logo.svg',
-        badge: data.badge || 'logo.svg',
+        icon: data.icon || 'icon-192.png',
+        badge: data.badge || 'icon-192.png',
         dir: 'rtl',
         lang: 'ar',
         vibrate: [200, 100, 200],
         data: {
-            url: data.url || 'index.html'
+            url: data.url || 'index.html#featured'
         }
     };
 

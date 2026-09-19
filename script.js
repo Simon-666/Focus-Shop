@@ -663,6 +663,73 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+    // Web Audio Chime Sound for Notifications
+    function playPushSound() {
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            const ctx = new AudioCtx();
+            if (ctx.state === 'suspended') {
+                ctx.resume();
+            }
+            const now = ctx.currentTime;
+            
+            // First chime tone (E5 - 659.25 Hz)
+            const osc1 = ctx.createOscillator();
+            const gain1 = ctx.createGain();
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(659.25, now);
+            gain1.gain.setValueAtTime(0.12, now);
+            gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+            osc1.connect(gain1);
+            gain1.connect(ctx.destination);
+            osc1.start(now);
+            osc1.stop(now + 0.22);
+
+            // Second chime tone (G#5 - 830.61 Hz)
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(830.61, now + 0.1);
+            gain2.gain.setValueAtTime(0.16, now + 0.1);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+            osc2.connect(gain2);
+            gain2.connect(ctx.destination);
+            osc2.start(now + 0.1);
+            osc2.stop(now + 0.42);
+        } catch (e) {
+            // AudioContext not allowed or not supported; ignore silently
+        }
+    }
+
+    // Modal Guide for Blocked Permissions
+    function showPermissionBlockedGuide() {
+        let guide = document.getElementById('push-blocked-guide-modal');
+        if (!guide) {
+            guide = document.createElement('div');
+            guide.id = 'push-blocked-guide-modal';
+            guide.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:20px;direction:rtl;font-family:"IBM Plex Sans Arabic",sans-serif;';
+            guide.innerHTML = `
+                <div style="background:var(--card-bg,#fff);color:var(--text-main,#1f2937);border-radius:24px;max-width:460px;width:100%;padding:28px;box-shadow:0 25px 50px rgba(0,0,0,0.4);text-align:center;border:1px solid var(--border-color,#ddd);">
+                    <div style="font-size:2.8rem;margin-bottom:12px;">🔒</div>
+                    <h3 style="margin-bottom:10px;font-size:1.25rem;">تم رفض أو حظر الإشعارات مسبقاً</h3>
+                    <p style="color:var(--text-muted,#64748b);font-size:0.9rem;line-height:1.6;margin-bottom:18px;">
+                        لقد تم حظر إذن الإشعارات في متصفحك. لإعادة تفعيلها واستلام أحدث العروض، يرجى اتباع الآتي:
+                    </p>
+                    <div style="background:var(--bg-alt,rgba(0,0,0,0.04));padding:16px;border-radius:14px;text-align:right;font-size:0.88rem;line-height:1.8;margin-bottom:20px;">
+                        1. اضغط على <strong>أيقونة القفل 🔒 أو الأذونات</strong> بجانب شريط الرابط أعلى الشاشة.<br>
+                        2. ابحث عن خيار <strong>الإشعارات (Notifications)</strong> وغيّره إلى <strong>سماح (Allow)</strong>.<br>
+                        3. أعد تحديث الصفحة وستعمل الإشعارات الفورية فوراً!
+                    </div>
+                    <button type="button" id="push-blocked-gotit-btn" style="width:100%;padding:13px;background:var(--primary-color,#2563eb);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit;font-size:1rem;">فهمت الخطوات ✓</button>
+                </div>
+            `;
+            document.body.appendChild(guide);
+            document.getElementById('push-blocked-gotit-btn').onclick = () => guide.remove();
+            guide.onclick = (e) => { if (e.target === guide) guide.remove(); };
+        }
+    }
+
     function updatePushUI() {
         if (!('Notification' in window)) {
             if (isIOS) {
@@ -672,7 +739,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 if (btnEnablePush) {
                     btnEnablePush.style.display = 'inline-flex';
+                    btnEnablePush.disabled = false;
                     btnEnablePush.textContent = '📱 طريقة التفعيل على آيفون (iOS)';
+                    btnEnablePush.onclick = showIOSPushGuide;
                 }
                 return;
             }
@@ -695,19 +764,23 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pushStatusBadge) {
                 pushStatusBadge.className = 'push-status-badge active granted';
                 pushStatusBadge.innerHTML = '✓ الإشعارات مفعلة بنجاح على هذا الجهاز.';
+                pushStatusBadge.onclick = null;
             }
             if (navNotifyDot) navNotifyDot.style.display = 'none';
             if (navNotifyBtn) navNotifyBtn.title = 'الإشعارات مفعلة بنجاح ✓';
         } else if (perm === 'denied') {
             if (btnEnablePush) {
                 btnEnablePush.style.display = 'inline-flex';
-                btnEnablePush.disabled = true;
-                btnEnablePush.textContent = 'تم حظر الإشعارات من إعدادات المتصفح';
+                btnEnablePush.disabled = false;
+                btnEnablePush.textContent = 'إعادة تفعيل الإشعارات (محظورة 🔒)';
+                btnEnablePush.onclick = showPermissionBlockedGuide;
             }
             if (btnTestPush) btnTestPush.style.display = 'none';
             if (pushStatusBadge) {
                 pushStatusBadge.className = 'push-status-badge active denied';
-                pushStatusBadge.innerHTML = '✕ تم رفض إذن الإشعارات سابقاً. لتفعيلها، يرجى السماح بها من إعدادات الموقع أو أيقونة القفل بجانب شريط الرابط.';
+                pushStatusBadge.innerHTML = '✕ تم حظر الإذن سابقاً. اضغط هنا لمعرفة كيفية السماح بها من المتصفح 🔒';
+                pushStatusBadge.style.cursor = 'pointer';
+                pushStatusBadge.onclick = showPermissionBlockedGuide;
             }
             if (navNotifyDot) navNotifyDot.style.display = 'none';
         } else {
@@ -716,9 +789,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 btnEnablePush.style.display = 'inline-flex';
                 btnEnablePush.disabled = false;
                 btnEnablePush.textContent = 'تفعيل الإشعارات الآن 🔔';
+                btnEnablePush.onclick = requestPushPermission;
             }
             if (btnTestPush) btnTestPush.style.display = 'none';
-            if (pushStatusBadge) pushStatusBadge.className = 'push-status-badge';
+            if (pushStatusBadge) {
+                pushStatusBadge.className = 'push-status-badge';
+                pushStatusBadge.onclick = null;
+            }
             if (navNotifyDot) navNotifyDot.style.display = 'block';
         }
     }
@@ -734,7 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         toast.innerHTML = `
             <div class="in-app-notify-icon">
-                <img src="logo.svg" alt="Focus">
+                <img src="icon-192.png" alt="Focus">
             </div>
             <div class="in-app-notify-content">
                 <div class="in-app-notify-header">
@@ -762,22 +839,22 @@ document.addEventListener('DOMContentLoaded', () => {
             toast.remove();
         });
 
-        // Auto dismiss after 6.5 seconds
+        // Auto dismiss after 7 seconds
         setTimeout(() => {
             if (document.body.contains(toast)) {
                 toast.style.opacity = '0';
                 toast.style.transform = 'translateY(-20px)';
                 setTimeout(() => toast.remove(), 300);
             }
-        }, 6500);
+        }, 7000);
     }
 
-    // Universal Push Notification Trigger (ServiceWorker + Desktop Fallback + In-App Toast)
+    // Universal Push Notification Trigger (Sound + ServiceWorker + Desktop Fallback + In-App Toast)
     async function showPushNotification(title, options = {}) {
         const defaultOptions = {
             body: 'تخفيضات كبرى وعروض حصرية جديدة متوفرة الآن في متجر فوكس!',
-            icon: 'logo.svg',
-            badge: 'logo.svg',
+            icon: 'icon-192.png',
+            badge: 'icon-192.png',
             dir: 'rtl',
             lang: 'ar',
             vibrate: [200, 100, 200],
@@ -787,39 +864,65 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         const finalOptions = { ...defaultOptions, ...options };
 
-        // 1. Always display In-App Toast Banner if the web page is currently open
+        // 1. Play sound chime
+        playPushSound();
+
+        // 2. Always display In-App Toast Banner if web page is currently active
         showInAppNotification(title || 'متجر فوكس 🛒', finalOptions);
 
-        // 2. Trigger System / Native Notification if permission granted
+        // 3. Trigger System / Native OS Notification if permission granted
         if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+        let systemNotificationShown = false;
 
         // Method A: ServiceWorker (Required for Android & iOS PWA Web Push)
         if ('serviceWorker' in navigator) {
             try {
-                const reg = swRegistration || await navigator.serviceWorker.ready;
+                // Try active controller message first
+                if (navigator.serviceWorker.controller) {
+                    navigator.serviceWorker.controller.postMessage({
+                        type: 'SHOW_NOTIFICATION',
+                        title: title || 'متجر فوكس 🛒',
+                        options: finalOptions
+                    });
+                    systemNotificationShown = true;
+                }
+
+                // Also try registration with a 1-second race timeout so it never hangs
+                const swReadyPromise = swRegistration 
+                    ? Promise.resolve(swRegistration) 
+                    : navigator.serviceWorker.ready;
+                
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('SW ready timeout')), 1000)
+                );
+
+                const reg = await Promise.race([swReadyPromise, timeoutPromise]);
                 if (reg && typeof reg.showNotification === 'function') {
                     await reg.showNotification(title || 'متجر فوكس 🛒', finalOptions);
-                    return;
+                    systemNotificationShown = true;
                 }
             } catch (swErr) {
-                console.warn('ServiceWorker showNotification failed, trying fallback:', swErr);
+                console.warn('ServiceWorker showNotification failed or timed out:', swErr);
             }
         }
 
         // Method B: Desktop new Notification Fallback
-        try {
-            const notify = new Notification(title || 'متجر فوكس 🛒', finalOptions);
-            notify.onclick = function() {
-                window.focus();
-                if (finalOptions.data && finalOptions.data.url) {
-                    window.location.href = finalOptions.data.url;
-                } else if (finalOptions.url) {
-                    window.location.href = finalOptions.url;
-                }
-                notify.close();
-            };
-        } catch (notifErr) {
-            console.warn('Desktop new Notification failed:', notifErr);
+        if (!systemNotificationShown) {
+            try {
+                const notify = new Notification(title || 'متجر فوكس 🛒', finalOptions);
+                notify.onclick = function() {
+                    window.focus();
+                    if (finalOptions.data && finalOptions.data.url) {
+                        window.location.href = finalOptions.data.url;
+                    } else if (finalOptions.url) {
+                        window.location.href = finalOptions.url;
+                    }
+                    notify.close();
+                };
+            } catch (notifErr) {
+                console.warn('Desktop new Notification failed (may be Android requiring SW):', notifErr);
+            }
         }
     }
 
@@ -865,8 +968,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return 'unsupported';
         }
 
+        if (Notification.permission === 'denied') {
+            showPermissionBlockedGuide();
+            return 'denied';
+        }
+
         try {
-            // Must handle Promise + Callback API across all modern and older browsers
+            // Initiate request directly to preserve transient user gesture in Safari & Chrome
             let permission = await new Promise((resolve) => {
                 let resolved = false;
                 try {
@@ -890,7 +998,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     }
                 } catch (e) {
-                    Notification.requestPermission().then(resolve).catch(() => resolve(Notification.permission));
+                    try {
+                        Notification.requestPermission().then(resolve).catch(() => resolve(Notification.permission));
+                    } catch (err) {
+                        resolve(Notification.permission);
+                    }
                 }
             });
 
@@ -901,8 +1013,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: 'تم تفعيل الإشعارات بنجاح على هذا الجهاز. ستصلك أحدث الصفقات والمنتجات الحصرية فوراً!',
                     tag: 'welcome-notification'
                 });
+
+                // Also deliver active broadcast deal if exists
+                if (typeof currentNotification !== 'undefined' && currentNotification && currentNotification.active) {
+                    setTimeout(() => {
+                        showPushNotification(currentNotification.title, {
+                            body: currentNotification.body,
+                            url: currentNotification.url || 'index.html#featured',
+                            icon: currentNotification.icon || 'icon-192.png',
+                            badge: currentNotification.badge || 'icon-192.png',
+                            tag: 'live-feed-' + (currentNotification.id || Date.now())
+                        });
+                        localStorage.setItem('focus_last_seen_push_id', String(currentNotification.id || ''));
+                    }, 1400);
+                }
             } else if (permission === 'denied') {
-                alert('تم حظر الإشعارات. يمكنك تفعيلها في أي وقت من إعدادات المتصفح (أيقونة القفل في شريط الرابط).');
+                showPermissionBlockedGuide();
             }
 
             return permission;
@@ -913,7 +1039,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (btnEnablePush) {
-        btnEnablePush.addEventListener('click', requestPushPermission);
+        btnEnablePush.addEventListener('click', () => {
+            if (Notification.permission === 'denied') {
+                showPermissionBlockedGuide();
+            } else {
+                requestPushPermission();
+            }
+        });
     }
     if (navNotifyBtn) {
         navNotifyBtn.addEventListener('click', () => {
@@ -927,6 +1059,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: 'الإشعارات مفعلة لديك وتعمل بشكل ممتاز!',
                     tag: 'status-check'
                 });
+            } else if (Notification.permission === 'denied') {
+                showPermissionBlockedGuide();
             } else {
                 requestPushPermission();
             }
@@ -943,7 +1077,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updatePushUI();
 
-    // Listen to admin broadcast channel for instant push triggers across tabs
+    // Listen to admin broadcast channel for instant push triggers across open tabs
     try {
         const notifyChannel = new BroadcastChannel('focus_push_notifications');
         notifyChannel.onmessage = (event) => {
@@ -974,8 +1108,8 @@ document.addEventListener('DOMContentLoaded', () => {
             showPushNotification(currentNotification.title, {
                 body: currentNotification.body,
                 url: currentNotification.url || 'index.html#featured',
-                icon: currentNotification.icon || 'logo.svg',
-                badge: currentNotification.badge || 'logo.svg',
+                icon: currentNotification.icon || 'icon-192.png',
+                badge: currentNotification.badge || 'icon-192.png',
                 tag: 'live-feed-' + notifId
             });
 
@@ -1000,7 +1134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 60000);
 
     // =============================================
-    // 15b. Push Notification 5-Minute Engagement Popup Trigger
+    // 15b. Push Notification Engagement Popup Trigger
     // =============================================
     const pushPopupOverlay = document.getElementById('push-popup-overlay');
     const pushPopupCloseBtn = document.getElementById('push-popup-close-btn');
@@ -1041,9 +1175,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Trigger permission request directly inside user click event stack
     if (pushPopupAllowBtn) {
-        pushPopupAllowBtn.addEventListener('click', async () => {
+        pushPopupAllowBtn.addEventListener('click', () => {
             closePushPopup();
-            await requestPushPermission();
+            requestPushPermission();
         });
     }
 
