@@ -4,12 +4,12 @@
  */
 
 const currentNotification = {
-    id: 1726740000000,
-    active: true,
-    title: "مرحبا بك في متجر فوكس! 🛒🔥",
-    body: "عروض وتخفيضات خاصة متوفرة الآن، تصفح المنتجات الحصرية قبل نفاد الكمية!",
-    url: "index.html#featured",
-    icon: "logo.svg",
-    badge: "logo.svg",
-    timestamp: 1726740000000
+    "id": 1789842866532,
+    "active": true,
+    "title": "مرحبا بك في متجر فوكس! 🛒🔥 تجربة 1",
+    "body": "عروض وتخفيضات خاصة متوفرة الآن، تصفح المنتجات الحصرية قبل نفاد الكمية!",
+    "url": "index.html#featured",
+    "icon": "logo.svg",
+    "badge": "logo.svg",
+    "timestamp": 1789842866532
 };
