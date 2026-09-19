@@ -27,6 +27,77 @@ const categories = [
 
 const products = [
     {
+        "id": 1789808812625,
+        "title": "ملقن للموبايل و الكاميرا Teleprompter  Lensgo",
+        "price": "65000",
+        "currency": "د.ع",
+        "category": "photography",
+        "quantity": 2,
+        "isSoldOut": false,
+        "image": "https://m.media-amazon.com/images/I/613qJNvDJhL._AC_SL1000_.jpg",
+        "description": "الحديث أمام الكاميرا بثقة تامة وسلاسة بصرية بدون نسيان أي نص! ✨\n\nهل تعاني أثناء تصوير الفيديوهات أو الدروس أونلاين من نسيان الكلمات، التلعثم، أو إبعاد نظرك عن العدسة للنظر إلى أوراق الملاحظات؟ أو تبحث عن جهاز تلقين (Teleprompter) محمول وشامل ينطوي بثانية واحدة ويقرأ النصوص بوضوح تام مع الحفاظ على الاتصال البصري مع المتابعين؟ 📱💥\n\nجهاز LENSGO TC7S المحمول مقاس 9.7 إنش هو الحل السينمائي المتكامل لصناع المحتوى، المعلمين، ومقدمي البرامج! 🚀🔥\n\nتصميم ذكي وقابل للطي يمنحك تجربة تصوير سلسة ومريحة في أي مكان:\n\n* ⏱️ طي في ثانية واحدة (One-Second Fold): تصميم مميز وسريع الطي يسهل حمل الجهاز وتخزينه داخل حقيبتك دون الحاجة لفك وتركيب المعقد.\n* 🖥️ شاشة قراءة واسعة (9.7 إنش): زجاج عالي الشفافية يتيح لك قراءة النصوص بوضوح ممتاز ومسافة قراءة مريحة بدون التأثير على جودة ونقاء صورة الكاميرا.\n* 📱 متعدد التوافق (Smartphones & Tablets): يدعم تركيب مختلف أنواع الهواتف الذكية والأجهزة اللوحية (iPads/Tablets) لإنعكاس النص، مع إمكانية التصوير باستعمال الهاتف أو الكاميرا.\n* 🎮 ريموت كنترول لاسلكي (Bluetooth Remote): يتصل بجهتك بسهولة للتحكم بزر التشغيل، التوقف، زيادة أو تقليل سرعة حركة النص بكل أريحية أثناء التصوير.\n* 📲 تطبيق خاص وسهل (Android & iOS): يعمل مع التطبيقات المخصصة للتلقين والمتاحة على المتاجر الذكية لتعديل حجم الخط وسرعة التمرير بسهولة.\n* 🎙️ منافذ تركيب إضافية (Cold Shoe Mounts): يتضمن منافذ أعلى الجهاز لتركيب ميكروفون لاسلكي أو إضاءة LED صغيرة لتجهيز استوديو محمول بالكامل.\n\nتحدث بثقة واجعل إلقاءك يبدو احترافياً وسلساً أمام الجمهور! 🎯🎬\n\nتوصيل سريع متوفر لجميع المحافظات (5,000 دينار فقط لكل العراق)! 🚚🇮🇶\n\nللطلب والاستفسار: ارسل لنا رسالة مباشرة عبر الخاص وسنتواصل معك فوراً بالتفاصيل. 📩👇\n\n***\n\nالكلمات المفتاحية والوسوم (بالعربية): 🏷️\nجهاز تلقين، تيليبرومبتر، LENSGO TC7S، جهاز قراءة النصوص، معدات تصوير، صناعة المحتوى، معدات الاستوديو، تصوير فلوغات، توصيل لكل العراق\n\n#LENSGO #Teleprompter #جهاز_تلقين #معدات_تصوير #صناعة_المحتوى #فلوغات #توصيل_لجميع_المحافظات #عراق #TechIraq\n\nEnglish Keywords & Hashtags: 🏷️📌\nLENSGO TC7S Portable Teleprompter, 9.7 Inch Foldable Teleprompter, Smartphone Teleprompter with Remote, Vlog Live Streaming Teleprompter, Online Teaching Gear, Iraq Delivery\n\n#LENSGO #Teleprompter #ContentCreatorGear #VloggingAccessories #VideoProduction #TechIraq #StudioGear",
+        "url": "https://nothing.com",
+        "condition": "new",
+        "featured": true,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 1
+    },
+    {
+        "id": 1789809625269,
+        "title": "CITYORK Mini V Mount Battery 229Wh/15500mAh 14.8V V Moun بطارية فيماونت",
+        "price": "150000",
+        "originalPrice": "220000",
+        "currency": "د.ع",
+        "category": "photography",
+        "quantity": 1,
+        "isSoldOut": false,
+        "image": "https://m.media-amazon.com/images/I/71XAtedGDcL._AC_SL1500_.jpg",
+        "description": "سعة طاقة عملاقة وحجم مدمج لتشغيل كادر التصوير بالكامل بدون توقف! ✨\n\nهل تعاني أثناء جولات التصوير الميداني أو التصوير الخارجي الطويل من نفاذ بطاريات الكاميرا والإضاءة بسرعة؟ أو تشيل هم حمل عدة شواحن وبطاريات مختلفة لكل جهاز في مواقع العمل؟ 🎥💥\n\nبطارية CITYORK Mini V-Mount اصلي بسعة 229Wh وهيكل مدمج هي الخيار المثالي والموثوق لتغذية كاميرتك، إضاءات الـ LED، والـ Monitor بطاقة ثابتة ومستمرة! 🚀🔥\n\nأداء استثنائي ومنافذ متعددة تلبي تطلعات المصورين وصناع الأفلام المحترفين:\n\n* ⚡ سعة هائلة وحجم مدمج (229Wh / 15500mAh / 14.8V): تقدم طاقة فائقة تشغل أجهزتك السينمائية لمدد طويلة مع الحفاظ على حجم صغير مقارنة ببطاريات الـ V-Mount التقليدية.\n* 🔌 منافذ متعددة لتغذية كل المعدات: تحتوي على منافذ D-Tap و USB-A و Type-C لتشغيل الكاميرا، المونيتور، المايكرفون، أو حتى شحن هاتفك واللابتوب بوقت واحد.\n* 📲 دعم الشحن السريع (PD Fast Charging): منفذ Type-C يدعم بروتوكولات الشحن السريع بالاتجاهين لتمكينك من إعادة شحن البطارية بسرعة وتغدي أجهزتك الذكية بكفاءة عالية.\n* 🖥️ شاشة عرض OLED ذكية: توفر قراءة دقيقة لنسبة البطارية المتبقية والفولتية في الوقت الفعلي لتكون على علم تام بوقت التشغيل المتبقي.\n* 🛡️ نظام حماية ذكي شامل: مزودة بشريحة حماية متطورة ضد الشحن الزائد، ارتفاع الحرارة، والماس الكهربائي لحماية معداتك الثمينة.\n\nاستمتع بحرية تصوير مطلق وبدون قلق من نفاذ الطاقة أثناء الإنتاج العملي! 🎯🎬\n\nتوصيل سريع متوفر لجميع المحافظات (5,000 دينار فقط لكل العراق)! 🚚🇮🇶\n\nللطلب والاستفسار: ارسل لنا رسالة مباشرة عبر الخاص وسنتواصل معك فوراً بالتفاصيل. 📩👇\n\n***\n\nالكلمات المفتاحية والوسوم (بالعربية): 🏷️\nبطارية في ماونت، سيتي يورك V Mount، بطارية CITYORK 229Wh، بطارية سينمائية، معدات تصوير، شاحن D-Tap، بطارية كاميرا احترافية، مستلزمات استوديو، توصيل لكل العراق\n\n#CITYORK #VMount #بطارية_تصوير #تصوير_سينمائي #معدات_تصوير #توصيل_لجميع_المحافظات #عراق #TechIraq\n\nEnglish Keywords & Hashtags: 🏷️📌\nCITYORK Mini V Mount Battery, 229Wh 15500mAh V Lock Battery, 14.8V D-Tap Power Bank, Cinema Camera Battery, Field Production Power, Fast Charging V-Mount, Iraq Delivery\n\n#CITYORK #VMountBattery #CinemaGear #CameraPower #FilmmakingGear #VideoProduction #TechIraq",
+        "url": "https://www.amazon.es/CITYORK-Battery-15500mAh-pantalla-videoc%C3%A1mara/dp/B0DG2FKTY6",
+        "condition": "new",
+        "featured": true,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 2
+    },
+    {
+        "id": 1789809313238,
+        "title": "K&F CONCEPT 100mm Full Color ND8 Square Filter 28 Layer Coatings Neutral Density فلتر ",
+        "price": "60000",
+        "originalPrice": "150000",
+        "currency": "د.ع",
+        "category": "photography",
+        "quantity": 1,
+        "isSoldOut": false,
+        "image": "https://i.ebayimg.com/images/g/-X0AAOSweM1m2sul/s-l1600.webp",
+        "description": "السيطرة الكاملة على الضوء والتقاط مشاهد طبيعية بسلاسة سينمائية وبدون أي تغيير في الألوان! ✨\n\nهل تعاني عند التصوير في أوقات النهار المشرقة من سطوع الشمس الزائد الذي يطمس تفاصيل السماء والغيوم؟ أو تحاول التقاط حركة المياه المخملية والغيوم المنسابة فتخرج صورتك بيضاء ومحتارة بالتعريض المفرط؟ 📸💥\n\nفلتر K&F Concept 100mm ND8 اصلي المربع ذو الطبقات الـ 28 المتقدمة هو الخيار الذهبي لمصوري الطبيعة واللاندسكيب للوصول إلى أعلى مستويات الدقة! 🚀🔥\n\nزجاج بصري ألماني وتقنيات طلاء متطورة تضمن لك جودة صورة فائقة:\n\n* 🛡️ طلاء احترافي من 28 طبقة (28 Layer Multi-Layer Coating): تقنية طلاء مزدوجة توفر حماية عالية ضد الخدوش، تقليل الانعكاسات المزعجة، ومقاومة الماء والزيوت لسهولة التنظيف في الميدان.\n* 🎨 عزل ضوئي دقيق (ND8 / 3-Stops): يقلل دخول الضوء بمقدار 3 محطات ضوئية، مما يتيح لك تصوير تعريض طويل (Long Exposure) وتنعيم حركة المياه والغيوم حتى تحت أشعة الشمس.\n* 💎 زجاج بصري عالي النقاء (HD Optical Glass): يحافظ على حدة ألوان المشهد الحقيقية والتفاصيل الدقيقة بدون أي انحراف في الألوان (No Color Cast).\n* 📐 قياس مربع قياسي (100x100mm): بسُمك 2mm مطابِق لأغلب أنظمة الحوامل المربعة (100mm Square Filter Holders) لسرعة التركيب والتبديل مقارنة بالفلاتر الدائرية.\n* 🎒 حافظة جلدية فاخرة: تأتي مع جُراب حماية متين ومبطن لحماية الفلتر من الصدمات والغبار أثناء التنقل والرحلات.\n\nالتقط صوراً احترافية بتعريض متوازن وتأثيرات سينمائية تأسر الأبصار! 🎯🌅\n\nتوصيل سريع متوفر لجميع المحافظات (5,000 دينار فقط لكل العراق)! 🚚🇮🇶\n\nللطلب والاستفسار: ارسل لنا رسالة مباشرة عبر الخاص وسنتواصل معك فوراً بالتفاصيل. 📩👇\n\n***\n\nالكلمات المفتاحية والوسوم (بالعربية): 🏷️\nفلتر ND8 مربع، كي اند إف كونسبت، فلتر 100 مم، فلاتر تصوير لاندسكيب، فلاتر عدسات احترافية، معدات تصوير، تصوير تعريض طويل، KF Concept العراق، توصيل لكل العراق\n\n#KFConcept #فلتر_مربع #تصوير_لاندسكيب #معدات_تصوير #فلاتر_عدسات #توصيل_لجميع_المحافظات #عراق #TechIraq\n\nEnglish Keywords & Hashtags: 🏷️📌\nKF Concept 100mm ND8 Square Filter, 28 Layer Coating Neutral Density Filter, 100x100mm Optical Glass ND Filter, Landscape Photography Gear, Long Exposure Square Filter, Iraq Delivery\n\n#KFConcept #ND8Filter #SquareFilter #LandscapePhotography #LongExposure #CameraAccessories #TechIraq",
+        "url": "https://www.ebay.com/itm/166957304415",
+        "condition": "new",
+        "featured": true,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 3
+    },
+    {
+        "id": 1789809181784,
+        "title": "R075 Wooden Handle Grip Left Right قبضة تصوير Ulanzi ",
+        "price": "35000",
+        "originalPrice": "100000",
+        "currency": "د.ع",
+        "category": "photography",
+        "quantity": 2,
+        "isSoldOut": false,
+        "image": "https://m.media-amazon.com/images/I/71EDXhLZ4cL._SL1500_.jpg",
+        "description": "التحكم الكامل والراحة الفائقة أثناء تصوير الفيديوهات الطويلة بلمسة خشبية كلاسيكية! ✨\n\nهل تعاني أثناء تصوير الفيديوهات المحمولة باليد من اهتزاز الكاميرا، أو صعوبة التثبيت وإرهاق اليد عند التصوير لفترات طويلة؟ أو تبحث عن مقبض جانبي مريح ومصمم من الخشب الطبيعي يمنحك ثباتاً سينمائياً ومظهراً احترافياً لعدتك؟ 🎥💥\n\nمقبض Ulanzi R075 اصلي الخشبي المزدوج (يمين/يسار) هو الإضافة المثالية لكيج الكاميرا (Camera Cage) للارتقاء بثبات تصويرك ومستوى احترافيتك! 🚀🔥\n\nتصميم مريح وتوافق عالي يضمن لك أعلى مستويات التحكم والسهولة:\n\n* 🪵 خشب جوز طبيعي فاخر (Natural Walnut Wood): مصمم بحواف منحنية تتطابق مع راحة اليد لمنحك قبضة دافئة ومريحة تمنع الانزلاق وتخفف الإجهاد أثناء التصوير الميداني.\n* 🔄 تصميم مزدوج ذكي (Left & Right Universal): يمكن تعديله وتركيبه بسهولة على الجانب الأيمن أو الأيسر لقفص الكاميرا حسب رغبتك وطريقة تصويرك.\n* 📐 تعديل الارتفاع مرن: يتيح لك ضبط الارتفاع الرأسي للمقبض بسهولة لتناسب توازن العدسة ومركز ثقل الكاميرا.\n* 🔒 تثبيت محكم وبسيط (Arri Rosette / NATO / 1/4\"-20): يركب بسرعة وأمان على غالبية أقفاص الكاميرات عبر برغي تثبيت محكم يمنع أي اهتزاز.\n* 🎙️ منافذ تركيب إضافية (Cold Shoe & Threaded Holes): مزود بفتحة Cold Shoe علوية مع فتحات برغي 1/4\"-20 لتركيب ميكروفون لاسلكي، شاشة Monitor، أو إضاءة LED صغيرة بكل سهولة.\n* 🛠️ مفتاح ألن مدمج (Built-in Allen Wrench): يحتوي على مفتاح ربط مغناطيسي مخفي في الجزء السفلي للمقبض لتعديل وشد البرغي في أي وقت بدون البحث عن أدوات خارجية.\n\nاحصل على ثبات سينمائي وراحة تامة لمشروعاتك السينمائية والفيديوهات اليومية! 🎯🎬\n\nتوصيل سريع متوفر لجميع المحافظات (5,000 دينار فقط لكل العراق)! 🚚🇮🇶\n\nللطلب والاستفسار: ارسل لنا رسالة مباشرة عبر الخاص وسنتواصل معك فوراً بالتفاصيل. 📩👇\n\n***\n\nالكلمات المفتاحية والوسوم (بالعربية): 🏷️\nمقبض خشب كاميرا، اولانزي R075، Ulanzi R075، مقبض جانبي كيج، اكسسوارات كاميرات، معدات تصوير سينمائي، قبضة كاميرا خشبي، كيج اولانزي، توصيل لكل العراق\n\n#Ulanzi #UlanziR075 #مقبض_كاميرا #معدات_تصوير #تصوير_سينمائي #صناعة_المحتوى #توصيل_لجميع_المحافظات #عراق #TechIraq\n\nEnglish Keywords & Hashtags: 🏷️📌\nUlanzi R075 Wooden Handle Grip, Universal Side Handle for Camera Cage, Left Right Wooden Grip, Wooden Camera Rig Accessories, Cold Shoe Mount Handle, Videography Handgrip, Iraq Delivery\n\n#Ulanzi #UlanziR075 #CameraRig #CameraCage #FilmmakingGear #VideographyAccessories #TechIraq",
+        "url": "https://m.media-amazon.com/images/I/71EDXhLZ4cL._SL1500_.jpg",
+        "condition": "new",
+        "featured": true,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 4
+    },
+    {
         "id": 1779378765389,
         "title": "Mormaii FLEXXXA SLIM Professional Beach Tennis Paddle",
         "price": "60000",
@@ -42,7 +113,7 @@ const products = [
         "featured": false,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 1
+        "sortOrder": 5
     },
     {
         "id": 1779378489358,
@@ -60,7 +131,7 @@ const products = [
         "featured": false,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 2
+        "sortOrder": 6
     },
     {
         "id": 1777149291882,
@@ -76,7 +147,7 @@ const products = [
         "condition": "new",
         "featured": true,
         "isDemo": false,
-        "sortOrder": 3,
+        "sortOrder": 7,
         "originalPrice": "186000"
     },
     {
@@ -93,7 +164,7 @@ const products = [
         "condition": "new",
         "featured": true,
         "isDemo": false,
-        "sortOrder": 4,
+        "sortOrder": 8,
         "originalPrice": "178000"
     },
     {
@@ -112,7 +183,7 @@ const products = [
         "featured": false,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 5
+        "sortOrder": 9
     },
     {
         "id": 1776611664989,
@@ -130,7 +201,7 @@ const products = [
         "featured": false,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 6
+        "sortOrder": 10
     },
     {
         "id": 1776611502245,
@@ -146,7 +217,7 @@ const products = [
         "condition": "new",
         "featured": true,
         "isDemo": false,
-        "sortOrder": 7,
+        "sortOrder": 11,
         "originalPrice": "77500"
     },
     {
@@ -163,7 +234,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 8,
+        "sortOrder": 12,
         "originalPrice": "50000"
     },
     {
@@ -180,7 +251,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 9,
+        "sortOrder": 13,
         "originalPrice": "55000"
     },
     {
@@ -197,7 +268,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 10,
+        "sortOrder": 14,
         "originalPrice": "80000"
     },
     {
@@ -214,7 +285,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 11,
+        "sortOrder": 15,
         "originalPrice": "250000"
     },
     {
@@ -231,7 +302,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 12,
+        "sortOrder": 16,
         "originalPrice": "100000"
     },
     {
@@ -248,7 +319,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 13,
+        "sortOrder": 17,
         "originalPrice": "150000"
     },
     {
@@ -265,7 +336,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 14,
+        "sortOrder": 18,
         "originalPrice": "500000"
     }
 ];

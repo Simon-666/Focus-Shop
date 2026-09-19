@@ -326,8 +326,8 @@ document.addEventListener('DOMContentLoaded', () => {
             popupStockHtml = `<span class="popup-stock-badge stock-available">🟢 متوفر بالمخزون (${qty} قطعة)</span>`;
         }
 
-        const waBuy = `https://wa.me/9647747597922?text=${encodeURIComponent('مرحباً، أود شراء هذا المنتج:\n\nاسم المنتج: ' + p.title + '\nالسعر: ' + fp + ' ' + p.currency + '\nرمز المنتج: ' + p.id)}`;
-        const waRestock = `https://wa.me/9647747597922?text=${encodeURIComponent('مرحباً، أود الاستفسار عن إمكانية توفير المنتج عند توفره مجدداً:\n\nاسم المنتج: ' + p.title + '\nالسعر: ' + fp + ' ' + p.currency + '\nرمز المنتج: ' + p.id)}`;
+        const waBuy = `https://wa.me/9647747597922?text=${encodeURIComponent('مرحبا، أود شراء هذا المنتج:\n\nاسم المنتج: ' + p.title + '\nالسعر: ' + fp + ' ' + p.currency + '\nرمز المنتج: ' + p.id)}`;
+        const waRestock = `https://wa.me/9647747597922?text=${encodeURIComponent('مرحبا، أود الاستفسار عن إمكانية توفير المنتج عند توفره مجدداً:\n\nاسم المنتج: ' + p.title + '\nالسعر: ' + fp + ' ' + p.currency + '\nرمز المنتج: ' + p.id)}`;
 
         let buyBtn = '';
         if (isDemo) {
@@ -633,46 +633,216 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // =============================================
-    // 15. Newsletter Signup with Success State
+    // 15. Push Notifications Manager
     // =============================================
-    const newsletterForm = document.getElementById('newsletter-form');
-    const newsletterSuccess = document.getElementById('newsletter-success');
-    if (newsletterForm) {
-        const savedEmail = localStorage.getItem('focus_newsletter_subscribed');
-        if (savedEmail && newsletterSuccess) {
-            newsletterForm.style.display = 'none';
-            newsletterSuccess.classList.add('active');
-            newsletterSuccess.innerHTML = `<span>✓ أنت مشترك بالفعل بأحدث عروضنا (${savedEmail}). شكراً لك!</span>`;
+    const btnEnablePush = document.getElementById('btn-enable-push');
+    const btnTestPush = document.getElementById('btn-test-push');
+    const pushStatusBadge = document.getElementById('push-status-badge');
+    const pushTitle = document.getElementById('push-title');
+    const pushDesc = document.getElementById('push-desc');
+    const navNotifyBtn = document.getElementById('nav-notify-btn');
+    const navNotifyDot = document.getElementById('nav-notify-dot');
+
+    function updatePushUI() {
+        if (!('Notification' in window)) {
+            if (pushStatusBadge) {
+                pushStatusBadge.className = 'push-status-badge active unsupported';
+                pushStatusBadge.innerHTML = '⚠️ متصفحك الحالي لا يدعم ميزة الإشعارات الفورية (Web Notifications).';
+            }
+            if (btnEnablePush) btnEnablePush.style.display = 'none';
+            if (btnTestPush) btnTestPush.style.display = 'none';
+            if (navNotifyBtn) navNotifyBtn.style.display = 'none';
+            return;
         }
 
-        newsletterForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const input = document.getElementById('newsletter-email');
-            const email = input ? input.value.trim() : '';
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-            if (!email || !emailRegex.test(email)) {
-                alert('يرجى إدخال بريد إلكتروني صحيح.');
-                if (input) input.focus();
-                return;
+        const perm = Notification.permission;
+        if (perm === 'granted') {
+            if (btnEnablePush) btnEnablePush.style.display = 'none';
+            if (btnTestPush) btnTestPush.style.display = 'inline-flex';
+            if (pushTitle) pushTitle.textContent = 'أنت مشترك في الإشعارات الفورية! 🎉';
+            if (pushDesc) pushDesc.textContent = 'ستصلك عروض متجر فوكس والتخفيضات الكبرى لحظة بلحظة كإشعار فوري على سطح المكتب أو هاتفك.';
+            if (pushStatusBadge) {
+                pushStatusBadge.className = 'push-status-badge active granted';
+                pushStatusBadge.innerHTML = '✓ الإشعارات مفعلة بنجاح على هذا الجهاز.';
             }
-
-            const submitBtn = newsletterForm.querySelector('button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'جاري الحفظ...';
+            if (navNotifyDot) navNotifyDot.style.display = 'none';
+            if (navNotifyBtn) navNotifyBtn.title = 'الإشعارات مفعلة بنجاح ✓';
+        } else if (perm === 'denied') {
+            if (btnEnablePush) {
+                btnEnablePush.style.display = 'inline-flex';
+                btnEnablePush.disabled = true;
+                btnEnablePush.textContent = 'تم حظر الإشعارات من إعدادات المتصفح';
             }
+            if (btnTestPush) btnTestPush.style.display = 'none';
+            if (pushStatusBadge) {
+                pushStatusBadge.className = 'push-status-badge active denied';
+                pushStatusBadge.innerHTML = '✕ تم رفض إذن الإشعارات سابقاً. لتفعيلها، يرجى السماح بها من أيقونة القفل بجانب شريط العنوان.';
+            }
+            if (navNotifyDot) navNotifyDot.style.display = 'none';
+        } else {
+            // default (prompt)
+            if (btnEnablePush) {
+                btnEnablePush.style.display = 'inline-flex';
+                btnEnablePush.disabled = false;
+            }
+            if (btnTestPush) btnTestPush.style.display = 'none';
+            if (pushStatusBadge) pushStatusBadge.className = 'push-status-badge';
+            if (navNotifyDot) navNotifyDot.style.display = 'block';
+        }
+    }
 
-            setTimeout(() => {
-                localStorage.setItem('focus_newsletter_subscribed', email);
-                newsletterForm.style.display = 'none';
-                if (newsletterSuccess) {
-                    newsletterSuccess.classList.add('active');
-                    newsletterSuccess.innerHTML = `<span>🎉 شكراً لاشتراكك! ستصلك أحدث العروض والخصومات فور صدورها على بريدك (${email}).</span>`;
-                }
-            }, 600);
+    function showPushNotification(title, options) {
+        if (!('Notification' in window) || Notification.permission !== 'granted') return;
+        const defaultOptions = {
+            body: 'تخفيضات كبرى وعروض حصرية جديدة متوفرة الآن في متجر فوكس!',
+            icon: 'logo.svg',
+            badge: 'logo.svg',
+            dir: 'rtl',
+            lang: 'ar',
+            vibrate: [200, 100, 200]
+        };
+        const notify = new Notification(title || 'متجر فوكس 🛒', { ...defaultOptions, ...options });
+        notify.onclick = function() {
+            window.focus();
+            if (options && options.url) {
+                window.location.href = options.url;
+            }
+            notify.close();
+        };
+    }
+
+    window.triggerPushNotification = showPushNotification;
+
+    async function requestPushPermission() {
+        if (!('Notification' in window)) {
+            alert('للأسف، متصفحك الحالي لا يدعم الإشعارات الفورية.');
+            return;
+        }
+
+        try {
+            const permission = await Notification.requestPermission();
+            updatePushUI();
+            if (permission === 'granted') {
+                showPushNotification('مرحبا بك في إشعارات متجر فوكس! 🔔', {
+                    body: 'تم تفعيل الإشعارات بنجاح. ستصلك أحدث الصفقات والمنتجات الحصرية أولاً بأول!',
+                    tag: 'welcome-notification'
+                });
+            }
+        } catch (err) {
+            console.error('Error requesting notification permission:', err);
+        }
+    }
+
+    if (btnEnablePush) {
+        btnEnablePush.addEventListener('click', requestPushPermission);
+    }
+    if (navNotifyBtn) {
+        navNotifyBtn.addEventListener('click', () => {
+            if (!('Notification' in window)) return;
+            if (Notification.permission === 'granted') {
+                showPushNotification('متجر فوكس 🔔', {
+                    body: 'الإشعارات مفعلة لديك وتعمل بشكل ممتاز!',
+                    tag: 'status-check'
+                });
+            } else {
+                requestPushPermission();
+            }
         });
     }
+    if (btnTestPush) {
+        btnTestPush.addEventListener('click', () => {
+            showPushNotification('تخفيضات خاصة وحصرية! 🔥', {
+                body: 'وصلت وجبة جديدة من كاميرات ومعدات التصوير الأصلية 100%، احصل على قطعتك الآن!',
+                url: '#featured'
+            });
+        });
+    }
+
+    updatePushUI();
+
+    // Listen to admin broadcast channel for instant push triggers across tabs
+    try {
+        const notifyChannel = new BroadcastChannel('focus_push_notifications');
+        notifyChannel.onmessage = (event) => {
+            const data = event.data;
+            if (data && data.title) {
+                showPushNotification(data.title, {
+                    body: data.body,
+                    url: data.url || '#products',
+                    tag: 'admin-broadcast-' + Date.now()
+                });
+            }
+        };
+    } catch(e) {}
+
+    // =============================================
+    // 15b. Push Notification 5-Minute Engagement Popup Trigger
+    // =============================================
+    const pushPopupOverlay = document.getElementById('push-popup-overlay');
+    const pushPopupCloseBtn = document.getElementById('push-popup-close-btn');
+    const pushPopupLaterBtn = document.getElementById('push-popup-later-btn');
+    const pushPopupAllowBtn = document.getElementById('push-popup-allow-btn');
+
+    function openPushPopup() {
+        // Do not open if notifications already granted or not supported
+        if (!('Notification' in window) || Notification.permission === 'granted') return;
+
+        // Check if user dismissed recently (wait 24 hours before showing again)
+        const lastDismissed = localStorage.getItem('focus_push_popup_dismissed');
+        if (lastDismissed && (Date.now() - Number(lastDismissed)) < 24 * 60 * 60 * 1000) {
+            return;
+        }
+
+        if (pushPopupOverlay) {
+            pushPopupOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closePushPopup() {
+        if (pushPopupOverlay) {
+            pushPopupOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        localStorage.setItem('focus_push_popup_dismissed', Date.now());
+    }
+
+    if (pushPopupCloseBtn) pushPopupCloseBtn.addEventListener('click', closePushPopup);
+    if (pushPopupLaterBtn) pushPopupLaterBtn.addEventListener('click', closePushPopup);
+    if (pushPopupOverlay) {
+        pushPopupOverlay.addEventListener('click', (e) => {
+            if (e.target === pushPopupOverlay) closePushPopup();
+        });
+    }
+
+    if (pushPopupAllowBtn) {
+        pushPopupAllowBtn.addEventListener('click', async () => {
+            closePushPopup();
+            await requestPushPermission();
+        });
+    }
+
+    // Timer trigger: 5 minutes (5 * 60 * 1000 ms = 300,000 ms)
+    // Tracks cumulative session duration or single visit
+    const FIVE_MINUTES_MS = 5 * 60 * 1000;
+    
+    // Store visit start time
+    const sessionStart = Date.now();
+    let pushTimer = setTimeout(() => {
+        openPushPopup();
+    }, FIVE_MINUTES_MS);
+
+    // Provide quick developer/test helper in browser console: window.testPushPopup()
+    window.testPushPopup = function() {
+        openPushPopup();
+    };
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && pushPopupOverlay && pushPopupOverlay.classList.contains('active')) {
+            closePushPopup();
+        }
+    });
 
     // =============================================
     // 16. Floating Contact Button (FAB)

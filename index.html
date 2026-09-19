@@ -84,6 +84,14 @@
                     <kbd class="search-shortcut-badge">Ctrl K</kbd>
                 </button>
 
+                <button id="nav-notify-btn" class="theme-btn" aria-label="إشعارات الموقع" title="تفعيل الإشعارات الفورية">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span id="nav-notify-dot" class="nav-notify-dot" style="display: none;"></span>
+                </button>
+
                 <button id="theme-toggle" class="theme-btn" aria-label="تبديل الوضع الليلي">
                     <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -113,7 +121,7 @@
         <div class="hero-container">
             <div class="hero-text">
                 <div class="hero-content floating">
-                    <h1>اكتشف عالم التسوق،<br>مرحباً بك في فوكس.</h1>
+                    <h1>اكتشف عالم التسوق،<br>مرحبا بك في فوكس.</h1>
                     <p>متجر يضع التركيز عليك وعلى احتياجاتك. تسوق أحدث المنتجات من التصوير إلى التخييم بكل سهولة.</p>
                     <a href="#products" class="btn btn-glow">تسوق الآن <span>&darr;</span></a>
                 </div>
@@ -338,18 +346,22 @@
         </div>
     </section>
 
-    <!-- Newsletter Section -->
-    <section class="newsletter-section">
+    <!-- Push Notifications Section -->
+    <section class="push-notify-section" id="notifications-section">
         <div class="container">
-            <div class="newsletter-card">
-                <span class="newsletter-icon">📬</span>
-                <h3>انضم إلى النشرة البريدية الحصرية</h3>
-                <p>احصل على أحدث عروض متجر فوكس وكوبونات الخصم قبل الجميع مباشرة في بريدك.</p>
-                <form id="newsletter-form" class="newsletter-form">
-                    <input type="email" id="newsletter-email" class="newsletter-input" placeholder="أدخل بريدك الإلكتروني..." required>
-                    <button type="submit" class="btn btn-primary">اشتراك الآن</button>
-                </form>
-                <div id="newsletter-success" class="newsletter-success"></div>
+            <div class="push-notify-card">
+                <div class="push-notify-bell-icon" id="push-bell-icon">🔔</div>
+                <h3 id="push-title">اشترك في إشعارات العروض الفورية</h3>
+                <p id="push-desc">فعّل إشعارات المتصفح لتصلك أحدث العروض والخصومات الحصرية والمنتجات الجديدة فور توفرها مباشرة على جهازك.</p>
+                <div class="push-actions" id="push-actions">
+                    <button type="button" id="btn-enable-push" class="btn btn-primary push-subscribe-btn">
+                        <span>🔔 تفعيل الإشعارات الفورية</span>
+                    </button>
+                    <button type="button" id="btn-test-push" class="btn btn-outline" style="display: none;">
+                        <span>🚀 تجربة إشعار فوري</span>
+                    </button>
+                </div>
+                <div id="push-status-badge" class="push-status-badge"></div>
             </div>
         </div>
     </section>
@@ -512,6 +524,30 @@
             }
         });
     </script>
+
+    <!-- Push Notification Engagement Popup (5 Min Trigger) -->
+    <div id="push-popup-overlay" class="push-popup-overlay" role="dialog" aria-modal="true" aria-label="تفعيل الإشعارات الفورية">
+        <div class="push-popup-modal">
+            <button type="button" class="push-popup-close-btn" id="push-popup-close-btn" aria-label="إغلاق">&times;</button>
+            <div class="push-popup-icon-wrap">
+                <span class="push-popup-bell">🔔</span>
+                <span class="push-popup-sparkle">✨</span>
+            </div>
+            <h3 class="push-popup-title">تصلك أحدث العروض فور نزولها؟</h3>
+            <p class="push-popup-text">
+                شكراً لبقائك معنا وتصفحك متجر فوكس! فعّل الإشعارات الفورية لتكون أول من يعلم عند إضافة وجبات جديدة أو تخفيضات كبرى على المنتجات المتبقية.
+            </p>
+            <div class="push-popup-actions">
+                <button type="button" id="push-popup-allow-btn" class="btn btn-primary push-popup-btn-allow">
+                    <span>🔔 نعم، فعّل الإشعارات الآن</span>
+                </button>
+                <button type="button" id="push-popup-later-btn" class="btn btn-outline push-popup-btn-later">
+                    <span>لاحقاً</span>
+                </button>
+            </div>
+            <small class="push-popup-note">🔒 يمكنك إلغاء تفعيلها في أي وقت بنقرة واحدة من إعدادات المتصفح.</small>
+        </div>
+    </div>
 
     <!-- Product Detail Popup -->
     <div id="product-popup-overlay" class="popup-overlay"></div>
