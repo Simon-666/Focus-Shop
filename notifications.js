@@ -4,12 +4,12 @@
  */
 
 const currentNotification = {
-    "id": 1789854576685,
+    "id": 1789854595791,
     "active": true,
     "title": "مرحبا بك في متجر فوكس! 🛒🔥",
     "body": "عروض وتخفيضات خاصة متوفرة الآن، تصفح المنتجات الحصرية قبل نفاد الكمية!",
     "url": "index.html#featured",
     "icon": "logo.svg",
     "badge": "logo.svg",
-    "timestamp": 1789854576685
+    "timestamp": 1789854595791
 };
