@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="product-image ${product.noCrop ? 'no-crop' : ''}">
                 ${badgeHtml}${src}
                 <span class="condition-badge ${cClass}">${cLabel}</span>
-                <img src="${product.image}" alt="${product.title}" loading="lazy">
+                <img src="${product.image}" alt="${product.title} - متجر فوكس العراق" loading="lazy" decoding="async" width="300" height="300">
                 <div class="product-card-overlay"><span class="view-details-hint">📸 عرض التفاصيل</span></div>
             </div>
             <div class="product-info">
@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const srcBtn = p.url ? `<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="btn popup-source-btn">زيارة الموقع الرسمي ↗</a>` : '';
         const tagsH = (p.tags && p.tags.length > 0) ? `<div class="popup-tags">${p.tags.map(t => `<span class="popup-tag">${t}</span>`).join('')}</div>` : '';
         const thumbs = imgs.length > 1
-            ? `<div class="popup-thumbs">${imgs.map((im, i) => `<img src="${im}" class="popup-thumb${i===0?' active':''}" onclick="document.getElementById('popup-main-img').src='${im}'; document.querySelectorAll('.popup-thumb').forEach(t=>t.classList.remove('active')); this.classList.add('active');" alt="صورة ${i+1}">`).join('')}</div>`
+            ? `<div class="popup-thumbs">${imgs.map((im, i) => `<img src="${im}" class="popup-thumb${i===0?' active':''}" onclick="document.getElementById('popup-main-img').src='${im}'; document.querySelectorAll('.popup-thumb').forEach(t=>t.classList.remove('active')); this.classList.add('active');" alt="${p.title} - صورة ${i+1}" width="70" height="70" loading="lazy" decoding="async">`).join('')}</div>`
             : '';
         const discBadge = (!isSoldOut && disc) ? `<span class="popup-discount-badge">خصم ${disc}%</span>` : '';
 
@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="popup-close-btn" onclick="document.getElementById('product-popup').classList.remove('active');document.getElementById('product-popup-overlay').classList.remove('active');document.body.style.overflow='';" aria-label="إغلاق">✕</button>
                 <div class="popup-gallery">
                     <div class="popup-main-img-wrap ${p.noCrop ? 'no-crop' : ''}">
-                        <img id="popup-main-img" src="${imgs[0]}" alt="${p.title}">
+                        <img id="popup-main-img" src="${imgs[0]}" alt="${p.title} - متجر فوكس" width="400" height="400" decoding="async">
                         ${discBadge}
                     </div>
                     ${thumbs}

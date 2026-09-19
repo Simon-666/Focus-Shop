@@ -1,6 +1,13 @@
+# Robots.txt for Focus Shop Iraq (متجر فوكس)
+# Website: https://simon-666.github.io/Focus-Shop/
+
 User-agent: *
 Allow: /
+Allow: /llms.txt
 Disallow: /admin.html
 Disallow: /admin-blog.html
+Disallow: /admin-auth.js
 
+# Sitemap
 Sitemap: https://simon-666.github.io/Focus-Shop/sitemap.xml
+

@@ -3129,3 +3129,87 @@ select:focus-visible {
         content: "";
     }
 }
+
+/* ==========================================================================
+   15. Core Web Vitals & Mobile Responsiveness Optimizations (LCP, CLS, INP)
+   ========================================================================== */
+
+/* LCP & INP: Offscreen rendering optimization with content-visibility */
+#about,
+#testimonials,
+#faq,
+#notifications-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 600px;
+}
+
+/* CLS: Prevent layout shift on images by guaranteeing aspect ratios */
+.product-image img,
+.popup-main-img-wrap img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+}
+
+.about-image img {
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+}
+
+.blog-image img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+}
+
+.post-image {
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    width: 100%;
+    max-height: 420px;
+}
+
+/* Touch targets optimization: Ensure minimum 48px target size on mobile */
+@media (max-width: 768px) {
+    .btn,
+    .theme-btn,
+    .search-trigger-btn,
+    .faq-question,
+    .contact-menu-item,
+    .category-filters .btn-outline,
+    .nav-links a {
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hamburger {
+        min-width: 48px;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Prevent accidental horizontal scrolling */
+    html, body {
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+
+    /* Improve typography scale on small mobile screens */
+    .hero-content h1 {
+        font-size: clamp(1.6rem, 5vw, 2.2rem);
+        line-height: 1.35;
+    }
+
+    .section-title {
+        font-size: clamp(1.4rem, 4vw, 1.85rem);
+    }
+}

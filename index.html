@@ -4,17 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر فوكس | Foucs Shop</title>
+    <title>متجر فوكس | Focus Shop - متجرك الأول للتصوير والإلكترونيات في العراق</title>
 
-    <!-- SEO & Open Graph Meta Tags -->
-    <meta name="description" content="متجر فوكس - وجهتك الأولى للتسوق الإلكتروني للمنزل، التصوير، التخييم، والمزيد.">
-    <meta property="og:title" content="متجر فوكس | Foucs Shop">
-    <meta property="og:description" content="متجر فوكس - تسوق أفضل المنتجات بأفضل الأسعار.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://simon-666.github.io/Focus-Shop/">
+    <!-- HTTPS Enforcement & Security -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script>
+        if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            location.replace('https://' + location.hostname + location.pathname + location.search + location.hash);
+        }
+    </script>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://simon-666.github.io/Focus-Shop/">
+
+    <!-- Robots & Crawler Directives -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+    <!-- Primary Meta Description & Keywords -->
+    <meta name="description" content="متجر فوكس (Focus Shop) - وجهتك الأولى في العراق لشراء كاميرات التصوير الاحترافية، إكسسوارات الكمبيوتر، بضاعة أمازون الأصلية بخصومات حتى 66%، ومعدات التخييم مع توصيل سريع لجميع المحافظات وضمان تشغيل 100%.">
+    <meta name="keywords" content="متجر فوكس, متجر إلكترونيات العراق, كاميرات بغداد, بضاعة أمازون العراق, إكسسوارات تصوير, عدسات كاميرا, لايت بار Quntis, محول Meike, تسوق أونلاين العراق">
+    <meta name="author" content="Focus Shop - متجر فوكس">
     <meta name="google-site-verification" content="uy8H8AykwFee5AGngwOMJOdWFexUXfs8b3LkNHMMaAo" />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
 
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_IQ">
+    <meta property="og:site_name" content="متجر فوكس | Focus Shop Iraq">
+    <meta property="og:title" content="متجر فوكس | Focus Shop - متجرك الأول للتصوير والإلكترونيات في العراق">
+    <meta property="og:description" content="تسوق أفضل الكاميرات، إكسسوارات الكمبيوتر، وبضاعة أمازون الأصلية بخصومات استثنائية تصل إلى 66% مع توصيل سريع لباب بيتك في كافة محافظات العراق وضمان تشغيل 100%.">
+    <meta property="og:url" content="https://simon-666.github.io/Focus-Shop/">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="800">
+    <meta property="og:image:alt" content="شعار ومنتجات متجر فوكس في العراق">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="متجر فوكس | Focus Shop - متجرك الأول للتصوير والإلكترونيات في العراق">
+    <meta name="twitter:description" content="تسوق أفضل الكاميرات وإكسسوارات الكمبيوتر وبضاعة أمازون الأصلية بخصومات استثنائية في العراق.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
+
+    <!-- Fonts Preconnect & Stylesheet -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -28,6 +60,126 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Focus Shop">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://simon-666.github.io/Focus-Shop/#website",
+          "url": "https://simon-666.github.io/Focus-Shop/",
+          "name": "متجر فوكس | Focus Shop",
+          "description": "متجرك الأول للتصوير وبضاعة أمازون الأصلية والإلكترونيات في العراق",
+          "inLanguage": "ar",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://simon-666.github.io/Focus-Shop/?search={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Store",
+          "@id": "https://simon-666.github.io/Focus-Shop/#store",
+          "name": "متجر فوكس - Focus Shop",
+          "image": "https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80",
+          "logo": "https://simon-666.github.io/Focus-Shop/logo.svg",
+          "url": "https://simon-666.github.io/Focus-Shop/",
+          "telephone": "+9647746264867",
+          "priceRange": "IQD",
+          "currenciesAccepted": "IQD",
+          "paymentAccepted": "Cash on Delivery, Zain Cash, Mastercard",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "IQ",
+            "addressLocality": "Baghdad",
+            "streetAddress": "Baghdad, Iraq"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "33.3152",
+            "longitude": "44.3661"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "00:00",
+            "closes": "23:59"
+          },
+          "sameAs": [
+            "https://www.facebook.com/profile.php?id=61577430766611",
+            "https://wa.me/9647746264867"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://simon-666.github.io/Focus-Shop/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "هل التوصيل متوفر لجميع محافظات العراق؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "نعم، نوفر توصيل سريع وموثوق لجميع محافظات العراق (بغداد، البصرة، أربيل، الموصل، السليمانية، كركوك، النجف، كربلاء، وباقي المحافظات) حتى باب منزلك."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "هل المنتجات المعروضة أصلية 100%؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "بكل تأكيد! جميع منتجاتنا التي يتم ذكر كلمة أصلي في مواصفاتها هي 100% أصلية، مع فحص دقيق للجودة قبل الشحن والتسليم لضمان حصولك على أفضل أداء."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "ما هي طرق الدفع المتاحة؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "الدفع عند الاستلام متاح لجميع الطلبات في كافة المحافظات لضمان راحة بالك، كما ندعم التحويل المالي عبر زين كاش (Zain Cash) والماستركارد."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "ما هو الضمان وحقي عند استلام الطلب؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "نقدم ضماناً حقيقياً أن القطعة تعمل 100%، وفي حال وصول الطلب لك كامل الحق برفض المنتج عند الاستلام إذا لم ينل رضاك. ورغم الفحص الدقيق قد تحدث أخطاء أحياناً؛ ونحن دائماً نطمح ونبادر لحل يرضي جميع الأطراف بإنصاف."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "كيف يمكنني إتمام الطلب؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "بكل سهولة، اضغط على أي كارت منتج للاطلاع على الصور والتفاصيل، ثم اضغط على زر شراء الآن عبر واتساب، وسيتواصل معك فريق خدمة العملاء فوراً لتأكيد العنوان والشحن."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "هل تتوفر منتجات جديدة ومستعملة؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "نعم، نوضح حالة كل قطعة بدقة عبر شارات ملونة (جديد / مستخدم) مع ذكر نسبة النظافة وفترة الاستخدام بكل أمانة وشفافية."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
 
     <!-- Inline Theme Script (Prevents flash) -->
     <script>
@@ -57,8 +209,8 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">
-                <img src="logo.svg" alt="فوكس لوغو" class="nav-logo">
+            <a href="index.html" class="logo" aria-label="الصفحة الرئيسية لمتجر فوكس">
+                <img src="logo.svg" alt="شعار متجر فوكس الرسمي" class="nav-logo" width="36" height="36">
                 فوكس<span>.</span>
             </a>
 
@@ -232,7 +384,7 @@
             </div>
             <div class="about-image">
                 <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80"
-                    alt="عن متجر فوكس" loading="lazy">
+                    alt="فريق متجر فوكس لخدمة العملاء في العراق" loading="lazy" decoding="async" width="600" height="400">
             </div>
         </div>
     </section>
@@ -356,7 +508,7 @@
         <div class="container">
             <div class="push-notify-card">
                 <div class="push-notify-bell-icon" id="push-bell-icon">🔔</div>
-                <h3 id="push-title">اشترك في إشعارات العروض الفورية</h3>
+                <h2 class="section-title" id="push-title" style="margin-bottom: 0.75rem;">اشترك في إشعارات العروض الفورية</h2>
                 <p id="push-desc">فعّل إشعارات المتصفح لتصلك أحدث العروض والخصومات الحصرية والمنتجات الجديدة فور توفرها مباشرة على جهازك.</p>
                 <div class="push-actions" id="push-actions">
                     <button type="button" id="btn-enable-push" class="btn btn-primary push-subscribe-btn">

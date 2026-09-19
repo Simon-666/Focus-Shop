@@ -4,15 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المدونة | متجر فوكس</title>
+    <title id="page-title">مدونة فوكس | مقالات ونوادر التصوير والتكنولوجيا في العراق</title>
+
+    <!-- HTTPS Enforcement & Security -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script>
+        if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            location.replace('https://' + location.hostname + location.pathname + location.search + location.hash);
+        }
+    </script>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" id="canonical-tag" href="https://simon-666.github.io/Focus-Shop/blog.html">
+
+    <!-- Robots Directives -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
     <!-- SEO & Open Graph Meta Tags -->
-    <meta name="description" id="meta-desc" content="اكتشف أحدث المقالات والنصائح حول التصوير، التخييم، والمزيد في مدونة متجر فوكس.">
-    <meta property="og:title" id="og-title" content="المدونة | متجر فوكس">
-    <meta property="og:description" id="og-desc" content="اكتشف أحدث المقالات والنصائح حول التصوير، التخييم، والمزيد في مدونة متجر فوكس.">
-    <meta property="og:type" content="website">
+    <meta name="description" id="meta-desc" content="مدونة متجر فوكس - دليلك الشامل لشراء الكاميرات، إكسسوارات الكمبيوتر، نصائح التصوير الاحترافي، وأفضل العروض في العراق.">
+    <meta name="keywords" content="مدونة فوكس, كاميرات العراق, نصائح تصوير, بضاعة أمازون بغداد, عدسات كانون وسوني">
+    
+    <meta property="og:type" id="og-type" content="website">
+    <meta property="og:locale" content="ar_IQ">
+    <meta property="og:site_name" content="متجر فوكس | Focus Shop">
+    <meta property="og:title" id="og-title" content="مدونة فوكس | مقالات ونصائح التصوير والتكنولوجيا في العراق">
+    <meta property="og:description" id="og-desc" content="دليلك الشامل لشراء الكاميرات، إكسسوارات الكمبيوتر، نصائح التصوير الاحترافي، وأفضل العروض في العراق.">
     <meta property="og:url" id="og-url" content="https://simon-666.github.io/Focus-Shop/blog.html">
     <meta property="og:image" id="og-image" content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="800">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="tw-title" content="مدونة فوكس | مقالات ونوادر التصوير والتكنولوجيا في العراق">
+    <meta name="twitter:description" id="tw-desc" content="دليلك الشامل لشراء الكاميرات، إكسسوارات الكمبيوتر، نصائح التصوير الاحترافي، وأفضل العروض في العراق.">
+    <meta name="twitter:image" id="tw-image" content="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80">
+
+    <!-- Dynamic Schema Placeholder -->
+    <script type="application/ld+json" id="blog-schema">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "مدونة متجر فوكس",
+      "url": "https://simon-666.github.io/Focus-Shop/blog.html",
+      "description": "مقالات متخصصة في التصوير والإلكترونيات وبضاعة أمازون في العراق"
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -128,8 +166,8 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="logo">
-                <img src="logo.svg" alt="فوكس لوغو" class="nav-logo">
+            <a href="index.html" class="logo" aria-label="الصفحة الرئيسية لمتجر فوكس">
+                <img src="logo.svg" alt="شعار متجر فوكس الرسمي" class="nav-logo" width="36" height="36">
                 فوكس<span>.</span>
             </a>
 
@@ -187,7 +225,12 @@
         <!-- Blog Listing Section -->
         <section id="blog-listing" class="section">
             <div class="container">
-                <h1 class="section-title">المدونة</h1>
+                <div id="blog-listing-header">
+                    <h1 class="section-title" id="blog-h1">مدونة متجر فوكس</h1>
+                    <p style="text-align: center; color: var(--text-muted); margin-bottom: 2.5rem; font-size: 1.05rem;">
+                        دليلك الشامل ومقالات متخصصة في التصوير الاحترافي، إكسسوارات الكمبيوتر، وبضاعة أمازون الأصلية في العراق
+                    </p>
+                </div>
                 <div id="blog-grid" class="blog-grid">
                     <!-- Dynamically populated by JS -->
                 </div>
@@ -198,7 +241,14 @@
         <section id="single-post" class="section hidden">
             <div class="container">
                 <div class="post-container">
-                    <a href="blog.html" class="back-link">&rarr; العودة للمدونة</a>
+                    <nav class="post-breadcrumb" aria-label="مسار التنقل" style="margin-bottom: 1.5rem; font-size: 0.92rem; display: flex; align-items: center; gap: 8px; color: var(--text-muted); flex-wrap: wrap;">
+                        <a href="index.html" style="color: var(--primary-color); text-decoration: none;">🏠 الرئيسية</a>
+                        <span>/</span>
+                        <a href="blog.html" style="color: var(--primary-color); text-decoration: none;">المدونة</a>
+                        <span>/</span>
+                        <span id="breadcrumb-title" style="color: var(--text-main); font-weight: 500;">المقال</span>
+                    </nav>
+                    <a href="blog.html" class="back-link">&rarr; العودة لكافة المقالات</a>
                     <div id="post-content-area">
                         <!-- Dynamically populated by JS -->
                     </div>
@@ -309,71 +359,157 @@
             const listingSection = document.getElementById('blog-listing');
             const postSection = document.getElementById('single-post');
             
-            // Find post if id or slug is present
+            // Find post if id or slug is present (with alias support)
             let currentPost = null;
-            if (slug && typeof blogs !== 'undefined') {
-                currentPost = blogs.find(b => b.slug === slug);
-            } else if (id && typeof blogs !== 'undefined') {
-                currentPost = blogs.find(b => b.id == id);
+            if (typeof blogs !== 'undefined') {
+                if (slug) {
+                    currentPost = blogs.find(b => b.slug === slug || (b.aliases && b.aliases.includes(slug)));
+                } else if (id) {
+                    currentPost = blogs.find(b => b.id == id);
+                }
             }
 
+            const canonicalEl = document.getElementById('canonical-tag');
+            const schemaEl = document.getElementById('blog-schema');
+
             if (currentPost) {
-                // Show Single Post
+                // Show Single Post & Hide Listing
                 listingSection.classList.add('hidden');
+                listingSection.style.display = 'none';
+                const listingHeader = document.getElementById('blog-listing-header');
+                if (listingHeader) listingHeader.innerHTML = ''; // Ensure strictly ONE H1 on the page!
+
                 postSection.classList.remove('hidden');
+                postSection.style.display = 'block';
 
-                // Update SEO Meta Tags
-                if (currentPost.seoTitle) {
-                    document.title = currentPost.seoTitle;
-                    document.getElementById('og-title').setAttribute('content', currentPost.seoTitle);
-                } else {
-                    document.title = currentPost.title + ' | متجر فوكس';
-                    document.getElementById('og-title').setAttribute('content', currentPost.title + ' | متجر فوكس');
-                }
+                const postTitle = currentPost.seoTitle || (currentPost.title + ' | متجر فوكس');
+                const postDesc = currentPost.seoDesc || currentPost.excerpt;
+                const postUrl = `https://simon-666.github.io/Focus-Shop/blog.html?slug=${currentPost.slug}`;
 
-                if (currentPost.seoDesc) {
-                    document.getElementById('meta-desc').setAttribute('content', currentPost.seoDesc);
-                    document.getElementById('og-desc').setAttribute('content', currentPost.seoDesc);
-                } else {
-                    document.getElementById('meta-desc').setAttribute('content', currentPost.excerpt);
-                    document.getElementById('og-desc').setAttribute('content', currentPost.excerpt);
-                }
+                // Update Document Title & Canonical
+                document.title = postTitle;
+                if (canonicalEl) canonicalEl.setAttribute('href', postUrl);
 
-                document.getElementById('og-image').setAttribute('content', currentPost.image);
-                document.getElementById('og-url').setAttribute('content', window.location.href);
+                // Update Breadcrumb Text
+                const breadcrumbTitle = document.getElementById('breadcrumb-title');
+                if (breadcrumbTitle) breadcrumbTitle.textContent = currentPost.title;
+
+                // Update Open Graph Meta
+                const setMeta = (id, val) => {
+                    const el = document.getElementById(id);
+                    if (el) el.setAttribute('content', val);
+                };
+                setMeta('og-title', postTitle);
+                setMeta('og-desc', postDesc);
+                setMeta('og-url', postUrl);
+                setMeta('og-image', currentPost.image);
+                setMeta('og-type', 'article');
+                setMeta('meta-desc', postDesc);
+                setMeta('tw-title', postTitle);
+                setMeta('tw-desc', postDesc);
+                setMeta('tw-image', currentPost.image);
+
+                // Ensure no nested H1 exists in post content
+                const cleanContent = currentPost.content.replace(/<h1(\s+[^>]*)?>/gi, '<h2$1>').replace(/<\/h1>/gi, '</h2>');
 
                 // Render Post Content
                 const postArea = document.getElementById('post-content-area');
                 postArea.innerHTML = `
-                    <div class="post-header">
-                        <span class="post-category">${currentPost.category}</span>
-                        <h1 class="post-title">${currentPost.title}</h1>
-                        <div class="post-meta">
-                            <span>✍️ بواسطة ${currentPost.author}</span>
-                            <span>📅 نُشر في: ${currentPost.date}</span>
-                            <span class="last-updated-badge">🕒 آخر تحديث: ${currentPost.lastUpdated || currentPost.date}</span>
+                    <article class="post-article">
+                        <header class="post-header">
+                            <span class="post-category">${currentPost.category}</span>
+                            <h1 class="post-title">${currentPost.title}</h1>
+                            <div class="post-meta">
+                                <span>✍️ بواسطة ${currentPost.author}</span>
+                                <span>📅 نُشر في: ${currentPost.date}</span>
+                                <span class="last-updated-badge">🕒 آخر تحديث: ${currentPost.lastUpdated || currentPost.date}</span>
+                            </div>
+                        </header>
+                        <img src="${currentPost.image}" alt="${currentPost.title} - متجر فوكس" class="post-image" width="800" height="400" loading="eager" fetchpriority="high" decoding="async">
+                        <div class="post-content">
+                            ${cleanContent}
                         </div>
-                    </div>
-                    <img src="${currentPost.image}" alt="${currentPost.title}" class="post-image">
-                    <div class="post-content">
-                        ${currentPost.content}
-                    </div>
+                    </article>
                 `;
+
+                // Update JSON-LD Schema for BlogPosting & BreadcrumbList
+                if (schemaEl) {
+                    schemaEl.textContent = JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                                "@type": "BlogPosting",
+                                "@id": `${postUrl}#article`,
+                                "isPartOf": {
+                                    "@type": "WebPage",
+                                    "@id": postUrl
+                                },
+                                "headline": currentPost.title,
+                                "description": postDesc,
+                                "image": [currentPost.image],
+                                "datePublished": "2026-04-19T10:00:00+03:00",
+                                "dateModified": "2026-09-18T12:00:00+03:00",
+                                "mainEntityOfPage": postUrl,
+                                "author": {
+                                    "@type": "Organization",
+                                    "name": currentPost.author || "فريق متجر فوكس",
+                                    "url": "https://simon-666.github.io/Focus-Shop/"
+                                },
+                                "publisher": {
+                                    "@type": "Organization",
+                                    "name": "متجر فوكس | Focus Shop",
+                                    "logo": {
+                                        "@type": "ImageObject",
+                                        "url": "https://simon-666.github.io/Focus-Shop/logo.svg"
+                                    }
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
+                                "@id": `${postUrl}#breadcrumb`,
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "الرئيسية",
+                                        "item": "https://simon-666.github.io/Focus-Shop/"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "المدونة",
+                                        "item": "https://simon-666.github.io/Focus-Shop/blog.html"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 3,
+                                        "name": currentPost.title,
+                                        "item": postUrl
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                }
             } else {
                 // Show Blog Listing
                 listingSection.classList.remove('hidden');
+                listingSection.style.display = 'block';
                 postSection.classList.add('hidden');
+                postSection.style.display = 'none';
+
+                if (canonicalEl) canonicalEl.setAttribute('href', 'https://simon-666.github.io/Focus-Shop/blog.html');
 
                 const blogGrid = document.getElementById('blog-grid');
                 if (typeof blogs !== 'undefined' && blogs.length > 0) {
                     blogGrid.innerHTML = blogs.map(b => `
                         <article class="blog-card">
-                            <a href="blog.html?slug=${b.slug}" class="blog-image">
-                                <img src="${b.image}" alt="${b.title}" loading="lazy">
+                            <a href="blog.html?slug=${b.slug}" class="blog-image" aria-label="${b.title}">
+                                <img src="${b.image}" alt="${b.title} - مدونة فوكس العراق" loading="lazy" decoding="async" width="400" height="240">
                             </a>
                             <div class="blog-content">
                                 <div class="blog-category">${b.category}</div>
-                                <h3 class="blog-title"><a href="blog.html?slug=${b.slug}">${b.title}</a></h3>
+                                <h2 class="blog-title" style="font-size: 1.25rem;"><a href="blog.html?slug=${b.slug}">${b.title}</a></h2>
                                 <div class="blog-excerpt">${b.excerpt}</div>
                                 <div class="blog-meta" style="flex-wrap: wrap; gap: 8px; align-items: center;">
                                     <span>📅 ${b.date}</span>
@@ -384,6 +520,17 @@
                     `).join('');
                 } else {
                     blogGrid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">لا توجد مقالات حالياً.</p>';
+                }
+
+                // Listing Schema
+                if (schemaEl) {
+                    schemaEl.textContent = JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "CollectionPage",
+                        "name": "مدونة متجر فوكس",
+                        "url": "https://simon-666.github.io/Focus-Shop/blog.html",
+                        "description": "مقالات متخصصة في التصوير والإلكترونيات وبضاعة أمازون في العراق"
+                    });
                 }
             }
 
