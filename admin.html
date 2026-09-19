@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="shortcut icon" href="logo.svg">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f3f4f6;
+            --card: #ffffff;
+            --text: #1f2937;
+            --border: #d1d5db;
+            --input-bg: #ffffff;
+            --item-border: #e5e7eb;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #3b82f6;
+                --bg: #111827;
+                --card: #1f2937;
+                --text: #f9fafb;
+                --border: #4b5563;
+                --input-bg: #374151;
+                --item-border: #374151;
+            }
+        }
+
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .admin-nav a {
+            padding: 10px 20px;
+            background: var(--card);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: bold;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+        }
+
+        .admin-nav a.active {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: inherit;
+            background-color: var(--input-bg);
+            color: var(--text);
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-add {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-export {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-copy {
+            background: #6b7280;
+            color: white;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            border-bottom: 1px solid var(--item-border);
+            cursor: grab;
+            transition: background 0.2s;
+        }
+
+        .product-item:active {
+            cursor: grabbing;
+        }
+
+        .product-item.dragging {
+            opacity: 0.5;
+            background: var(--bg);
+        }
+
+        .product-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        .product-info {
+            flex-grow: 1;
+            pointer-events: none;
+        }
+
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-edit {
+            background: #f59e0b;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        #output-container {
+            margin-top: 30px;
+            display: none;
+        }
+
+        #json-output {
+            width: 100%;
+            height: 300px;
+            direction: ltr;
+            font-family: monospace;
+            background: #1f2937;
+            color: #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .copy-success {
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 10px;
+            display: none;
+        }
+
+        /* Custom Confirmation Modal */
+        .admin-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .admin-modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .admin-modal-box {
+            background: var(--card);
+            border-radius: 16px;
+            max-width: 440px;
+            width: 100%;
+            padding: 28px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--border);
+            transform: scale(0.92);
+            transition: transform 0.25s ease;
+        }
+
+        .admin-modal-overlay.active .admin-modal-box {
+            transform: scale(1);
+        }
+
+        .admin-modal-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 1.8rem;
+        }
+
+        .admin-modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .admin-modal-actions button {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>مدير محتوى متجر فوكس</h1>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn-copy" onclick="openPushModal()" style="background: #f59e0b; display: inline-flex; align-items: center; gap: 6px;">📢 إرسال إشعار فوري (Push)</button>
+                <a href="products_template.xlsx" download class="btn-copy" style="background: #10b981; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">📊 قالب Google Sheets / Excel</a>
+                <button class="btn-copy" onclick="importData()" style="background: #6366f1;">استيراد (Import)</button>
+                <button class="btn-export" onclick="exportData()">تصدير (Export)</button>
+            </div>
+        </header>
+
+        <div class="admin-nav">`n            <a href="index.html" style="background: rgba(37,99,235,0.1); border: 1.5px solid #2563eb; color: #2563eb;">العودة للمتجر 🛍️</a>
+            <a href="admin.html" class="active">المنتجات</a>
+            <a href="admin-blog.html">المدونة</a>
+            <a href="javascript:void(0)" onclick="openPushGuideModal()" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(239, 68, 68, 0.15)); border: 1.5px solid #f59e0b; color: #d97706; display: inline-flex; align-items: center; gap: 6px;">
+                🔔 دليل إرسال الإشعارات (Push Guide)
+            </a>
+        </div>
+
+        <div class="grid">
+            <!-- Form Section -->
+            <div class="card">
+                <h2 id="form-title">إضافة منتج جديد</h2>
+                <form id="product-form">
+                    <input type="hidden" id="edit-id">
+                    <div class="form-group">
+                        <label>اسم المنتج</label>
+                        <input type="text" id="p-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>السعر</label>
+                        <input type="text" id="p-price" placeholder="مثال: 45000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>السعر الأصلي (اختياري)</label>
+                        <input type="text" id="p-original-price" placeholder="مثال: 50000">
+                    </div>
+                    <div class="form-group">
+                        <label>القسم</label>
+                        <select id="p-category"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>رابط الصورة (Imgur/Cloudinary)</label>
+                        <input type="url" id="p-image" required>
+                    </div>
+                    <div class="form-group">
+                        <label>رابط الشراء الخارجي</label>
+                        <input type="url" id="p-url" required>
+                    </div>
+                    <div class="form-group">
+                        <label>حالة المنتج</label>
+                        <select id="p-condition">
+                            <option value="new">جديد (New)</option>
+                            <option value="used">مستخدم (Used)</option>
+                        </select>
+                    </div>
+                    <div style="background: rgba(37, 99, 235, 0.04); border: 1px solid rgba(37, 99, 235, 0.18); border-radius: 8px; padding: 14px; margin-bottom: 15px;">
+                        <h4 style="margin-bottom: 10px; font-size: 0.95rem; color: #2563eb;">📦 إدارة المخزون والكمية</h4>
+                        <div style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+                            <div class="form-group" style="flex: 1; min-width: 130px; margin-bottom: 0;">
+                                <label for="p-quantity">الكمية المتوفرة</label>
+                                <input type="number" id="p-quantity" min="0" value="1" placeholder="مثال: 5" required>
+                            </div>
+                            <div class="form-group" style="flex: 1; min-width: 160px; margin-bottom: 0; padding-bottom: 8px;">
+                                <label style="cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: bold; margin-bottom: 0;">
+                                    <input type="checkbox" id="p-sold-out" style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span>تم البيع / نفدت الكمية</span>
+                                </label>
+                            </div>
+                        </div>
+                        <small style="color: #6b7280; display: block; margin-top: 6px; font-size: 0.78rem; line-height: 1.4;">
+                            💡 عند وضع الكمية 0 أو تحديد "تم البيع"، تظهر شارة "نفدت الكمية" ويتحول زر الشراء إلى طلب توفير عبر واتساب.
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label>وصف مختصر</label>
+                        <textarea id="p-desc" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>ترتيب العرض (رقم 1 هو الأول - رقم أكبر يظهر آخراً)</label>
+                        <input type="number" id="p-sort-order" placeholder="مثال: 1" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="p-featured" style="width: auto;"> منتج مميز (يظهر في الأعلى)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="p-demo" style="width: auto;"> منتج تجريبي (للعرض فقط)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="p-no-crop" style="width: auto;"> تجنب قص الصورة (إظهار كامل الصورة)
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-add" id="submit-btn">إضافة للقائمة</button>
+                    <button type="button" id="cancel-btn" style="display:none; margin-top:10px; width:100%;"
+                        onclick="resetForm()">إلغاء التعديل</button>
+                </form>
+            </div>
+
+            <!-- List Section -->
+            <div class="card">
+                <h2>المنتجات الحالية (<span id="count">0</span>)</h2>
+                <div id="product-list"></div>
+            </div>
+        </div>
+
+        <!-- Export Section -->
+        <div id="output-container" class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>انسخ هذا الكود وضعه في ملف products.js</h2>
+                <div>
+                    <span id="copy-msg" class="copy-success">تم النسخ!</span>
+                    <button class="btn-copy" onclick="copyToClipboard()">نسخ الكود</button>
+                </div>
+            </div>
+            <textarea id="json-output" readonly></textarea>
+        </div>
+        <!-- Push Notification Broadcast Modal -->
+        <div id="push-modal" class="admin-modal-overlay">
+            <div class="admin-modal-box" style="max-width: 520px;">
+                <div style="font-size: 2.5rem; margin-bottom: 8px;">📢</div>
+                <h3 style="margin-bottom: 6px; font-size: 1.3rem;">إرسال إشعار فوري لجميع الزوار (Push Notification)</h3>
+                <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 20px;">
+                    سيظهر هذا الإشعار على أجهزة الزوار والمشتركين الذين فتحوا الموقع وسمحوا بالإشعارات.
+                </p>
+
+                <div style="text-align: right; margin-bottom: 12px;">
+                    <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">عنوان الإشعار</label>
+                    <input type="text" id="push-broadcast-title" placeholder="مثال: خصم 50% على كاميرات التصوير الاحترافية! 🔥" style="width:100%; box-sizing:border-box;">
+                </div>
+
+                <div style="text-align: right; margin-bottom: 12px;">
+                    <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">نص الإشعار</label>
+                    <textarea id="push-broadcast-body" rows="3" placeholder="اكتب تفاصيل العرض هنا... الكمية محدودة قطعة واحدة فقط!" style="width:100%; box-sizing:border-box;"></textarea>
+                </div>
+
+                <div style="text-align: right; margin-bottom: 15px;">
+                    <label style="display:block; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">الرابط عند الضغط على الإشعار</label>
+                    <input type="text" id="push-broadcast-url" value="index.html#featured" placeholder="index.html#products" style="width:100%; box-sizing:border-box; direction:ltr; text-align:left;">
+                </div>
+
+                <div style="display:flex; gap:10px; justify-content:flex-end;">
+                    <button type="button" class="btn-cancel" onclick="closePushModal()">إلغاء</button>
+                    <button type="button" class="btn-confirm" id="btn-do-push" onclick="sendBroadcastPush()" style="background:#f59e0b; color:white;">إرسال الإشعار الآن 🚀</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Push Notifications Complete Guide Modal -->
+        <div id="push-guide-modal" class="admin-modal-overlay">
+            <div class="admin-modal-box" style="max-width: 620px; max-height: 85vh; overflow-y: auto; text-align: right;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+                    <h3 style="margin: 0; font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">
+                        <span>📢</span> دليل إرسال الإشعارات لجميع الزوار (Push Notifications Guide)
+                    </h3>
+                    <button type="button" onclick="closePushGuideModal()" style="background:none; border:none; font-size:1.4rem; cursor:pointer; color:var(--text); padding:0 5px;">&times;</button>
+                </div>
+
+                <div style="line-height: 1.7; font-size: 0.95rem; color: var(--text);">
+                    <div style="background: rgba(37, 99, 235, 0.08); border-right: 4px solid #2563eb; padding: 12px 16px; border-radius: 6px; margin-bottom: 18px;">
+                        <strong>💡 كيف تصل الإشعارات للزوار؟</strong>
+                        <p style="margin: 6px 0 0; font-size: 0.88rem; color: #4b5563;">
+                            عندما يتصفح الزبون موقعك لأكثر من 5 دقائق (أو يضغط على جرس التنبيه في المتجر)، تظهر له نافذة دعوة للاشتراك. وعندما يسمح بها، يصبح جهازه مسجلاً لاستقبال إشعارات العروض الفورية حتى لو كان يتصفح علامة تبويب أخرى!
+                        </p>
+                    </div>
+
+                    <h4 style="color: #2563eb; margin-bottom: 8px;">🚀 خطوات إرسال إشعار فوري لجميع الناس:</h4>
+                    <ol style="margin-right: 20px; margin-bottom: 20px; padding: 0;">
+                        <li style="margin-bottom: 10px;">
+                            <strong>افتح نافذة الإرسال:</strong> انقر على الزر البرتقالي في أعلى هذه الصفحة <span style="background: #f59e0b; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold;">📢 إرسال إشعار فوري (Push)</span>.
+                        </li>
+                        <li style="margin-bottom: 10px;">
+                            <strong>اكتب عنواناً جذاباً ومختصراً:</strong> مثل <em>«تخفيضات 40% على كاميرات سوني! 🔥»</em> أو <em>«وصلت وجبة جديدة من أحذية نايكي الأصلية! 👟»</em>.
+                        </li>
+                        <li style="margin-bottom: 10px;">
+                            <strong>اكتب نص الرسالة:</strong> وضح تفاصيل العرض باختصار مثلاً: <em>«الكمية متبقي منها قطعة واحدة فقط. اطلب الآن قبل نفاد المخزون!»</em>.
+                        </li>
+                        <li style="margin-bottom: 10px;">
+                            <strong>حدد الرابط المستهدف:</strong> الرابط الذي يفتح للزبون عند نقره على الإشعار (مثال: <code>index.html#featured</code> أو صفحة منتج محدد).
+                        </li>
+                        <li style="margin-bottom: 10px;">
+                            <strong>اضغط على "إرسال الإشعار الآن 🚀":</strong> سيتم بث الإشعار فوراً ليظهر في زاوية شاشة الكمبيوتر أو في شريط إشعارات الهاتف لجميع الزوار المشتركين.
+                        </li>
+                    </ol>
+
+                    <h4 style="color: #10b981; margin-bottom: 8px;">✨ نصائح مهمة لزيادة التفاعل والمبيعات:</h4>
+                    <ul style="margin-right: 20px; margin-bottom: 20px; padding: 0;">
+                        <li style="margin-bottom: 8px;">استخدم الرموز التعبيرية (Emoji) مثل 🔥 ⚡ 🎁 لجذب انتباه الزبون.</li>
+                        <li style="margin-bottom: 8px;">أشر دائماً إلى أن <strong>«الكمية محدودة - متبقي قطعة واحدة فقط»</strong> لخلق إحساس بالإلحاح وسرعة الشراء.</li>
+                        <li style="margin-bottom: 8px;">تجنب إزعاج المشتركين بإرسال إشعارات كثيرة في نفس اليوم (يكفي إشعار إلى إشعارين أسبوعياً مع كل وجبة جديدة).</li>
+                    </ul>
+
+                    <div style="background: rgba(16, 185, 129, 0.08); border: 1px dashed #10b981; padding: 14px; border-radius: 10px; text-align: center;">
+                        <p style="margin: 0 0 10px; font-weight: bold; color: #047857;">جاهز لإرسال إشعار الآن؟</p>
+                        <button type="button" onclick="closePushGuideModal(); openPushModal();" style="background:#f59e0b; color:white; padding:10px 24px; border-radius:8px; border:none; cursor:pointer; font-weight:bold; font-size:0.95rem;">
+                            📢 فتح نافذة إرسال الإشعار الآن
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Admin Auth & GitHub Sync Engine -->
+    <script src="admin-auth.js"></script>
+
+    <!-- Load existing data -->
+    <script src="products.js"></script>
+
+    <script>
+        // Persistence Logic: Load from LocalStorage or use default from JS file
+        const STORAGE_KEY = 'foucs_shop_products_data';
+        const CAT_STORAGE_KEY = 'foucs_shop_categories_data';
+        
+        let localProducts = [];
+        let localCategories = [];
+
+        function loadInitialData() {
+            const savedProducts = localStorage.getItem(STORAGE_KEY);
+            const savedCats = localStorage.getItem(CAT_STORAGE_KEY);
+            
+            if (savedProducts) {
+                localProducts = JSON.parse(savedProducts);
+            } else {
+                localProducts = [...products];
+            }
+
+            // Ensure all products have valid quantity and isSoldOut properties
+            localProducts.forEach(p => {
+                if (p.quantity === undefined) {
+                    p.quantity = p.isSoldOut ? 0 : 1;
+                } else {
+                    p.quantity = Number(p.quantity);
+                }
+                if (p.isSoldOut === undefined) {
+                    p.isSoldOut = p.quantity <= 0;
+                }
+            });
+            
+            if (savedCats) {
+                localCategories = JSON.parse(savedCats);
+            } else {
+                localCategories = [...categories];
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(localProducts));
+            localStorage.setItem(CAT_STORAGE_KEY, JSON.stringify(localCategories));
+        }
+
+        loadInitialData();
+        
+        const categorySelect = document.getElementById('p-category');
+        const productList = document.getElementById('product-list');
+        const productForm = document.getElementById('product-form');
+        const countSpan = document.getElementById('count');
+
+        // Form Interlock: quantity vs sold-out checkbox
+        const pQtyInput = document.getElementById('p-quantity');
+        const pSoldOutCheckbox = document.getElementById('p-sold-out');
+
+        if (pSoldOutCheckbox && pQtyInput) {
+            pSoldOutCheckbox.addEventListener('change', () => {
+                if (pSoldOutCheckbox.checked) {
+                    pQtyInput.value = 0;
+                } else if (Number(pQtyInput.value) <= 0) {
+                    pQtyInput.value = 1;
+                }
+            });
+
+            pQtyInput.addEventListener('input', () => {
+                const val = Number(pQtyInput.value);
+                if (val <= 0) {
+                    pSoldOutCheckbox.checked = true;
+                } else {
+                    pSoldOutCheckbox.checked = false;
+                }
+            });
+        }
+
+        // Initialize Categories
+        function initCategories() {
+            categorySelect.innerHTML = localCategories
+                .filter(c => c.id !== 'all')
+                .map(c => `<option value="${c.id}">${c.name}</option>`)
+                .join('');
+        }
+
+        // Fast Quick-Action Helpers for Stock Management
+        window.adjustQuantity = function(id, delta) {
+            const p = localProducts.find(x => x.id == id);
+            if (!p) return;
+            let curr = p.quantity !== undefined ? Number(p.quantity) : 1;
+            let next = Math.max(0, curr + delta);
+            p.quantity = next;
+            p.isSoldOut = (next <= 0);
+            saveData();
+            renderList();
+        };
+
+        window.toggleSoldOut = function(id) {
+            const p = localProducts.find(x => x.id == id);
+            if (!p) return;
+            const currentlySold = p.isSoldOut === true || (p.quantity !== undefined && Number(p.quantity) <= 0);
+            if (currentlySold) {
+                p.isSoldOut = false;
+                p.quantity = (p.quantity && Number(p.quantity) > 0) ? Number(p.quantity) : 1;
+            } else {
+                p.isSoldOut = true;
+                p.quantity = 0;
+            }
+            saveData();
+            renderList();
+        };
+
+        // Render List
+        function renderList() {
+            countSpan.textContent = localProducts.length;
+            
+            // Sort by sortOrder (asc) then by id (desc - newest first)
+            localProducts.sort((a, b) => {
+                const orderA = a.sortOrder || 1;
+                const orderB = b.sortOrder || 1;
+                if (orderA !== orderB) return orderA - orderB;
+                return b.id - a.id;
+            });
+
+            productList.innerHTML = localProducts.map((p, index) => {
+                const qty = p.quantity !== undefined ? Number(p.quantity) : 1;
+                const isSoldOut = p.isSoldOut === true || qty <= 0;
+
+                return `
+                <div class="product-item" draggable="true" data-index="${index}" data-id="${p.id}" style="${isSoldOut ? 'border-right: 4px solid #ef4444; opacity: 0.9;' : 'border-right: 4px solid #10b981;'}">
+                    <img src="${p.image}" alt="" style="${isSoldOut ? 'filter: grayscale(80%);' : ''}">
+                    <div class="product-info" style="flex: 1;">
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <strong>${p.title}</strong>
+                            ${p.isDemo ? '<span style="color: #6b7280; font-size: 0.7rem;">(تجريبي)</span>' : ''}
+                        </div>
+                        <small>${p.price} ${p.currency || 'د.ع'} ${p.originalPrice ? `(كان: ${p.originalPrice})` : ''} | <strong>الترتيب: ${p.sortOrder || 1}</strong></small>
+                        
+                        <div style="margin-top: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            ${isSoldOut
+                                ? `<span style="background:#fee2e2; color:#b91c1c; padding:3px 8px; border-radius:6px; font-size:0.75rem; font-weight:bold; display:inline-flex; align-items:center; gap:4px;">🔴 نفدت الكمية (0)</span>`
+                                : `<span style="background:#dcfce7; color:#15803d; padding:3px 8px; border-radius:6px; font-size:0.75rem; font-weight:bold; display:inline-flex; align-items:center; gap:4px;">🟢 متوفر (${qty} قطع)</span>`
+                            }
+
+                            <!-- Quick Stock Counter Controls -->
+                            <div style="display:inline-flex; align-items:center; gap:2px; background:#f3f4f6; border-radius:6px; padding:2px 5px; border:1px solid #e5e7eb;">
+                                <button type="button" onclick="adjustQuantity(${p.id}, -1)" title="تقليل الكمية بواحد" style="border:none; background:#e5e7eb; border-radius:4px; width:22px; height:22px; cursor:pointer; font-weight:bold; font-size:0.9rem; line-height:1; display:flex; align-items:center; justify-content:center;">−</button>
+                                <span style="font-size:0.82rem; font-weight:bold; min-width:24px; text-align:center;">${qty}</span>
+                                <button type="button" onclick="adjustQuantity(${p.id}, 1)" title="زيادة الكمية بواحد" style="border:none; background:#e5e7eb; border-radius:4px; width:22px; height:22px; cursor:pointer; font-weight:bold; font-size:0.9rem; line-height:1; display:flex; align-items:center; justify-content:center;">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="actions" style="display: flex; flex-direction: column; gap: 6px; min-width: 110px;">
+                        <button type="button" onclick="toggleSoldOut(${p.id})" style="background:${isSoldOut ? '#10b981' : '#f59e0b'}; color:white; padding:5px 8px; border:none; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:bold; width:100%;">
+                            ${isSoldOut ? '🔄 إعادة توفير (1)' : '🛑 تحديد كمباع'}
+                        </button>
+                        <div style="display: flex; gap: 4px; width: 100%;">
+                            <button class="btn-edit" onclick="editProduct(${p.id})" style="flex:1;">تعديل</button>
+                            <button class="btn-delete" onclick="deleteProduct(${p.id})" style="flex:1;">حذف</button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            setupDragAndDrop();
+        }
+
+        function setupDragAndDrop() {
+            const items = productList.querySelectorAll('.product-item');
+            items.forEach(item => {
+                item.addEventListener('dragstart', () => {
+                    setTimeout(() => item.classList.add('dragging'), 0);
+                });
+
+                item.addEventListener('dragend', () => {
+                    item.classList.remove('dragging');
+                    // Update all sort orders based on new visual position
+                    const currentItems = Array.from(productList.querySelectorAll('.product-item'));
+                    const newProducts = [];
+                    currentItems.forEach((el, index) => {
+                        const id = el.dataset.id;
+                        const product = localProducts.find(p => p.id == id);
+                        if (product) {
+                            product.sortOrder = index + 1;
+                            newProducts.push(product);
+                        }
+                    });
+                    localProducts = newProducts;
+                    saveData();
+                    renderList();
+                });
+
+
+                item.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    const draggingItem = productList.querySelector('.dragging');
+                    const siblings = Array.from(productList.querySelectorAll('.product-item:not(.dragging)'));
+                    const nextSibling = siblings.find(sibling => {
+                        return e.clientY <= sibling.offsetTop + sibling.offsetHeight / 2;
+                    });
+                    productList.insertBefore(draggingItem, nextSibling);
+                });
+            });
+        }
+
+        // Handle Form Submit
+        productForm.onsubmit = (e) => {
+            e.preventDefault();
+            const id = document.getElementById('edit-id').value;
+            const qVal = parseInt(document.getElementById('p-quantity').value, 10);
+            const isSoldChecked = document.getElementById('p-sold-out').checked;
+            const finalQty = isNaN(qVal) ? (isSoldChecked ? 0 : 1) : Math.max(0, qVal);
+            const finalIsSold = isSoldChecked || finalQty <= 0;
+
+            const newProduct = {
+                id: id ? parseInt(id) : Date.now(),
+                title: document.getElementById('p-title').value,
+                price: document.getElementById('p-price').value,
+                originalPrice: document.getElementById('p-original-price').value || undefined,
+                currency: "د.ع",
+                category: document.getElementById('p-category').value,
+                quantity: finalQty,
+                isSoldOut: finalIsSold,
+                image: document.getElementById('p-image').value,
+                description: document.getElementById('p-desc').value,
+                url: document.getElementById('p-url').value,
+                condition: document.getElementById('p-condition').value,
+                featured: document.getElementById('p-featured').checked,
+                isDemo: document.getElementById('p-demo').checked,
+                noCrop: document.getElementById('p-no-crop').checked,
+                sortOrder: parseInt(document.getElementById('p-sort-order').value) || 1
+            };
+
+            if (id) {
+                const index = localProducts.findIndex(p => p.id == id);
+                localProducts[index] = newProduct;
+            } else {
+                localProducts.push(newProduct);
+            }
+
+            resetForm();
+            saveData();
+            renderList();
+        };
+
+
+        function editProduct(id) {
+            const p = localProducts.find(p => p.id == id);
+            document.getElementById('edit-id').value = p.id;
+            document.getElementById('p-title').value = p.title;
+            document.getElementById('p-price').value = p.price;
+            document.getElementById('p-original-price').value = p.originalPrice || '';
+            document.getElementById('p-category').value = p.category;
+
+            const qty = p.quantity !== undefined ? Number(p.quantity) : 1;
+            const isSold = p.isSoldOut === true || qty <= 0;
+            document.getElementById('p-quantity').value = qty;
+            document.getElementById('p-sold-out').checked = isSold;
+
+            document.getElementById('p-image').value = p.image;
+            document.getElementById('p-desc').value = p.description;
+            document.getElementById('p-url').value = p.url;
+            document.getElementById('p-condition').value = p.condition || 'new';
+            document.getElementById('p-featured').checked = p.featured;
+            document.getElementById('p-demo').checked = p.isDemo || false;
+            document.getElementById('p-no-crop').checked = p.noCrop || false;
+            document.getElementById('p-sort-order').value = p.sortOrder || 1;
+
+            document.getElementById('form-title').textContent = "تعديل منتج";
+            document.getElementById('submit-btn').textContent = "حفظ التغييرات";
+            document.getElementById('cancel-btn').style.display = "block";
+            window.scrollTo(0, 0);
+        }
+
+        function showAdminConfirm(options) {
+            const { title, message, onConfirm } = options;
+            let overlay = document.getElementById('admin-confirm-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'admin-confirm-overlay';
+                overlay.className = 'admin-modal-overlay';
+                overlay.innerHTML = `
+                    <div class="admin-modal-box">
+                        <div class="admin-modal-icon">⚠️</div>
+                        <h3 id="admin-confirm-title" style="margin-bottom:8px;font-size:1.3rem;"></h3>
+                        <p id="admin-confirm-msg" style="color:var(--text);opacity:0.85;font-size:0.95rem;line-height:1.6;"></p>
+                        <div class="admin-modal-actions">
+                            <button type="button" id="admin-confirm-yes" style="background:#ef4444;color:white;">نعم، احذف</button>
+                            <button type="button" id="admin-confirm-no" style="background:var(--border);color:var(--text);">إلغاء</button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(overlay);
+            }
+            document.getElementById('admin-confirm-title').textContent = title || 'تأكيد الإجراء';
+            document.getElementById('admin-confirm-msg').textContent = message || 'هل أنت متأكد؟';
+            overlay.classList.add('active');
+
+            const clean = () => overlay.classList.remove('active');
+            document.getElementById('admin-confirm-yes').onclick = () => { clean(); onConfirm(); };
+            document.getElementById('admin-confirm-no').onclick = clean;
+            overlay.onclick = (e) => { if (e.target === overlay) clean(); };
+        }
+
+        function deleteProduct(id) {
+            const p = localProducts.find(x => x.id == id);
+            const title = p ? p.title : 'هذا المنتج';
+            showAdminConfirm({
+                title: 'تأكيد حذف المنتج',
+                message: `هل أنت متأكد من حذف "${title}"؟ لن تتمكن من استرجاعه بعد الحفظ.`,
+                onConfirm: () => {
+                    localProducts = localProducts.filter(p => p.id != id);
+                    saveData();
+                    renderList();
+                }
+            });
+        }
+
+
+        function resetForm() {
+            productForm.reset();
+            document.getElementById('edit-id').value = "";
+            document.getElementById('p-quantity').value = "1";
+            document.getElementById('p-sold-out').checked = false;
+            document.getElementById('form-title').textContent = "إضافة منتج جديد";
+            document.getElementById('submit-btn').textContent = "إضافة للقائمة";
+            document.getElementById('cancel-btn').style.display = "none";
+        }
+
+        function exportData() {
+            const container = document.getElementById('output-container');
+            const output = document.getElementById('json-output');
+            const title = container.querySelector('h2');
+            title.textContent = "انسخ هذا الكود وضعه في ملف products.js";
+
+            const categoriesCode = JSON.stringify(localCategories, null, 4);
+            const productsCode = JSON.stringify(localProducts, null, 4);
+
+            const finalCode = `const categories = ${categoriesCode};\n\nconst products = ${productsCode};`;
+
+            output.value = finalCode;
+            container.style.display = "block";
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        function importData() {
+            const container = document.getElementById('output-container');
+            const output = document.getElementById('json-output');
+            const title = container.querySelector('h2');
+            
+            title.textContent = "الصق محتوى كود products.js أو جدول Google Sheets / CSV هنا:";
+            output.value = "";
+            output.readOnly = false;
+            output.placeholder = "يمكنك لصق:\n1. كود ملف products.js بالكامل\n2. أو جدول منسوخ مباشرة من Google Sheets أو Excel\n3. أو محتوى ملف CSV";
+            
+            // Change button to "Save Import"
+            const btnCopy = document.querySelector('.btn-copy');
+            btnCopy.textContent = "تأكيد الاستيراد (Save Import)";
+            btnCopy.style.background = "#ef4444";
+            btnCopy.onclick = () => {
+                try {
+                    const raw = output.value.trim();
+                    if (!raw) return alert("يرجى لصق البيانات أولاً");
+
+                    // Option A: Full JS file matching
+                    const categoriesMatch = raw.match(/const categories = (\[[\s\S]*?\]);/);
+                    const productsMatch = raw.match(/const products = (\[[\s\S]*?\]);/);
+                    
+                    if (categoriesMatch && productsMatch) {
+                        localCategories = JSON.parse(categoriesMatch[1]);
+                        localProducts = JSON.parse(productsMatch[1]);
+                        saveData();
+                        alert("تم استيراد البيانات من كود JavaScript بنجاح!");
+                        location.reload();
+                        return;
+                    }
+
+                    // Option B: Pure JSON Array
+                    if (raw.startsWith('[') && raw.endsWith(']')) {
+                        const parsed = JSON.parse(raw);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            localProducts = parsed;
+                            saveData();
+                            alert(`تم استيراد ${parsed.length} منتج بنجاح!`);
+                            location.reload();
+                            return;
+                        }
+                    }
+
+                    // Option C: Google Sheets / Excel paste (Tab-delimited) or CSV (Comma-delimited)
+                    const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+                    if (lines.length >= 2) {
+                        const delim = lines[0].includes('\t') ? '\t' : ',';
+                        
+                        const parseCsvLine = (line) => {
+                            if (delim === '\t') return line.split('\t');
+                            const res = [];
+                            let cur = '', inQ = false;
+                            for (let i = 0; i < line.length; i++) {
+                                const c = line[i];
+                                if (c === '"') { inQ = !inQ; }
+                                else if (c === ',' && !inQ) { res.push(cur.trim()); cur = ''; }
+                                else { cur += c; }
+                            }
+                            res.push(cur.trim());
+                            return res;
+                        };
+
+                        const headers = parseCsvLine(lines[0]).map(h => h.toLowerCase().trim());
+                        const idIdx = headers.findIndex(h => h.includes('id'));
+                        const titleIdx = headers.findIndex(h => h.includes('title') || h.includes('اسم') || h.includes('عنوان'));
+                        const priceIdx = headers.findIndex(h => h.includes('price') || h.includes('السعر الحالي') || h.includes('سعر'));
+                        const origPriceIdx = headers.findIndex(h => h.includes('original') || h.includes('الأصلي'));
+                        const currIdx = headers.findIndex(h => h.includes('currency') || h.includes('عملة'));
+                        const catIdx = headers.findIndex(h => h.includes('category id') || (h.includes('category') && !h.includes('name')) || h.includes('قسم'));
+                        const qtyIdx = headers.findIndex(h => h.includes('quantity') || h.includes('الكمية'));
+                        const soldIdx = headers.findIndex(h => h.includes('sold') || h.includes('نفدت') || h.includes('مباع'));
+                        const condIdx = headers.findIndex(h => h.includes('condition') || h.includes('حالة'));
+                        const featIdx = headers.findIndex(h => h.includes('featured') || h.includes('مميز'));
+                        const demoIdx = headers.findIndex(h => h.includes('demo') || h.includes('تجريبي'));
+                        const sortIdx = headers.findIndex(h => h.includes('sort') || h.includes('ترتيب'));
+                        const imgIdx = headers.findIndex(h => h.includes('image') || h.includes('صورة'));
+                        const urlIdx = headers.findIndex(h => h.includes('url') || h.includes('رابط'));
+                        const descIdx = headers.findIndex(h => h.includes('description') || h.includes('وصف'));
+
+                        if (titleIdx !== -1 && priceIdx !== -1) {
+                            const newProds = [];
+                            for (let i = 1; i < lines.length; i++) {
+                                const cols = parseCsvLine(lines[i]);
+                                if (cols.length < 2) continue;
+                                
+                                const pTitle = cols[titleIdx] ? cols[titleIdx].replace(/^"|"$/g, '') : '';
+                                if (!pTitle) continue;
+
+                                const pQty = qtyIdx !== -1 ? (parseInt(cols[qtyIdx], 10) || 0) : 1;
+                                const soldRaw = soldIdx !== -1 ? String(cols[soldIdx]).toLowerCase() : '';
+                                const isSold = soldRaw.includes('true') || soldRaw.includes('نعم') || soldRaw.includes('1') || pQty <= 0;
+
+                                newProds.push({
+                                    id: (idIdx !== -1 && cols[idIdx]) ? (parseInt(cols[idIdx], 10) || Date.now() + i) : Date.now() + i,
+                                    title: pTitle,
+                                    price: cols[priceIdx] ? cols[priceIdx].replace(/[^\d]/g, '') : '0',
+                                    originalPrice: (origPriceIdx !== -1 && cols[origPriceIdx]) ? cols[origPriceIdx].replace(/[^\d]/g, '') : undefined,
+                                    currency: (currIdx !== -1 && cols[currIdx]) ? cols[currIdx] : 'د.ع',
+                                    category: (catIdx !== -1 && cols[catIdx]) ? cols[catIdx] : 'pc',
+                                    quantity: pQty,
+                                    isSoldOut: isSold,
+                                    condition: (condIdx !== -1 && cols[condIdx] && cols[condIdx].toLowerCase().includes('used')) ? 'used' : 'new',
+                                    featured: featIdx !== -1 ? (String(cols[featIdx]).toLowerCase().includes('true') || String(cols[featIdx]).includes('نعم')) : false,
+                                    isDemo: demoIdx !== -1 ? (String(cols[demoIdx]).toLowerCase().includes('true') || String(cols[demoIdx]).includes('نعم')) : false,
+                                    sortOrder: sortIdx !== -1 ? (parseInt(cols[sortIdx], 10) || i) : i,
+                                    image: (imgIdx !== -1 && cols[imgIdx]) ? cols[imgIdx].replace(/^"|"$/g, '') : '',
+                                    url: (urlIdx !== -1 && cols[urlIdx]) ? cols[urlIdx].replace(/^"|"$/g, '') : '',
+                                    description: (descIdx !== -1 && cols[descIdx]) ? cols[descIdx].replace(/^"|"$/g, '').replace(/\\n/g, '\n') : ''
+                                });
+                            }
+
+                            if (newProds.length > 0) {
+                                localProducts = newProds;
+                                saveData();
+                                alert(`تم استيراد ${newProds.length} منتج بنجاح من الجدول!`);
+                                location.reload();
+                                return;
+                            }
+                        }
+                    }
+
+                    alert("تعذر التعرف على تنسيق البيانات. تأكد من لصق كود products.js أو نسخ جدول الإكسل بالكامل مع العناوين.");
+                } catch (e) {
+                    alert("خطأ في الاستيراد: " + e.message);
+                }
+            };
+
+            container.style.display = "block";
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+
+        function copyToClipboard() {
+            const output = document.getElementById('json-output');
+            output.select();
+            document.execCommand('copy');
+
+            const msg = document.getElementById('copy-msg');
+            msg.style.display = "inline";
+            setTimeout(() => msg.style.display = "none", 2000);
+        }
+
+        // ==========================================
+        // Push Notifications Broadcast
+        // ==========================================
+        function openPushModal() {
+            document.getElementById('push-modal').classList.add('active');
+            const titleInput = document.getElementById('push-broadcast-title');
+            if (titleInput && !titleInput.value) {
+                titleInput.value = 'تخفيضات خاصة في متجر فوكس! 🔥';
+            }
+            const bodyInput = document.getElementById('push-broadcast-body');
+            if (bodyInput && !bodyInput.value) {
+                bodyInput.value = 'وصلت منتجات حصرية وجديدة اليوم، تصفح العروض الآن قبل نفاد الكمية!';
+            }
+        }
+
+        function openPushGuideModal() {
+            document.getElementById('push-guide-modal').classList.add('active');
+        }
+
+        function closePushGuideModal() {
+            document.getElementById('push-guide-modal').classList.remove('active');
+        }
+
+        function closePushModal() {
+            document.getElementById('push-modal').classList.remove('active');
+        }
+
+        function sendBroadcastPush() {
+            const title = document.getElementById('push-broadcast-title').value.trim();
+            const body = document.getElementById('push-broadcast-body').value.trim();
+            const url = document.getElementById('push-broadcast-url').value.trim() || 'index.html#featured';
+
+            if (!title) {
+                alert('يرجى كتابة عنوان للإشعار.');
+                return;
+            }
+
+            const payload = {
+                title: title,
+                body: body,
+                url: url,
+                timestamp: Date.now()
+            };
+
+            // 1. Broadcast to open shop tabs
+            try {
+                const notifyChannel = new BroadcastChannel('focus_push_notifications');
+                notifyChannel.postMessage(payload);
+            } catch(e) {
+                console.warn('BroadcastChannel error:', e);
+            }
+
+            // 2. Also trigger local notification if permission is active
+            if ('Notification' in window && Notification.permission === 'granted') {
+                const notifOptions = {
+                    body: body,
+                    icon: 'logo.svg',
+                    badge: 'logo.svg',
+                    dir: 'rtl',
+                    data: { url: url }
+                };
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(reg => {
+                        if (reg && typeof reg.showNotification === 'function') {
+                            reg.showNotification(title, notifOptions);
+                        }
+                    }).catch(() => {
+                        try { new Notification(title, notifOptions); } catch(e) {}
+                    });
+                } else {
+                    try { new Notification(title, notifOptions); } catch(e) {}
+                }
+            }
+
+            closePushModal();
+            alert('🚀 تم إرسال الإشعار الفوري بنجاح إلى جميع الزوار المشتركين!');
+        }
+
+        // ==========================================
+        // Direct GitHub Sync & Pull Engine
+        // ==========================================
+        window.triggerCloudSync = async function() {
+            const btn = document.getElementById('btn-cloud-sync');
+            const originalContent = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="auth-spinner"></span> جاري النشر إلى GitHub...';
+            }
+
+            try {
+                const categoriesCode = JSON.stringify(localCategories, null, 4);
+                const productsCode = JSON.stringify(localProducts, null, 4);
+                const fileContent = `const categories = ${categoriesCode};\n\nconst products = ${productsCode};\n`;
+
+                await window.GitHubAPI.saveFile(
+                    'products.js',
+                    fileContent,
+                    `تحديث قائمة المنتجات عبر لوحة التحكم (${localProducts.length} منتج)`
+                );
+
+                if (window.AdminAuth && typeof window.AdminAuth.showToast === 'function') {
+                    window.AdminAuth.showToast('🚀 تم نشر المنتجات بنجاح إلى GitHub Pages! ستظهر التغييرات خلال لحظات.');
+                } else {
+                    alert('🚀 تم نشر المنتجات بنجاح إلى GitHub Pages!');
+                }
+            } catch (err) {
+                alert('حدث خطأ أثناء النشر إلى GitHub: ' + err.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = originalContent || '<span>🚀 نشر المنتجات إلى الموقع (GitHub)</span>';
+                }
+            }
+        };
+
+        window.triggerCloudPull = async function() {
+            const btn = document.getElementById('btn-pull-latest');
+            const originalText = btn ? btn.textContent : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = 'جاري السحب...';
+            }
+
+            try {
+                const file = await window.GitHubAPI.getFile('products.js');
+                if (!file.exists || !file.content) {
+                    throw new Error('لم يتم العثور على ملف products.js في المستودع.');
+                }
+
+                const categoriesMatch = file.content.match(/const categories = (\[[\s\S]*?\]);/);
+                const productsMatch = file.content.match(/const products = (\[[\s\S]*?\]);/);
+
+                if (categoriesMatch && productsMatch) {
+                    localCategories = JSON.parse(categoriesMatch[1]);
+                    localProducts = JSON.parse(productsMatch[1]);
+                    saveData();
+                    initCategories();
+                    renderList();
+                    if (window.AdminAuth && typeof window.AdminAuth.showToast === 'function') {
+                        window.AdminAuth.showToast('✅ تم جلب أحدث بيانات المنتجات من GitHub بنجاح!');
+                    } else {
+                        alert('✅ تم جلب أحدث بيانات المنتجات من GitHub بنجاح!');
+                    }
+                } else {
+                    throw new Error('صيغة ملف products.js على GitHub غير متوافقة.');
+                }
+            } catch (err) {
+                alert('خطأ أثناء جلب البيانات من GitHub: ' + err.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.textContent = originalText || '🔄 جلب من GitHub';
+                }
+            }
+        };
+
+        // Init
+        initCategories();
+        renderList();
+    </script>
+
+</body>
+
+</html>

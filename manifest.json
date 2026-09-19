@@ -1,0 +1,21 @@
+{
+  "name": "متجر فوكس | Focus Shop",
+  "short_name": "فوكس",
+  "description": "متجر فوكس - وجهتك الأولى للتسوق الإلكتروني وتجهيزات التصوير والمنزل والمزيد.",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#111827",
+  "theme_color": "#2563eb",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "logo.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

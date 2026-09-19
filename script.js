@@ -326,8 +326,8 @@ document.addEventListener('DOMContentLoaded', () => {
             popupStockHtml = `<span class="popup-stock-badge stock-available">🟢 متوفر بالمخزون (${qty} قطعة)</span>`;
         }
 
-        const waBuy = `https://wa.me/9647747597922?text=${encodeURIComponent('مرحبا، أود شراء هذا المنتج:\n\nاسم المنتج: ' + p.title + '\nالسعر: ' + fp + ' ' + p.currency + '\nرمز المنتج: ' + p.id)}`;
-        const waRestock = `https://wa.me/9647747597922?text=${encodeURIComponent('مرحبا، أود الاستفسار عن إمكانية توفير المنتج عند توفره مجدداً:\n\nاسم المنتج: ' + p.title + '\nالسعر: ' + fp + ' ' + p.currency + '\nرمز المنتج: ' + p.id)}`;
+        const waBuy = `https://wa.me/9647746264867?text=${encodeURIComponent('مرحبا، أود شراء هذا المنتج:\n\nاسم المنتج: ' + p.title + '\nالسعر: ' + fp + ' ' + p.currency + '\nرمز المنتج: ' + p.id)}`;
+        const waRestock = `https://wa.me/9647746264867?text=${encodeURIComponent('مرحبا، أود الاستفسار عن إمكانية توفير المنتج عند توفره مجدداً:\n\nاسم المنتج: ' + p.title + '\nالسعر: ' + fp + ' ' + p.currency + '\nرمز المنتج: ' + p.id)}`;
 
         let buyBtn = '';
         if (isDemo) {
@@ -633,7 +633,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // =============================================
-    // 15. Push Notifications Manager
+    // 15. Cross-Platform Push Notifications Manager
+    // (Supports Android, iOS 16.4+, and All Desktop Browsers)
     // =============================================
     const btnEnablePush = document.getElementById('btn-enable-push');
     const btnTestPush = document.getElementById('btn-test-push');
@@ -643,11 +644,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const navNotifyBtn = document.getElementById('nav-notify-btn');
     const navNotifyDot = document.getElementById('nav-notify-dot');
 
+    // Device & Platform Detection
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isAndroid = /Android/.test(navigator.userAgent);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                         Boolean(window.navigator.standalone);
+
+    // Register Service Worker for Android and iOS PWA Web Push
+    let swRegistration = null;
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js', { scope: './' })
+            .then(reg => {
+                swRegistration = reg;
+            })
+            .catch(err => {
+                console.warn('ServiceWorker registration error:', err);
+            });
+    }
+
     function updatePushUI() {
         if (!('Notification' in window)) {
+            if (isIOS) {
+                if (pushStatusBadge) {
+                    pushStatusBadge.className = 'push-status-badge active unsupported';
+                    pushStatusBadge.innerHTML = '📱 على آيفون: أضف الموقع للشاشة الرئيسية (Share > Add to Home Screen) لتفعيل الإشعارات.';
+                }
+                if (btnEnablePush) {
+                    btnEnablePush.style.display = 'inline-flex';
+                    btnEnablePush.textContent = '📱 طريقة التفعيل على آيفون (iOS)';
+                }
+                return;
+            }
             if (pushStatusBadge) {
                 pushStatusBadge.className = 'push-status-badge active unsupported';
-                pushStatusBadge.innerHTML = '⚠️ متصفحك الحالي لا يدعم ميزة الإشعارات الفورية (Web Notifications).';
+                pushStatusBadge.innerHTML = '⚠️ متصفحك الحالي لا يدعم ميزة الإشعارات الفورية المباشرة.';
             }
             if (btnEnablePush) btnEnablePush.style.display = 'none';
             if (btnTestPush) btnTestPush.style.display = 'none';
@@ -660,7 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btnEnablePush) btnEnablePush.style.display = 'none';
             if (btnTestPush) btnTestPush.style.display = 'inline-flex';
             if (pushTitle) pushTitle.textContent = 'أنت مشترك في الإشعارات الفورية! 🎉';
-            if (pushDesc) pushDesc.textContent = 'ستصلك عروض متجر فوكس والتخفيضات الكبرى لحظة بلحظة كإشعار فوري على سطح المكتب أو هاتفك.';
+            if (pushDesc) pushDesc.textContent = 'ستصلك عروض متجر فوكس والتخفيضات الكبرى لحظة بلحظة كإشعار فوري على هاتفك أو حاسوبك.';
             if (pushStatusBadge) {
                 pushStatusBadge.className = 'push-status-badge active granted';
                 pushStatusBadge.innerHTML = '✓ الإشعارات مفعلة بنجاح على هذا الجهاز.';
@@ -676,14 +707,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btnTestPush) btnTestPush.style.display = 'none';
             if (pushStatusBadge) {
                 pushStatusBadge.className = 'push-status-badge active denied';
-                pushStatusBadge.innerHTML = '✕ تم رفض إذن الإشعارات سابقاً. لتفعيلها، يرجى السماح بها من أيقونة القفل بجانب شريط العنوان.';
+                pushStatusBadge.innerHTML = '✕ تم رفض إذن الإشعارات سابقاً. لتفعيلها، يرجى السماح بها من إعدادات الموقع أو أيقونة القفل بجانب شريط الرابط.';
             }
             if (navNotifyDot) navNotifyDot.style.display = 'none';
         } else {
-            // default (prompt)
+            // default / prompt
             if (btnEnablePush) {
                 btnEnablePush.style.display = 'inline-flex';
                 btnEnablePush.disabled = false;
+                btnEnablePush.textContent = 'تفعيل الإشعارات الآن 🔔';
             }
             if (btnTestPush) btnTestPush.style.display = 'none';
             if (pushStatusBadge) pushStatusBadge.className = 'push-status-badge';
@@ -691,45 +723,192 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function showPushNotification(title, options) {
-        if (!('Notification' in window) || Notification.permission !== 'granted') return;
+    // In-App Floating Notification Banner (Guaranteed visual on all browsers/iOS/webviews)
+    function showInAppNotification(title, options = {}) {
+        const existing = document.querySelector('.in-app-notify-toast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'in-app-notify-toast';
+        const targetUrl = options.url || (options.data && options.data.url) || 'index.html#featured';
+
+        toast.innerHTML = `
+            <div class="in-app-notify-icon">
+                <img src="logo.svg" alt="Focus">
+            </div>
+            <div class="in-app-notify-content">
+                <div class="in-app-notify-header">
+                    <h4 class="in-app-notify-title">${title || 'متجر فوكس 🛒'}</h4>
+                    <span class="in-app-notify-time">الآن</span>
+                </div>
+                <p class="in-app-notify-body">${options.body || 'تخفيضات وعروض حصرية جديدة في المتجر!'}</p>
+            </div>
+            <button type="button" class="in-app-notify-close" title="إغلاق">&times;</button>
+        `;
+
+        document.body.appendChild(toast);
+
+        // Click handler: navigate to url
+        toast.addEventListener('click', (e) => {
+            if (e.target.classList.contains('in-app-notify-close')) {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-20px)';
+                setTimeout(() => toast.remove(), 300);
+                return;
+            }
+            if (targetUrl) {
+                window.location.href = targetUrl;
+            }
+            toast.remove();
+        });
+
+        // Auto dismiss after 6.5 seconds
+        setTimeout(() => {
+            if (document.body.contains(toast)) {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-20px)';
+                setTimeout(() => toast.remove(), 300);
+            }
+        }, 6500);
+    }
+
+    // Universal Push Notification Trigger (ServiceWorker + Desktop Fallback + In-App Toast)
+    async function showPushNotification(title, options = {}) {
         const defaultOptions = {
             body: 'تخفيضات كبرى وعروض حصرية جديدة متوفرة الآن في متجر فوكس!',
             icon: 'logo.svg',
             badge: 'logo.svg',
             dir: 'rtl',
             lang: 'ar',
-            vibrate: [200, 100, 200]
-        };
-        const notify = new Notification(title || 'متجر فوكس 🛒', { ...defaultOptions, ...options });
-        notify.onclick = function() {
-            window.focus();
-            if (options && options.url) {
-                window.location.href = options.url;
+            vibrate: [200, 100, 200],
+            data: {
+                url: options.url || 'index.html#featured'
             }
-            notify.close();
         };
+        const finalOptions = { ...defaultOptions, ...options };
+
+        // 1. Always display In-App Toast Banner if the web page is currently open
+        showInAppNotification(title || 'متجر فوكس 🛒', finalOptions);
+
+        // 2. Trigger System / Native Notification if permission granted
+        if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+        // Method A: ServiceWorker (Required for Android & iOS PWA Web Push)
+        if ('serviceWorker' in navigator) {
+            try {
+                const reg = swRegistration || await navigator.serviceWorker.ready;
+                if (reg && typeof reg.showNotification === 'function') {
+                    await reg.showNotification(title || 'متجر فوكس 🛒', finalOptions);
+                    return;
+                }
+            } catch (swErr) {
+                console.warn('ServiceWorker showNotification failed, trying fallback:', swErr);
+            }
+        }
+
+        // Method B: Desktop new Notification Fallback
+        try {
+            const notify = new Notification(title || 'متجر فوكس 🛒', finalOptions);
+            notify.onclick = function() {
+                window.focus();
+                if (finalOptions.data && finalOptions.data.url) {
+                    window.location.href = finalOptions.data.url;
+                } else if (finalOptions.url) {
+                    window.location.href = finalOptions.url;
+                }
+                notify.close();
+            };
+        } catch (notifErr) {
+            console.warn('Desktop new Notification failed:', notifErr);
+        }
     }
 
     window.triggerPushNotification = showPushNotification;
 
+    // Helper for iOS Safari guide
+    function showIOSPushGuide() {
+        let guide = document.getElementById('ios-push-guide-modal');
+        if (!guide) {
+            guide = document.createElement('div');
+            guide.id = 'ios-push-guide-modal';
+            guide.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:9999999;display:flex;align-items:center;justify-content:center;padding:20px;direction:rtl;font-family:"IBM Plex Sans Arabic",sans-serif;';
+            guide.innerHTML = `
+                <div style="background:var(--card-bg,#fff);color:var(--text-main,#1f2937);border-radius:24px;max-width:440px;width:100%;padding:30px;box-shadow:0 25px 50px rgba(0,0,0,0.4);text-align:center;border:1px solid var(--border-color,#ddd);">
+                    <div style="font-size:3rem;margin-bottom:12px;">📲</div>
+                    <h3 style="margin-bottom:10px;font-size:1.3rem;">تفعيل الإشعارات على iPhone / iPad</h3>
+                    <p style="color:var(--text-muted,#64748b);font-size:0.92rem;line-height:1.6;margin-bottom:20px;">
+                        نظام Apple iOS يتطلب خطوة واحدة لتشغيل الإشعارات مثل التطبيقات تماماً:
+                    </p>
+                    <div style="background:var(--bg-alt,rgba(0,0,0,0.04));padding:16px;border-radius:14px;text-align:right;font-size:0.9rem;line-height:1.8;margin-bottom:20px;">
+                        1. اضغط على زر <strong>المشاركة (Share ⬆️)</strong> أسفل شاشة Safari.<br>
+                        2. اختر <strong>إضافة إلى الصفحة الرئيسية (Add to Home Screen ➕)</strong>.<br>
+                        3. افتح متجر فوكس من الشاشة الرئيسية، واضغط 'تفعيل الإشعارات' لتصلك التخفيضات فوراً!
+                    </div>
+                    <button type="button" id="ios-guide-gotit-btn" style="width:100%;padding:13px;background:var(--primary-color,#2563eb);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit;font-size:1rem;">فهمت الخطوات ✓</button>
+                </div>
+            `;
+            document.body.appendChild(guide);
+            document.getElementById('ios-guide-gotit-btn').onclick = () => guide.remove();
+            guide.onclick = (e) => { if (e.target === guide) guide.remove(); };
+        }
+    }
+
+    // Universal Cross-Browser Permission Requester
     async function requestPushPermission() {
+        if (isIOS && !('Notification' in window)) {
+            showIOSPushGuide();
+            return 'ios_guide';
+        }
+
         if (!('Notification' in window)) {
-            alert('للأسف، متصفحك الحالي لا يدعم الإشعارات الفورية.');
-            return;
+            alert('للأسف، متصفحك الحالي لا يدعم ميزة الإشعارات الفورية (Web Notifications).');
+            return 'unsupported';
         }
 
         try {
-            const permission = await Notification.requestPermission();
+            // Must handle Promise + Callback API across all modern and older browsers
+            let permission = await new Promise((resolve) => {
+                let resolved = false;
+                try {
+                    const p = Notification.requestPermission((status) => {
+                        if (!resolved) {
+                            resolved = true;
+                            resolve(status || Notification.permission);
+                        }
+                    });
+                    if (p && typeof p.then === 'function') {
+                        p.then((status) => {
+                            if (!resolved) {
+                                resolved = true;
+                                resolve(status || Notification.permission);
+                            }
+                        }).catch(() => {
+                            if (!resolved) {
+                                resolved = true;
+                                resolve(Notification.permission);
+                            }
+                        });
+                    }
+                } catch (e) {
+                    Notification.requestPermission().then(resolve).catch(() => resolve(Notification.permission));
+                }
+            });
+
             updatePushUI();
+
             if (permission === 'granted') {
                 showPushNotification('مرحبا بك في إشعارات متجر فوكس! 🔔', {
-                    body: 'تم تفعيل الإشعارات بنجاح. ستصلك أحدث الصفقات والمنتجات الحصرية أولاً بأول!',
+                    body: 'تم تفعيل الإشعارات بنجاح على هذا الجهاز. ستصلك أحدث الصفقات والمنتجات الحصرية فوراً!',
                     tag: 'welcome-notification'
                 });
+            } else if (permission === 'denied') {
+                alert('تم حظر الإشعارات. يمكنك تفعيلها في أي وقت من إعدادات المتصفح (أيقونة القفل في شريط الرابط).');
             }
+
+            return permission;
         } catch (err) {
             console.error('Error requesting notification permission:', err);
+            return 'error';
         }
     }
 
@@ -738,7 +917,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (navNotifyBtn) {
         navNotifyBtn.addEventListener('click', () => {
-            if (!('Notification' in window)) return;
+            if (!('Notification' in window)) {
+                if (isIOS) showIOSPushGuide();
+                else alert('متصفحك لا يدعم الإشعارات.');
+                return;
+            }
             if (Notification.permission === 'granted') {
                 showPushNotification('متجر فوكس 🔔', {
                     body: 'الإشعارات مفعلة لديك وتعمل بشكل ممتاز!',
@@ -784,8 +967,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const pushPopupAllowBtn = document.getElementById('push-popup-allow-btn');
 
     function openPushPopup() {
-        // Do not open if notifications already granted or not supported
-        if (!('Notification' in window) || Notification.permission === 'granted') return;
+        // Do not open if notifications already granted
+        if ('Notification' in window && Notification.permission === 'granted') return;
 
         // Check if user dismissed recently (wait 24 hours before showing again)
         const lastDismissed = localStorage.getItem('focus_push_popup_dismissed');
@@ -815,6 +998,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Trigger permission request directly inside user click event stack
     if (pushPopupAllowBtn) {
         pushPopupAllowBtn.addEventListener('click', async () => {
             closePushPopup();
@@ -823,16 +1007,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Timer trigger: 5 minutes (5 * 60 * 1000 ms = 300,000 ms)
-    // Tracks cumulative session duration or single visit
     const FIVE_MINUTES_MS = 5 * 60 * 1000;
-    
-    // Store visit start time
-    const sessionStart = Date.now();
-    let pushTimer = setTimeout(() => {
+    setTimeout(() => {
         openPushPopup();
     }, FIVE_MINUTES_MS);
 
-    // Provide quick developer/test helper in browser console: window.testPushPopup()
+    // Helper for testing popup in browser console: window.testPushPopup()
     window.testPushPopup = function() {
         openPushPopup();
     };

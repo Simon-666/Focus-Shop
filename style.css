@@ -2703,6 +2703,110 @@ select:focus-visible {
 }
 
 /* ==============================
+   7c. In-App Floating Notification Banner (iOS/Android & In-App Browser Support)
+   ============================== */
+.in-app-notify-toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    max-width: 400px;
+    width: calc(100% - 48px);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+    border-radius: 18px;
+    padding: 16px 18px;
+    z-index: 9999999;
+    direction: rtl;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    cursor: pointer;
+    animation: slideDownToast 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+@media (max-width: 480px) {
+    .in-app-notify-toast {
+        top: 14px;
+        right: 14px;
+        left: 14px;
+        width: auto;
+        max-width: none;
+    }
+}
+
+@keyframes slideDownToast {
+    from { transform: translateY(-40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.in-app-notify-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(37, 99, 235, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.5rem;
+}
+
+.in-app-notify-icon img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
+.in-app-notify-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.in-app-notify-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.in-app-notify-title {
+    font-weight: 700;
+    font-size: 0.96rem;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.in-app-notify-time {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.in-app-notify-body {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.in-app-notify-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.in-app-notify-close:hover {
+    color: #ef4444;
+}
+
+/* ==============================
    9. Simple Cookie Banner
    ============================== */
 .cookie-banner {

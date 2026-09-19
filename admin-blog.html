@@ -1,0 +1,770 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="shortcut icon" href="logo.svg">
+    
+    <!-- Quill 2.0 Rich Text Editor -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f3f4f6;
+            --card: #ffffff;
+            --text: #1f2937;
+            --border: #d1d5db;
+            --input-bg: #ffffff;
+            --item-border: #e5e7eb;
+            --seo-bg: #f9fafb;
+            --seo-border: #d1d5db;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #3b82f6;
+                --bg: #111827;
+                --card: #1f2937;
+                --text: #f9fafb;
+                --border: #4b5563;
+                --input-bg: #374151;
+                --item-border: #374151;
+                --seo-bg: #1f2937;
+                --seo-border: #4b5563;
+            }
+        }
+
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .admin-nav a {
+            padding: 10px 20px;
+            background: var(--card);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: bold;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+        }
+
+        .admin-nav a.active {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 992px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            background-color: var(--input-bg);
+            color: var(--text);
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        .content-area {
+            height: 250px;
+        }
+
+        .btn-add {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .btn-export {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid var(--item-border);
+            gap: 15px;
+        }
+
+        .product-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-edit {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        #output-container {
+            margin-top: 30px;
+            display: none;
+        }
+
+        #json-output {
+            width: 100%;
+            height: 300px;
+            direction: ltr;
+            font-family: monospace;
+            background: #1f2937;
+            color: #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .copy-success {
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 10px;
+            display: none;
+        }
+
+        .btn-copy {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .seo-box {
+            background: var(--seo-bg);
+            padding: 15px;
+            border: 1px dashed var(--seo-border);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .seo-box h3 {
+            margin-top: 0;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        /* Quill Custom Styles */
+        .ql-toolbar.ql-snow {
+            border-color: var(--border) !important;
+            background: var(--bg);
+            border-radius: 8px 8px 0 0;
+        }
+        .ql-container.ql-snow {
+            border-color: var(--border) !important;
+            border-radius: 0 0 8px 8px;
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background: var(--input-bg);
+            color: var(--text);
+            font-size: 1rem;
+        }
+        .ql-editor {
+            min-height: 200px;
+        }
+        #b-content-html {
+            display: none;
+            width: 100%;
+            height: 250px;
+            font-family: monospace;
+            background: #1f2937;
+            color: #10b981;
+            padding: 10px;
+            border-radius: 0 0 8px 8px;
+            border: 1px solid var(--border);
+            border-top: none;
+        }
+
+        .ql-editor.ql-blank::before {
+            color: var(--text);
+            opacity: 0.5;
+            font-style: normal;
+        }
+        .ql-snow .ql-stroke {
+            stroke: var(--text) !important;
+        }
+        .ql-snow .ql-fill {
+            fill: var(--text) !important;
+        }
+        .ql-snow .ql-picker {
+            color: var(--text) !important;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>مدير محتوى متجر فوكس</h1>
+            <div>
+                <button class="btn-copy" onclick="importData()" style="background: #6366f1; width: auto; padding: 10px 20px;">استيراد (Import)</button>
+                <button class="btn-export" onclick="exportData()">تصدير (Export)</button>
+                <button class="btn-delete" onclick="window.location.href='index.html'" style="width: auto;">العودة للموقع</button>
+            </div>
+
+        </header>
+
+        <div class="admin-nav">`n            <a href="index.html" style="background: rgba(37,99,235,0.1); border: 1.5px solid #2563eb; color: #2563eb;">العودة للمتجر 🛍️</a>
+            <a href="admin.html">المنتجات</a>
+            <a href="admin-blog.html" class="active">المدونة</a>
+        </div>
+
+        <div class="grid">
+            <!-- Form Section -->
+            <div class="card">
+                <h2 id="form-title">إضافة مقال جديد</h2>
+                <form id="blog-form">
+                    <input type="hidden" id="b-id">
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label>عنوان المقال</label>
+                            <input type="text" id="b-title" required placeholder="مثال: كيف تختار كاميرتك الأولى">
+                        </div>
+                        <div class="form-group">
+                            <label>الرابط المختصر (Slug)</label>
+                            <input type="text" id="b-slug" required placeholder="مثال: camera-guide">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label>التصنيف</label>
+                            <input type="text" id="b-category" required placeholder="مثال: التصوير الفوتوغرافي">
+                        </div>
+                        <div class="form-group">
+                            <label>رابط الصورة</label>
+                            <input type="text" id="b-image" required placeholder="رابط URL للصورة">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label>الكاتب</label>
+                            <input type="text" id="b-author" required value="فريق فوكس">
+                        </div>
+                        <div class="form-group">
+                            <label>التاريخ</label>
+                            <input type="text" id="b-date" required placeholder="مثال: 19 أبريل 2026">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>وصف مختصر (Excerpt)</label>
+                        <textarea id="b-excerpt" required placeholder="وصف قصير يظهر في قائمة المقالات..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <label style="margin: 0;">محتوى المقال</label>
+                            <button type="button" id="toggle-html" style="font-size: 0.75rem; padding: 4px 8px; background: var(--bg); border: 1px solid var(--border); color: var(--text);">تبديل إلى HTML</button>
+                        </div>
+                        <div id="b-content-editor" class="content-area"></div>
+                        <textarea id="b-content-html"></textarea>
+                        <input type="hidden" id="b-content">
+                    </div>
+
+
+
+                    <div class="seo-box">
+                        <h3>إعدادات SEO (اختياري)</h3>
+                        <div class="form-group">
+                            <label>عنوان SEO</label>
+                            <input type="text" id="b-seo-title" placeholder="يظهر في محركات البحث">
+                        </div>
+                        <div class="form-group">
+                            <label>وصف SEO</label>
+                            <textarea id="b-seo-desc" style="height: 60px;" placeholder="وصف مخصص لمحركات البحث"></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-add" id="submit-btn" style="margin-top: 20px;">إضافة المقال</button>
+                    <button type="button" id="cancel-btn" style="display:none; margin-top:10px; width:100%;"
+                        onclick="resetForm()">إلغاء التعديل</button>
+                </form>
+            </div>
+
+            <!-- List Section -->
+            <div class="card">
+                <h2>المقالات الحالية (<span id="count">0</span>)</h2>
+                <div id="blog-list"></div>
+            </div>
+        </div>
+
+        <!-- Export Section -->
+        <div id="output-container" class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>انسخ هذا الكود وضعه في ملف blogs.js</h2>
+                <div>
+                    <span id="copy-msg" class="copy-success">تم النسخ!</span>
+                    <button class="btn-copy" onclick="copyToClipboard()">نسخ الكود</button>
+                </div>
+            </div>
+            <textarea id="json-output" readonly></textarea>
+        </div>
+    </div>
+
+    <!-- Load Quill library -->
+    <!-- Quill 2.0 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+
+    <!-- Load Admin Auth & GitHub Sync Engine -->
+    <script src="admin-auth.js"></script>
+
+    <!-- Load existing data -->
+    <script src="blogs.js"></script>
+
+
+    <script>
+        // Persistence Logic: Load from LocalStorage or use default from JS file
+        const BLOG_STORAGE_KEY = 'foucs_shop_blogs_data';
+        let localBlogs = [];
+
+        function loadInitialData() {
+            const savedBlogs = localStorage.getItem(BLOG_STORAGE_KEY);
+            if (savedBlogs) {
+                localBlogs = JSON.parse(savedBlogs);
+            } else {
+                localBlogs = [...blogs];
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem(BLOG_STORAGE_KEY, JSON.stringify(localBlogs));
+        }
+
+        loadInitialData();
+        
+        const blogList = document.getElementById('blog-list');
+
+        const blogForm = document.getElementById('blog-form');
+        const countSpan = document.getElementById('count');
+
+        // Initialize Quill
+        const quill = new Quill('#b-content-editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'direction': 'rtl' }],
+                    ['link', 'image', 'video'],
+                    ['table'], 
+                    ['clean']
+                ],
+                table: true
+            },
+
+            placeholder: 'اكتب محتوى المقال هنا...'
+        });
+
+        // HTML Toggle Logic
+        const toggleHtmlBtn = document.getElementById('toggle-html');
+        const editorContainer = document.getElementById('b-content-editor');
+        const htmlTextarea = document.getElementById('b-content-html');
+        let isHtmlMode = false;
+
+        toggleHtmlBtn.addEventListener('click', () => {
+            isHtmlMode = !isHtmlMode;
+            if (isHtmlMode) {
+                htmlTextarea.value = quill.root.innerHTML;
+                editorContainer.style.display = 'none';
+                htmlTextarea.style.display = 'block';
+                toggleHtmlBtn.textContent = 'تبديل إلى العرض المرئي';
+            } else {
+                quill.root.innerHTML = htmlTextarea.value;
+                editorContainer.style.display = 'block';
+                htmlTextarea.style.display = 'none';
+                toggleHtmlBtn.textContent = 'تبديل إلى HTML';
+            }
+        });
+
+
+
+        // Render List
+        function renderList() {
+            countSpan.textContent = localBlogs.length;
+            blogList.innerHTML = localBlogs.map(b => `
+                <div class="product-item">
+                    <img src="${b.image}" alt="">
+                    <div class="product-info">
+                        <strong>${b.title}</strong><br>
+                        <small>${b.category} | ${b.date}</small>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-edit" onclick="editBlog(${b.id})">تعديل</button>
+                        <button class="btn-delete" onclick="deleteBlog(${b.id})">حذف</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Handle Form Submit
+        blogForm.onsubmit = (e) => {
+            e.preventDefault();
+            const id = document.getElementById('b-id').value;
+            const newBlog = {
+                id: id ? parseInt(id) : Date.now(),
+                title: document.getElementById('b-title').value,
+                slug: document.getElementById('b-slug').value,
+                category: document.getElementById('b-category').value,
+                image: document.getElementById('b-image').value,
+                author: document.getElementById('b-author').value,
+                date: document.getElementById('b-date').value,
+                excerpt: document.getElementById('b-excerpt').value,
+                content: isHtmlMode ? htmlTextarea.value : quill.root.innerHTML,
+                seoTitle: document.getElementById('b-seo-title').value || undefined,
+                seoDesc: document.getElementById('b-seo-desc').value || undefined
+
+
+            };
+
+            if (id) {
+                const index = localBlogs.findIndex(b => b.id == id);
+                localBlogs[index] = newBlog;
+            } else {
+                localBlogs.push(newBlog);
+            }
+
+            resetForm();
+            saveData();
+            renderList();
+        };
+
+
+        function editBlog(id) {
+            const b = localBlogs.find(b => b.id == id);
+            document.getElementById('b-id').value = b.id;
+            document.getElementById('b-title').value = b.title;
+            document.getElementById('b-slug').value = b.slug;
+            document.getElementById('b-category').value = b.category;
+            document.getElementById('b-image').value = b.image;
+            document.getElementById('b-author').value = b.author;
+            document.getElementById('b-date').value = b.date;
+            document.getElementById('b-excerpt').value = b.excerpt;
+            quill.root.innerHTML = b.content;
+            htmlTextarea.value = b.content;
+            document.getElementById('b-seo-title').value = b.seoTitle || '';
+
+
+            document.getElementById('b-seo-desc').value = b.seoDesc || '';
+
+            document.getElementById('form-title').textContent = "تعديل المقال";
+            document.getElementById('submit-btn').textContent = "حفظ التغييرات";
+            document.getElementById('cancel-btn').style.display = "block";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showAdminConfirm(options) {
+            const { title, message, onConfirm } = options;
+            let overlay = document.getElementById('admin-confirm-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'admin-confirm-overlay';
+                overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;';
+                overlay.innerHTML = `
+                    <div style="background:var(--card);border-radius:16px;max-width:440px;width:100%;padding:28px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.35);border:1px solid var(--border);">
+                        <div style="width:56px;height:56px;border-radius:50%;background:rgba(239,68,68,0.15);color:#ef4444;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.8rem;">⚠️</div>
+                        <h3 id="admin-confirm-title" style="margin-bottom:8px;font-size:1.3rem;color:var(--text);"></h3>
+                        <p id="admin-confirm-msg" style="color:var(--text);opacity:0.85;font-size:0.95rem;line-height:1.6;"></p>
+                        <div style="display:flex;gap:12px;margin-top:24px;">
+                            <button type="button" id="admin-confirm-yes" style="flex:1;padding:10px 16px;border-radius:8px;font-weight:bold;cursor:pointer;border:none;background:#ef4444;color:white;">نعم، احذف</button>
+                            <button type="button" id="admin-confirm-no" style="flex:1;padding:10px 16px;border-radius:8px;font-weight:bold;cursor:pointer;border:none;background:var(--border);color:var(--text);">إلغاء</button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(overlay);
+            }
+            document.getElementById('admin-confirm-title').textContent = title || 'تأكيد الإجراء';
+            document.getElementById('admin-confirm-msg').textContent = message || 'هل أنت متأكد؟';
+            overlay.style.display = 'flex';
+
+            const clean = () => { overlay.style.display = 'none'; };
+            document.getElementById('admin-confirm-yes').onclick = () => { clean(); onConfirm(); };
+            document.getElementById('admin-confirm-no').onclick = clean;
+            overlay.onclick = (e) => { if (e.target === overlay) clean(); };
+        }
+
+        function deleteBlog(id) {
+            const b = localBlogs.find(x => x.id == id);
+            const title = b ? b.title : 'هذا المقال';
+            showAdminConfirm({
+                title: 'تأكيد حذف المقال',
+                message: `هل أنت متأكد من حذف مقال "${title}"؟ لن تتمكن من استرجاعه بعد الحفظ.`,
+                onConfirm: () => {
+                    localBlogs = localBlogs.filter(b => b.id != id);
+                    saveData();
+                    renderList();
+                }
+            });
+        }
+
+
+        function resetForm() {
+            blogForm.reset();
+            quill.setContents([]);
+            htmlTextarea.value = "";
+            document.getElementById('b-id').value = "";
+
+
+            document.getElementById('form-title').textContent = "إضافة مقال جديد";
+            document.getElementById('submit-btn').textContent = "إضافة المقال";
+            document.getElementById('cancel-btn').style.display = "none";
+        }
+
+        function exportData() {
+            const output = document.getElementById('json-output');
+            const container = document.getElementById('output-container');
+            const title = container.querySelector('h2');
+            title.textContent = "انسخ هذا الكود وضعه في ملف blogs.js";
+            
+            let json = JSON.stringify(localBlogs, null, 4);
+            output.value = `const blogs = ${json};`;
+            
+            container.style.display = "block";
+            window.scrollTo({ top: container.offsetTop, behavior: 'smooth' });
+        }
+
+        function importData() {
+            const container = document.getElementById('output-container');
+            const output = document.getElementById('json-output');
+            const title = container.querySelector('h2');
+            
+            title.textContent = "الصق محتوى ملف blogs.js هنا ثم اضغط 'حفظ الاستيراد'";
+            output.value = "";
+            output.readOnly = false;
+            output.placeholder = "const blogs = [...];";
+            
+            // Temporary change of Export/Copy button logic or add a new button
+            // To keep it simple, we'll use the Copy button's space
+            const btnCopy = document.querySelector('.btn-copy');
+            const originalText = btnCopy.textContent;
+            
+            btnCopy.textContent = "تأكيد الاستيراد (Save Import)";
+            btnCopy.style.background = "#ef4444";
+            btnCopy.onclick = () => {
+                try {
+                    const code = output.value;
+                    const match = code.match(/const blogs = (\[[\s\S]*?\]);/);
+                    
+                    if (match) {
+                        localBlogs = JSON.parse(match[1]);
+                        saveData();
+                        location.reload();
+                    } else {
+                        alert("تنسيق الكود غير صحيح. تأكد من نسخ الملف بالكامل.");
+                    }
+                } catch (e) {
+                    alert("خطأ في الاستيراد: " + e.message);
+                }
+            };
+
+            container.style.display = "block";
+            window.scrollTo({ top: container.offsetTop, behavior: 'smooth' });
+        }
+
+
+        function copyToClipboard() {
+            const output = document.getElementById('json-output');
+            output.select();
+            document.execCommand('copy');
+            
+            const msg = document.getElementById('copy-msg');
+            msg.style.display = "inline";
+            setTimeout(() => { msg.style.display = "none"; }, 2000);
+        }
+
+        // ==========================================
+        // Direct GitHub Sync & Pull Engine for Blogs
+        // ==========================================
+        window.triggerCloudSync = async function() {
+            const btn = document.getElementById('btn-cloud-sync');
+            const originalContent = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="auth-spinner"></span> جاري النشر إلى GitHub...';
+            }
+
+            try {
+                const blogsCode = JSON.stringify(localBlogs, null, 4);
+                const fileContent = `const blogs = ${blogsCode};\n`;
+
+                await window.GitHubAPI.saveFile(
+                    'blogs.js',
+                    fileContent,
+                    `تحديث قائمة المقالات عبر لوحة التحكم (${localBlogs.length} مقال)`
+                );
+
+                if (window.AdminAuth && typeof window.AdminAuth.showToast === 'function') {
+                    window.AdminAuth.showToast('🚀 تم نشر المقالات بنجاح إلى GitHub Pages! ستظهر التغييرات خلال لحظات.');
+                } else {
+                    alert('🚀 تم نشر المقالات بنجاح إلى GitHub Pages!');
+                }
+            } catch (err) {
+                alert('حدث خطأ أثناء النشر إلى GitHub: ' + err.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = originalContent || '<span>🚀 نشر المقالات إلى الموقع (GitHub)</span>';
+                }
+            }
+        };
+
+        window.triggerCloudPull = async function() {
+            const btn = document.getElementById('btn-pull-latest');
+            const originalText = btn ? btn.textContent : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = 'جاري السحب...';
+            }
+
+            try {
+                const file = await window.GitHubAPI.getFile('blogs.js');
+                if (!file.exists || !file.content) {
+                    throw new Error('لم يتم العثور على ملف blogs.js في المستودع.');
+                }
+
+                const match = file.content.match(/const blogs = (\[[\s\S]*?\]);/);
+                if (match) {
+                    localBlogs = JSON.parse(match[1]);
+                    saveData();
+                    renderList();
+                    if (window.AdminAuth && typeof window.AdminAuth.showToast === 'function') {
+                        window.AdminAuth.showToast('✅ تم جلب أحدث بيانات المقالات من GitHub بنجاح!');
+                    } else {
+                        alert('✅ تم جلب أحدث بيانات المقالات من GitHub بنجاح!');
+                    }
+                } else {
+                    throw new Error('صيغة ملف blogs.js على GitHub غير متوافقة.');
+                }
+            } catch (err) {
+                alert('خطأ أثناء جلب البيانات من GitHub: ' + err.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.textContent = originalText || '🔄 جلب من GitHub';
+                }
+            }
+        };
+
+        // Initial render
+        renderList();
+    </script>
+</body>
+
+</html>
