@@ -50,8 +50,8 @@ self.addEventListener('message', (event) => {
         const title = event.data.title || 'متجر فوكس 🛒';
         const options = Object.assign({
             body: 'عروض وتخفيضات خاصة متوفرة الآن في متجر فوكس!',
-            icon: 'icon-192.png',
-            badge: 'icon-192.png',
+            icon: 'logo.svg',
+            badge: 'logo.svg',
             dir: 'rtl',
             lang: 'ar',
             vibrate: [200, 100, 200],
@@ -69,8 +69,8 @@ self.addEventListener('push', (event) => {
     let data = {
         title: 'متجر فوكس 🛒',
         body: 'وصلت عروض وتخفيضات حصرية جديدة في المتجر!',
-        icon: 'icon-192.png',
-        badge: 'icon-192.png',
+        icon: 'logo.svg',
+        badge: 'logo.svg',
         url: 'index.html#featured'
     };
 
@@ -84,8 +84,8 @@ self.addEventListener('push', (event) => {
 
     const options = {
         body: data.body,
-        icon: data.icon || 'icon-192.png',
-        badge: data.badge || 'icon-192.png',
+        icon: data.icon || 'logo.svg',
+        badge: data.badge || 'logo.svg',
         dir: 'rtl',
         lang: 'ar',
         vibrate: [200, 100, 200],

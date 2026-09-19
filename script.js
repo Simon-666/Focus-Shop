@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="product-image ${product.noCrop ? 'no-crop' : ''}">
                 ${badgeHtml}${src}
                 <span class="condition-badge ${cClass}">${cLabel}</span>
-                <img src="${product.image}" alt="${product.title} - متجر فوكس العراق" loading="lazy" decoding="async" width="300" height="300">
+                <img src="${product.image}" alt="${product.title} - متجر فوكس العراق" loading="lazy" decoding="async" width="400" height="300">
                 <div class="product-card-overlay"><span class="view-details-hint">📸 عرض التفاصيل</span></div>
             </div>
             <div class="product-info">
@@ -224,6 +224,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 9. Mobile Menu
     const menuToggle = document.getElementById('menu-toggle');
+    const menuBackdrop = document.getElementById('menu-backdrop');
+    if (menuBackdrop) {
+        menuBackdrop.addEventListener('click', () => {
+            if (menuToggle) menuToggle.checked = false;
+        });
+    }
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', () => { 
             if (window.innerWidth <= 768 && menuToggle) menuToggle.checked = false; 
@@ -231,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('click', (e) => {
-        if (menuToggle && menuToggle.checked && !e.target.closest('.nav-container')) {
+        if (menuToggle && menuToggle.checked && !e.target.closest('.nav-container') && !e.target.closest('.menu-backdrop')) {
             menuToggle.checked = false;
         }
     });
@@ -811,7 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         toast.innerHTML = `
             <div class="in-app-notify-icon">
-                <img src="icon-192.png" alt="Focus">
+                <img src="logo.svg" alt="Focus">
             </div>
             <div class="in-app-notify-content">
                 <div class="in-app-notify-header">
@@ -853,8 +859,8 @@ document.addEventListener('DOMContentLoaded', () => {
     async function showPushNotification(title, options = {}) {
         const defaultOptions = {
             body: 'تخفيضات كبرى وعروض حصرية جديدة متوفرة الآن في متجر فوكس!',
-            icon: 'icon-192.png',
-            badge: 'icon-192.png',
+            icon: options.icon || 'logo.svg',
+            badge: options.badge || 'logo.svg',
             dir: 'rtl',
             lang: 'ar',
             vibrate: [200, 100, 200],
@@ -1095,21 +1101,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================================
     // 15c. Live Push Notification Feed (Pure JS - Across All Devices)
     // =============================================
-    function checkLiveNotificationFeed() {
-        if (typeof currentNotification === 'undefined' || !currentNotification || !currentNotification.active) {
+    async function checkLiveNotificationFeed() {
+        try {
+            // Bypass all browser & GitHub CDN caches with cache: 'no-store' and timestamp
+            const res = await fetch(`notifications.js?t=${Date.now()}`, { cache: 'no-store' });
+            if (res.ok) {
+                const text = await res.text();
+                const match = text.match(/currentNotification\s*=\s*(\{[\s\S]*?\});/);
+                if (match) {
+                    const parsed = JSON.parse(match[1]);
+                    if (parsed && parsed.active) {
+                        window.currentNotification = parsed;
+                    }
+                }
+            }
+        } catch(e) {}
+
+        const notif = (typeof currentNotification !== 'undefined' && currentNotification) 
+            ? currentNotification 
+            : (window.currentNotification || null);
+
+        if (!notif || !notif.active) {
             return;
         }
 
         const lastSeen = localStorage.getItem('focus_last_seen_push_id');
-        const notifId = String(currentNotification.id || currentNotification.timestamp || '');
+        const notifId = String(notif.id || notif.timestamp || '');
 
         if (notifId && lastSeen !== notifId) {
             // New active notification found!
-            showPushNotification(currentNotification.title, {
-                body: currentNotification.body,
-                url: currentNotification.url || 'index.html#featured',
-                icon: currentNotification.icon || 'icon-192.png',
-                badge: currentNotification.badge || 'icon-192.png',
+            showPushNotification(notif.title, {
+                body: notif.body,
+                url: notif.url || 'index.html#featured',
+                icon: notif.icon || 'logo.svg',
+                badge: notif.badge || 'logo.svg',
                 tag: 'live-feed-' + notifId
             });
 
@@ -1118,20 +1143,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Check on load after 2 seconds
-    setTimeout(checkLiveNotificationFeed, 2000);
+    // Check on load after 1.5 seconds
+    setTimeout(checkLiveNotificationFeed, 1500);
 
-    // Periodically check notifications.js every 60 seconds while browsing
-    setInterval(() => {
-        const script = document.createElement('script');
-        script.src = `notifications.js?v=${Date.now()}`;
-        script.onload = () => {
-            checkLiveNotificationFeed();
-            script.remove();
-        };
-        script.onerror = () => script.remove();
-        document.head.appendChild(script);
-    }, 60000);
+    // Periodically check notifications.js every 30 seconds while browsing
+    setInterval(checkLiveNotificationFeed, 30000);
 
     // =============================================
     // 15b. Push Notification Engagement Popup Trigger

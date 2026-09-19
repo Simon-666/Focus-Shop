@@ -765,28 +765,33 @@ img {
 
 .product-image {
     width: 100%;
-    height: 200px;
+    aspect-ratio: 4 / 3;
+    height: auto;
     overflow: hidden;
     position: relative;
-    background-color: transparent;
-}
-
-.product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.product-image.no-crop {
-    background-color: #ffffff;
+    background-color: var(--bg-alt, #f8f9fa);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.product-image img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.product-image.no-crop {
+    background-color: #ffffff;
+}
+
 .product-image.no-crop img {
     object-fit: contain;
+    object-position: center center;
 }
 
 .product-card:hover .product-image img {
@@ -1024,75 +1029,185 @@ img {
 }
 
 /* ==============================
-   Mobile Menu Functionality
+   Mobile Menu & Header Spacing
    ============================== */
+.menu-backdrop {
+    display: none;
+}
+
 @media (max-width: 768px) {
-    .nav-container {
-        justify-content: flex-start;
-        gap: 15px;
+    .navbar {
+        padding: 0;
     }
 
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 16px;
+        width: 100%;
+        max-width: 100%;
+        gap: 10px;
+    }
+
+    /* Brand / Logo + Hamburger on Start side (Right in RTL) */
     .hamburger {
         display: flex;
         order: -1;
+        flex-shrink: 0;
+        width: 24px;
+        height: 18px;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .logo {
+        font-size: 1.4rem;
+        font-weight: 800;
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .nav-logo {
+        height: 28px;
+        width: auto;
+    }
+
+    /* Action buttons on End side (Left in RTL) */
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-inline-start: auto;
+        flex-shrink: 0;
+    }
+
+    /* Search button converted into a clean icon-only button */
+    .search-trigger-btn {
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        min-height: 38px;
+        padding: 0;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg-alt, rgba(0, 0, 0, 0.04));
+        border: 1px solid var(--border-color);
+        color: var(--text-muted);
+        box-shadow: none;
+    }
+
+    .search-trigger-btn span,
+    .search-trigger-btn kbd {
+        display: none !important;
+    }
+
+    .search-trigger-btn svg {
+        width: 18px;
+        height: 18px;
     }
 
     .theme-btn {
-        margin-right: auto;
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        min-height: 38px;
+        padding: 0;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
     }
 
+    /* Mobile Menu Dimming Backdrop */
+    .menu-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        top: 58px;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease;
+        z-index: 999;
+    }
+
+    #menu-toggle:checked ~ .menu-backdrop {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Mobile Drawer Menu */
     .nav-links {
         position: fixed;
-        top: 60px;
+        top: 58px;
         right: -100%;
         width: 280px;
-        max-width: 85%;
-        height: calc(100vh - 60px);
-        background-color: var(--bg-color);
+        max-width: 82%;
+        height: calc(100vh - 58px);
+        background-color: var(--card-bg, #ffffff);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         flex-direction: column;
         justify-content: flex-start;
-        padding: 30px 20px;
+        padding: 24px 16px;
         transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+        box-shadow: -10px 0 35px rgba(0, 0, 0, 0.22);
         border-left: 1px solid var(--border-color);
         z-index: 1000;
+        overflow-y: auto;
+    }
+
+    [data-theme="dark"] .nav-links {
+        background-color: rgba(31, 41, 55, 0.98);
+        border-left: 1px solid var(--border-color);
     }
 
     .nav-links li {
         width: 100%;
         text-align: right;
-        margin-bottom: 12px;
+        margin-bottom: 6px;
     }
 
     .nav-links a {
-        display: block;
-        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        font-size: 1.05rem;
+        font-weight: 600;
         padding: 12px 16px;
-        border-radius: 10px;
+        border-radius: 12px;
+        color: var(--text-main);
         transition: background-color var(--transition), color var(--transition), transform var(--transition);
+        border: 1px solid transparent;
     }
 
-    .nav-links a:hover {
-        background-color: rgba(37, 99, 235, 0.1);
-        transform: translateX(-5px);
+    .nav-links a:hover,
+    .nav-links a:active {
+        background-color: rgba(37, 99, 235, 0.08);
+        color: var(--primary-color);
+        border-color: rgba(37, 99, 235, 0.15);
+        transform: translateX(-4px);
     }
 
     /* Mobile Menu Drawer Active State */
-    #menu-toggle:checked~.nav-links {
+    #menu-toggle:checked ~ .nav-links {
         right: 0;
     }
 
-    #menu-toggle:checked~.hamburger span:nth-child(1) {
+    #menu-toggle:checked ~ .hamburger span:nth-child(1) {
         transform: translateY(9px) rotate(45deg);
     }
 
-    #menu-toggle:checked~.hamburger span:nth-child(2) {
+    #menu-toggle:checked ~ .hamburger span:nth-child(2) {
         opacity: 0;
     }
 
-    #menu-toggle:checked~.hamburger span:nth-child(3) {
+    #menu-toggle:checked ~ .hamburger span:nth-child(3) {
         transform: translateY(-9px) rotate(-45deg);
     }
 }
@@ -1334,15 +1449,24 @@ img {
 
 .blog-image {
     width: 100%;
-    height: 220px;
+    aspect-ratio: 16 / 9;
+    height: auto;
     overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-alt, #f8f9fa);
 }
 
 .blog-image img {
     width: 100%;
     height: 100%;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
+    object-position: center center;
     transition: transform 0.5s ease;
+    display: block;
 }
 
 .blog-card:hover .blog-image img {
@@ -1672,12 +1796,15 @@ img {
 .popup-main-img-wrap img {
     width: 100%;
     height: 100%;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
+    object-position: center center;
     transition: transform 0.4s ease;
 }
 
 .popup-main-img-wrap.no-crop img {
     object-fit: contain;
+    object-position: center center;
 }
 
 .popup-main-img-wrap:hover img {
@@ -3143,42 +3270,98 @@ select:focus-visible {
     contain-intrinsic-size: 1px 600px;
 }
 
-/* CLS: Prevent layout shift on images by guaranteeing aspect ratios */
+/* CLS & Mobile Scaling: Guarantee 4:3 aspect ratios & centered cropping across Desktop & Mobile */
+.product-image,
+.popup-main-img-wrap {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .product-image img,
 .popup-main-img-wrap img {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
+    object-position: center center;
     width: 100%;
-    height: auto;
+    height: 100%;
+    display: block;
+}
+
+.product-image.no-crop img,
+.popup-main-img-wrap.no-crop img {
+    object-fit: contain;
+    object-position: center center;
 }
 
 .about-image img {
     aspect-ratio: 3 / 2;
     object-fit: cover;
+    object-position: center center;
     width: 100%;
     max-width: 600px;
     height: auto;
 }
 
+.blog-image,
 .blog-image img {
     aspect-ratio: 16 / 9;
     object-fit: cover;
+    object-position: center center;
     width: 100%;
-    height: auto;
 }
 
 .post-image {
-    aspect-ratio: 2 / 1;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
+    object-position: center center;
     width: 100%;
     max-height: 420px;
 }
 
-/* Touch targets optimization: Ensure minimum 48px target size on mobile */
+/* Touch targets & Mobile Product Image Scaling */
 @media (max-width: 768px) {
+    .products-grid {
+        gap: 24px;
+    }
+
+    .product-image {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        height: auto;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        object-position: center center;
+    }
+
+    .product-image.no-crop img {
+        object-fit: contain;
+        object-position: center center;
+    }
+
+    .popup-main-img-wrap {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        height: auto;
+    }
+
+    .popup-main-img-wrap img {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        object-position: center center;
+    }
+
     .btn,
-    .theme-btn,
-    .search-trigger-btn,
     .faq-question,
     .contact-menu-item,
     .category-filters .btn-outline,
@@ -3189,9 +3372,26 @@ select:focus-visible {
         justify-content: center;
     }
 
+    .theme-btn,
+    .search-trigger-btn {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        min-height: 42px;
+        max-width: 42px;
+        max-height: 42px;
+        border-radius: 50% !important;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
     .hamburger {
-        min-width: 48px;
-        min-height: 48px;
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        min-height: 42px;
         display: flex;
         align-items: center;
         justify-content: center;

@@ -1083,8 +1083,8 @@
                 if (Notification.permission === 'granted') {
                     const notifOptions = {
                         body: body,
-                        icon: 'icon-192.png',
-                        badge: 'icon-192.png',
+                        icon: 'logo.svg',
+                        badge: 'logo.svg',
                         dir: 'rtl',
                         lang: 'ar',
                         vibrate: [200, 100, 200],
@@ -1157,8 +1157,8 @@
                 title: title,
                 body: body,
                 url: url,
-                icon: 'icon-192.png',
-                badge: 'icon-192.png',
+                icon: 'logo.svg',
+                badge: 'logo.svg',
                 timestamp: Date.now()
             };
 
@@ -1167,7 +1167,8 @@
  * Updated automatically via Admin Dashboard (admin.html)
  */
 
-const currentNotification = ${JSON.stringify(notifPayload, null, 4)};\n`;
+window.currentNotification = ${JSON.stringify(notifPayload, null, 4)};
+var currentNotification = window.currentNotification;\n`;
 
             const origContent = btn ? btn.innerHTML : '';
             if (btn) {
@@ -1176,13 +1177,19 @@ const currentNotification = ${JSON.stringify(notifPayload, null, 4)};\n`;
             }
 
             try {
+                let savedToGitHub = false;
                 // 1. If GitHub API is configured, commit directly to GitHub Pages repository!
-                if (window.GitHubAPI) {
-                    await window.GitHubAPI.saveFile(
-                        'notifications.js',
-                        fileContent,
-                        `نشر إشعار فوري جديد: ${title}`
-                    );
+                if (window.GitHubAPI && typeof window.GitHubAPI.saveFile === 'function') {
+                    try {
+                        await window.GitHubAPI.saveFile(
+                            'notifications.js',
+                            fileContent,
+                            `نشر إشعار فوري جديد: ${title}`
+                        );
+                        savedToGitHub = true;
+                    } catch(ghErr) {
+                        console.warn('GitHub save failed:', ghErr);
+                    }
                 }
 
                 // 2. Also broadcast immediately to any open tabs right now
@@ -1200,13 +1207,21 @@ const currentNotification = ${JSON.stringify(notifPayload, null, 4)};\n`;
                 }
 
                 closePushModal();
-                if (window.AdminAuth && typeof window.AdminAuth.showToast === 'function') {
-                    window.AdminAuth.showToast('🚀 تم نشر الإشعار بنجاح! سيظهر لجميع زوار المتجر على هواتفهم وحواسيبهم.');
+                if (savedToGitHub) {
+                    if (window.AdminAuth && typeof window.AdminAuth.showToast === 'function') {
+                        window.AdminAuth.showToast('🚀 تم نشر الإشعار وحفظه في GitHub بنجاح! يستغرق GitHub Pages حوالي دقيقة لتحديث السيرفر وبثه لجميع الهواتف.');
+                    } else {
+                        alert('🚀 تم نشر الإشعار وحفظه في GitHub بنجاح! يستغرق GitHub Pages دقيقة لتحديث الملف ونشره لجميع الزوار.');
+                    }
                 } else {
-                    alert('🚀 تم نشر الإشعار بنجاح لجميع الزوار!');
+                    if (window.AdminAuth && typeof window.AdminAuth.showToast === 'function') {
+                        window.AdminAuth.showToast('⚠️ تم بث الإشعار للمتصفح الحالي فقط. لنشره لجميع زوار الهواتف، يرجى ربط رمز GitHub Token في الإعدادات.');
+                    } else {
+                        alert('⚠️ تنبيه: لم يتم ربط GitHub Token في الإعدادات. تم بث الإشعار محلياً فقط. لنشره لهواتف الزوار تلقائياً، اربط GitHub Token.');
+                    }
                 }
             } catch (err) {
-                alert('حدث خطأ أثناء النشر إلى GitHub: ' + err.message);
+                alert('حدث خطأ أثناء نشر الإشعار: ' + err.message);
             } finally {
                 if (btn) {
                     btn.disabled = false;
