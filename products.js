@@ -27,6 +27,42 @@ const categories = [
 
 const products = [
     {
+        "id": 1790462797558,
+        "title": " كيبورد عمل جودة عالي يحمي معصمك ProtoArc EkM04 Keyboard & Mouse Ergonomic Wireless Combo Split Design Black New",
+        "price": "50000",
+        "originalPrice": "85000",
+        "currency": "د.ع",
+        "category": "pc",
+        "quantity": 1,
+        "isSoldOut": false,
+        "image": "https://i.ebayimg.com/images/g/5e4AAeSwhkpp7tGl/s-l1600.webp",
+        "description": "جودة عالية كيبورد و ماوس و ارقام من شركة ProtoArc \nThe ProtoArc EkM04 Keyboard & Mouse Ergonomic Wireless Combo in black features a QWERTY layout and is made of ABS plastic. With a sleek split design and ergonomic curved layout, this set provides a comfortable and efficient typing experience. The keyboard includes a separate numeric keypad, quiet scissor-switch keys, and a 2.4 GHz wireless connection. The ergonomic hard palm rest with a leather surface adds extra comfort during long hours of use. This combo set from ProtoArc offers a stylish and functional option for users looking for a reliable wireless keyboard and mouse bundle.",
+        "url": "https://i.ebayimg.com/images/g/5e4AAeSwhkpp7tGl/s-l1600.webp",
+        "condition": "new",
+        "featured": true,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 1
+    },
+    {
+        "id": 1790462559566,
+        "title": "سماعة للعمل Rownfusny R02U Wireless Headset: Bluetooth 5.3, HD Noise-Cancelling Mic, HiFi Stereo, Lightweight for PC/Phone/Zoom",
+        "price": "30000",
+        "originalPrice": "74000",
+        "currency": "د.ع",
+        "category": "pc",
+        "quantity": 1,
+        "isSoldOut": false,
+        "image": "https://www.rownfusny.com/cdn/shop/files/R02U-01_2_c9b05ea7-e3ad-4844-8f35-770af9aa978d.png?v=1755738145",
+        "description": "سماعة للعمل جودة مايك قوي جديدة اصلي \n\nHD ClearVoice Mic\nHi-Fi digital microphone + built-in noise reduction eliminates 90% background noise for studio-quality calls.\n\nAll-Day Comfort\nBreathable memory foam ear cushions prevent heat buildup during extended wear.\n\nInstant Dual-Mode\nSeamlessly switch between Bluetooth 5.3 and USB dongle with <40ms ultra-low latency.\n\nDual Audio Experience\nPrecision-tuned drivers deliver immersive music + crystal-clear conversations.\n\nOne-Tap Privacy\nDedicated mute button with red LED indicator for secure communications.\n\nFlash Charge\n5min charge = 70min talk time - power emergencies solved.",
+        "url": "https://www.rownfusny.com/products/rownfusny-r02u-wireless-headset?_pos=1&_ss=r",
+        "condition": "new",
+        "featured": false,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 1
+    },
+    {
         "id": 1789808812625,
         "title": "ملقن للموبايل و الكاميرا Teleprompter  Lensgo",
         "price": "65000",
