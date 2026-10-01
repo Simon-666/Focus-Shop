@@ -1,10 +1,80 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Loading Animation
+    // 0. TikTok & Mobile In-App Browser (WebView) Optimization
+    const ua = navigator.userAgent || '';
+    const isTikTok = /musical_ly|ByteLocale|BytedanceWebview|TikTok/i.test(ua);
+    const isWebView = isTikTok || /wv|FBAN|FBAV|Instagram/i.test(ua);
+    if (isTikTok) {
+        document.documentElement.classList.add('is-tiktok');
+    }
+    if (isWebView) {
+        document.documentElement.classList.add('is-webview');
+    }
+
+    // Universal WhatsApp handler for TikTok WebView & Mobile sandboxes
+    window.openWhatsApp = function(text, phone = '9647746264867') {
+        const cleanPhone = String(phone).replace(/[^0-9]/g, '');
+        const encoded = encodeURIComponent(text || '');
+        const nativeUrl = `whatsapp://send?phone=${cleanPhone}&text=${encoded}`;
+        const webUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encoded}`;
+
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const inSandbox = isTikTok || isWebView || isMobile;
+
+        if (inSandbox) {
+            // Direct protocol handler to launch native WhatsApp application from inside WebView
+            window.location.href = nativeUrl;
+            
+            // Fallback timeout in case the app is not installed or protocol was blocked
+            setTimeout(() => {
+                if (document.hasFocus()) {
+                    window.open(webUrl, '_blank');
+                }
+            }, 1200);
+        } else {
+            window.open(webUrl, '_blank');
+        }
+    };
+
+    // Global click interceptor for all WhatsApp links across the site
+    document.addEventListener('click', (e) => {
+        const waLink = e.target.closest('a[href*="wa.me"], a[href*="whatsapp.com"]');
+        if (!waLink) return;
+
+        const href = waLink.getAttribute('href');
+        try {
+            const parsedUrl = new URL(href, window.location.href);
+            const text = parsedUrl.searchParams.get('text') || '';
+            let phone = parsedUrl.searchParams.get('phone') || parsedUrl.pathname.replace(/^\/+/, '');
+            if (!phone || isNaN(parseInt(phone))) phone = '9647746264867';
+            
+            e.preventDefault();
+            e.stopPropagation();
+            window.openWhatsApp(text, phone);
+        } catch (err) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.openWhatsApp('', '9647746264867');
+        }
+    });
+
+    // 1. Fast & Smooth Loading Transition (Instant Opening Optimization)
     const loader = document.getElementById('loader');
-    setTimeout(() => {
-        loader.style.opacity = '0';
-        setTimeout(() => loader.classList.add('hidden'), 500);
-    }, 1000);
+    const dismissLoader = () => {
+        if (loader && !loader.classList.contains('hidden')) {
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                loader.style.display = 'none';
+            }, 250);
+        }
+    };
+    if (document.readyState === 'complete') {
+        setTimeout(dismissLoader, 80);
+    } else {
+        window.addEventListener('load', () => setTimeout(dismissLoader, 80));
+        // Fallback in case a resource hangs
+        setTimeout(dismissLoader, 600);
+    }
 
     // 2. Dark/Light Mode Toggle
     const themeToggleBtn = document.getElementById('theme-toggle');
@@ -298,13 +368,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const popup = document.getElementById('product-popup');
     const overlay = document.getElementById('product-popup-overlay');
 
-    function closePopup() {
+    function closePopup(triggerHistoryBack = true) {
         if (popup) popup.classList.remove('active');
         if (overlay) overlay.classList.remove('active');
         document.body.style.overflow = '';
+        if (triggerHistoryBack && window.history.state && window.history.state.modalOpen === 'product') {
+            try {
+                window.history.back();
+            } catch(e) {}
+        }
     }
-    if (overlay) overlay.addEventListener('click', closePopup);
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
+    if (overlay) overlay.addEventListener('click', () => closePopup(true));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(true); });
+    window.closePopup = closePopup;
 
     // This is the global function called by onclick on cards
     window._openPopup = function(id) {
@@ -355,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         popup.innerHTML = `
             <div class="popup-inner">
-                <button class="popup-close-btn" onclick="document.getElementById('product-popup').classList.remove('active');document.getElementById('product-popup-overlay').classList.remove('active');document.body.style.overflow='';" aria-label="إغلاق">✕</button>
+                <button class="popup-close-btn" onclick="if(typeof window.closePopup==='function'){window.closePopup(true);}else{document.getElementById('product-popup').classList.remove('active');document.getElementById('product-popup-overlay').classList.remove('active');document.body.style.overflow='';}" aria-label="إغلاق">✕</button>
                 <div class="popup-gallery">
                     <div class="popup-main-img-wrap ${p.noCrop ? 'no-crop' : ''}">
                         <img id="popup-main-img" src="${imgs[0]}" alt="${p.title} - متجر فوكس" width="400" height="400" decoding="async">
@@ -393,6 +469,9 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.classList.add('active');
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
+        try {
+            window.history.pushState({ modalOpen: 'product', id: id }, '');
+        } catch(e) {}
     };
 
     // =============================================
@@ -454,6 +533,9 @@ document.addEventListener('DOMContentLoaded', () => {
         searchModalOverlay.classList.add('active');
         searchModal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        try {
+            window.history.pushState({ modalOpen: 'search' }, '');
+        } catch(e) {}
         if (searchModalInput) {
             searchModalInput.value = '';
             renderSearchResults('');
@@ -461,18 +543,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function closeSearchModal() {
+    function closeSearchModal(triggerHistoryBack = true) {
         if (!searchModal || !searchModalOverlay) return;
         searchModalOverlay.classList.remove('active');
         searchModal.classList.remove('active');
         document.body.style.overflow = '';
+        if (triggerHistoryBack && window.history.state && window.history.state.modalOpen === 'search') {
+            try {
+                window.history.back();
+            } catch(e) {}
+        }
     }
 
     if (searchTriggerBtn) searchTriggerBtn.addEventListener('click', openSearchModal);
-    if (searchModalClose) searchModalClose.addEventListener('click', closeSearchModal);
+    if (searchModalClose) searchModalClose.addEventListener('click', () => closeSearchModal(true));
     if (searchModalOverlay) {
         searchModalOverlay.addEventListener('click', (e) => {
-            if (e.target === searchModalOverlay) closeSearchModal();
+            if (e.target === searchModalOverlay) closeSearchModal(true);
         });
     }
 
@@ -480,12 +567,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
             e.preventDefault();
             if (searchModal && searchModal.classList.contains('active')) {
-                closeSearchModal();
+                closeSearchModal(true);
             } else {
                 openSearchModal();
             }
         } else if (e.key === 'Escape' && searchModal && searchModal.classList.contains('active')) {
-            closeSearchModal();
+            closeSearchModal(true);
+        }
+    });
+
+    // Mobile & TikTok In-App Browser Back-Swipe/Button Trap Manager
+    window.addEventListener('popstate', () => {
+        if (popup && popup.classList.contains('active')) {
+            closePopup(false);
+            return;
+        }
+        if (searchModal && searchModal.classList.contains('active')) {
+            closeSearchModal(false);
+            return;
+        }
+        const menuToggle = document.getElementById('menu-toggle');
+        if (menuToggle && menuToggle.checked) {
+            menuToggle.checked = false;
+            return;
         }
     });
 
@@ -1221,15 +1325,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const fabContainer = document.getElementById('floating-contact-container');
     const fabBtn = document.getElementById('floating-contact-btn');
     if (fabBtn && fabContainer) {
-        fabBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
+        let lastToggleTime = 0;
+        const toggleFab = (e) => {
+            if (e) {
+                e.stopPropagation();
+            }
+            const now = Date.now();
+            if (now - lastToggleTime < 300) return;
+            lastToggleTime = now;
             fabContainer.classList.toggle('open');
-        });
-        document.addEventListener('click', (e) => {
-            if (!fabContainer.contains(e.target)) {
+        };
+
+        fabBtn.addEventListener('click', toggleFab);
+        fabBtn.addEventListener('touchend', (e) => {
+            toggleFab(e);
+        }, { passive: true });
+
+        const handleOutsideClose = (e) => {
+            if (fabContainer.classList.contains('open') && !fabContainer.contains(e.target)) {
                 fabContainer.classList.remove('open');
             }
-        });
+        };
+
+        document.addEventListener('click', handleOutsideClose);
+        document.addEventListener('touchstart', handleOutsideClose, { passive: true });
     }
 
     // =============================================

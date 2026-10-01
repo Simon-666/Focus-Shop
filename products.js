@@ -27,6 +27,42 @@ const categories = [
 
 const products = [
     {
+        "id": 1790816049556,
+        "title": "CHAOMIN Inverter 12v to 110v,6000W Pure Sine Wave Power Inverter Dc 12V to 220V,",
+        "price": "120000",
+        "originalPrice": "60000",
+        "currency": "د.ع",
+        "category": "camping",
+        "quantity": 1,
+        "isSoldOut": false,
+        "image": "https://http2.mlstatic.com/D_NQ_NP_634214-MLB109897623162_042026-O.webp",
+        "description": "MULTI-PURPOSE - Make this inverter your essential car accessories and camping accessories. Simply connect the DC battery cables directly to your 12 Volt DC battery from your car, truck, van, trailer, or RV to power your camping heater, small appliances, laptops, tablets, smartphones, gaming consoles and many other vehicle electronics.\nLED DISPLAY - Can show your battery power supply, battery input voltage, AC output voltage, output charge, overvoltage, undervoltage,overload/short circuit warning, power on/off.Uses The Control with the light display for better monitoring actual working status,convenient for you to master the power inverter working status(battery level indicator,audible alarm ).\nMULTI PROTECTION- Built-in fuses, safe charging design and cooling fan prevents the car power converter from over-heat,saving power and energy.over voltage, overload, over-current, short circuiting, under-voltage, overheating, short circuit protection.",
+        "url": "https://http2.mlstatic.com/D_NQ_NP_634214-MLB109897623162_042026-O.webp",
+        "condition": "new",
+        "featured": true,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 1
+    },
+    {
+        "id": 1790815925173,
+        "title": "فاحص اعطال TOPDON TOPSCAN Lite Pocket-Size Bluetooth Scan Tool w/Bi-Directional Controls",
+        "price": "50000",
+        "originalPrice": "100000",
+        "currency": "د.ع",
+        "category": "home",
+        "quantity": 1,
+        "isSoldOut": false,
+        "image": "https://i.ebayimg.com/images/g/BhkAAOSwYvRnbmCR/s-l1600.webp",
+        "description": "8+ Popular Functions, Full System Diagnosis: TopScan Lite supports OBD2 full system diagnosis functions, including read/clear codes, E-CU information,AUTO VIN, viewing real-time data, and active tests. It offers 8+ reset functions: Oil Reset, Throttle Adaptation, EPB Reset, Steering Angle Reset, DPF Regeneration, ABS Bleeding, BMS Reset, and SRS Reset. By these functions, you can save on unnecessary repair costs and reduce repair times significantly.\nBi-directional Control, Quickly Locate Problems: The bi-directional scan tool enables you to send commands from your smartphone directly to the vehicle's E-CU for active testing. This feature helps to quickly narrow down problem areas, such as A/C clutch, windows, doors, sunroof, etc., reducing the mechanic's diagnostic time and can help DIY users locate faults more easily. Additionally, TopScan Lite provides fault analysis and repair guidance, helping you solve problems efficiently.\nBluetooth Quick Pairing in Seconds: With the upgraded 5.0 Bluetooth system, TopScan Lite ensures a faster connection, eliminating the hassle of wires.The bluetooth pairing process needs to be completed in the application (IOS: TOPGURU&Android: TopScan). you can download our app from APP Store and Google play. TopScan Lite provides one year of free software updates.\nPerformance Testing: Always Know Your Vehicle's Condition, TopScan Lite supports speed performance testing, allowing you to analyze speed changes and calculate engine displacement efficiency,the higher the VE volumetric efficiency, the better the power output performance of the engine.\n4- Repair Guides, Your Online Assistant: TopScan Lite has launched 4 functions that are most touching for all car owners, DIY enthusiasts, and mechanics: TSB factory technical bulletins, easier and more convenient search. The OBD common fault code repair guidance, leading you to solve problems quickly. DLC diagnostic seat location, quickly positioning. Fault code database, telling you the reasons and solutions for all fault lights, saying goodbye to complicated methods.\nVehicle Coverage Lookup: Are you unsure whether the TopScan Lite scanner tool is compatible with your family's or friends' car models? We've got you covered! With the convenient TopScan Lite scanner compatible vehicle model table query function, you can easily verify compatibility with a single click. No more guesswork or uncertainty, get the answer Immediately.\nDiagnostic Tool Subscription Fee: After the first year of free updates, the subscription fee for the second year is $49.99/year for all applicable vehicle models and all features, such as system diagnostics, reset services, action tests, performance tests, repair guides, and more. You can purchase the 'Diag Bundle' to gain access for the second year, which can be done through the app. Note: You do not need to purchase the Diag Bundle in the first year, the first year is free of charge.",
+        "url": "https://i.ebayimg.com/images/g/BhkAAOSwYvRnbmCR/s-l1600.webp",
+        "condition": "new",
+        "featured": true,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 1
+    },
+    {
         "id": 1790815410557,
         "title": "Lando Norris McLaren MCL38 #4 4th Monaco GP Formula 1 2024 1:43 Bburago",
         "price": "25000",
