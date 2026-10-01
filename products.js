@@ -27,6 +27,24 @@ const categories = [
 
 const products = [
     {
+        "id": 1790880004628,
+        "title": "حذاء خيالي من اديداس adidas Ultra Boost 21",
+        "price": "50000",
+        "originalPrice": "300000",
+        "currency": "د.ع",
+        "category": "clothing",
+        "quantity": 1,
+        "isSoldOut": false,
+        "image": "https://images.stockx.com/images/adidas-Ultra-Boost-21-Argentina-National-Soccer-Team.jpg?fit=fill&bg=FFFFFF&w=576&h=384&q=57&dpr=2&trim=color&updated_at=1626188079",
+        "description": "ء adidas UltraBoost 21 Argentina National Soccer Team (كود الموديل: GZ7120) هو إصدار خاص ومحدود نزل بنهاية عام 2021 احتفالاً وتكريماً لمنتخب الأرجنتين لكرة القدم.\nوهذه هي المواصفات الفنية والتصميمية الكاملة للحذاء باللهجة العراقية:\nالألوان والهوية الرسمية\n• الألوان (Colorway): يجي بدمج رهيب يمثل ألوان علم الأرجنتين: الأبيض الأساسي (Cloud White)، الأزرق السماوي (Clear Blue)، والكحلي الداكن (Night Indigo).\n• الشعار الرسمي: يحمل شعار الاتحاد الأرجنتيني لكرة القدم (AFA) بشكل بارز ومطرز على لسان الحذاء، حتى يعطيك الهوية الرياضية الكاملة للمنتخب.\nالمواصفات الفنية والتقنية\n• العلويات (adidas Primeknit+): الجزء العلوي مصنوع من قماش الحياكة المطوّر اللي يقعد على الرجل مثل الجواريب (Sock-like fit)، ويوفر تهوية ممتازة ومرونة عالية للحركة.\n• نعل البوست الارتدادي (Boost Midsole): النعل مجهز بتقنية البوست المشهورة من أديداس، وبنسخة الـ 21 تم زيادة كمية الفوم بنسبة 6% إضافية مقارنة بالموديلات السابقة، مما يعطي راحة خيالية وامتصاص قوي للصدمات مع كل خطوة.\n• نظام التوجيه (adidas LEP): يحتوي على نظام التيرشن الجديد (Linear Energy Push)، اللي يزيد من صلابة مقدمة القدم بنسبة 15%، حتى يعطيك دفع وارتداد أسرع أثناء الركض أو المشي.\n• النعل السفلي (Continental™ Rubber): النعل الخارجي مصنوع من مطاط شركة \"كونتيننتال\" العالمية للسيارات بتصميم Stretchweb، حتى يضمن لك ثبات ومقاومة عالية للانزلاق على مختلف الأسطح.\nالوزن والقياسات الهندسية\n• الوزن: يزن الحذاء حوالي 340 غرام (أو 11.9 أونصة)، وهو متوازن جداً كحذاء ركض يومي مريح أو كاجوال.\n• فرق الارتفاع (Midsole Drop): يجي بفرق 10 ملم بين الكعب والمقدمة (ارتفاع الكعب 30.5 ملم / مقدمة القدم 20.5 ملم).",
+        "url": "https://stockx.com/adidas-ultra-boost-21-argentina-national-soccer-team",
+        "condition": "new",
+        "featured": true,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 1
+    },
+    {
         "id": 1790877912822,
         "title": "Inkbird 4-Probe Wireless Meat Thermometer BBQ Gloves Three-Mode WiFi Bluetooth مقياس حرارة ",
         "price": "50000",
