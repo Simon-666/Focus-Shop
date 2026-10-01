@@ -27,6 +27,78 @@ const categories = [
 
 const products = [
     {
+        "id": 1790877912822,
+        "title": "Inkbird 4-Probe Wireless Meat Thermometer BBQ Gloves Three-Mode WiFi Bluetooth مقياس حرارة ",
+        "price": "50000",
+        "originalPrice": "200000",
+        "currency": "د.ع",
+        "category": "camping",
+        "quantity": 1,
+        "isSoldOut": false,
+        "image": "https://i.ebayimg.com/images/g/QqAAAeSwdCto7wuI/s-l1600.webp",
+        "description": "هذا الجهاز يجي ويا 4 أشياش (مجسات) لاسلكية بالكامل وميزته الرهيبة إنه يشتغل بـ 3 طرق ربط بنفس الوقت (واي فاي 2.4GHz، بلوتوث 5.4، ووضع أوفلاين بدون نت).\n✨ أهم الميزات والمواصفات:\n• يشتغل بكل مكان (3 أنظمة ربط): تكدر تربطه على واي فاي البيت وتراقب اللحم وأنت طالع، أو على البلوتوث (يوصل مداه لـ 90 متر)، وإذا رحت لـ البر أو المزرعة وماكو نت، يشتغل عادي (أوفلاين) ويحفظ القراءات بالجهاز نفسه.\n• 4 أشياش ضد المي: الأشياش لاسلكية تماماً ومقاومة للمي (IP67) وتكدر تغسلها بغسالة المواعين. كل شيش بيه مستشعرين: واحد يقيس حرارة اللحم الداخلية (من 10 إلى 100 مئوية) والثاني يقيس حرارة المنقلة أو التندور (من 0 إلى 300 مئوية).\n• شحن سريع وباتري قوي: تشحن الشيش لمدة 25 دقيقة بس، يشتغل وياك 25 ساعة متواصلة! وقاعدة الشحن الأساسية هم بيها باتري قوي يتشحن.\n• تطبيق ذكي يخبل: التطبيق يجي بيه 26 منيو جاهز لحرارة اللحوم حسب تصنيف الـ USDA، وتكدر تخلي بيه منبه إذا صعدت الحرارة أو نزلت، وهم يشتغل على ساعة آبل (Apple Watch).\n• كفوف شواء مجانية: يجي وياه بالباكيت كفوف (قماصل) حرارية قوية علمود تلزم بيها المشبج واللحم الحار بدون ما تحترك إيدك.\nالجهاز فد شي راقي ومثالي لعزائم القوزي، البريسكيت، والمشويات العراقية الثقيلة!",
+        "url": "https://i.ebayimg.com/images/g/QqAAAeSwdCto7wuI/s-l1600.webp",
+        "condition": "new",
+        "featured": true,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 1
+    },
+    {
+        "id": 1790879102838,
+        "title": "Holoswim 2S Smart Swim Goggles, Digital Real-time Display AR Goggles  نظارات سباحة خرافية",
+        "price": "70000",
+        "originalPrice": "150000",
+        "currency": "د.ع",
+        "category": "camping",
+        "quantity": 1,
+        "isSoldOut": false,
+        "image": "https://m.media-amazon.com/images/I/71kddRk-EvL._AC_SX522_.jpg",
+        "description": "مناظير السباحة الذكية Holoswim 2S هي نظارات سباحة متطورة تدعم تقنية الواقع المعزز (AR) ومخصصة لتتبع الأداء الرياضي داخل المي.\nوهذه هي أبرز مواصفات ومميزات النظارة باللهجة العراقية:\nالشاشة والعرض (AR Display)\n• شاشة مدمجة بالعدسة: تعرض لك معلومات حية ومباشرة كدام عينك وأنت تسبح (مثل الوقت، الأمتار، الجولات، والسرعة) بدون ما تحتاج توقف وتشوف ساعتك.\n• تقنية متطورة: تستخدم نظام (AR Holographic Waveguide) وبدقة وضوح 128×64 بكسل بشاشة أحادية اللون (ماتريكس أخضر) وزاوية رؤية 25 درجة حتى تشوف الأرقام بوضوح عالي تحت المي.\nالذكاء الاصطناعي والتتبع\n• حساس حركة سداسي المحاور: بيه مستشعر (IMU 6-axis) ويا خوارزميات ذكاء اصطناعي ذكية، تحسب وتعرف 12 مؤشر مختلف للسباحة، مثل نوع السحبة (الستروك)، الـ SWOLF، والسرعة، وبدقة توصل لـ 99.8%.\n• تطبيق Holosport: النظارة تتزامن ويا تطبيق Holosport ع التلفون بعد ما تخلص سباحة، حتى يطلعلك تقرير كامل وتحليل لأدائك، وتكدر تخلي أهداف معينة لتمارينك.\nالتصميم والبطارية\n• الوزن والراحة: وزنها خفيف تقريباً 70 غرام، وتجي وياها 4 قطع لجسر الأنف (Nose bridges) بأحجام مختلفة (S, M, L, XL) حتى تقعد فيت ومريحة على أي وجه وما تعبر مي.\n• مقاومة المي والضباب: مقاومة للمي بمعيار قوي جداً (IPX8 / IP68)، والعدسات مالتها مغلفة بطبقة نانو ضد الضباب حاصلة على شهادة TÜV، يعني ما تغوش العين حتى لو انحكت أكثر من 1000 مرة.\n• البطارية والشحن: بيها بطارية ليثيوم بسعة 70mAh تطول وياك حد 4 ساعات استخدام متواصل، وتنشحن عن طريق كابل مغناطيسي مريح يطول حوالي ساعتين حتى يقبط شحن.\nميزات إضافية\n• بدون اشتراكات: كل ميزات الذكاء الاصطناعي وتتبع البيانات مجانية بالكامل ومحفوظة إلك بدون أي اشتراك شهري.\n• تشتغل بالمي المفتوح: تكدر تربطها بساعات ذكية مثل ساعات Garmin أو Apple Watch حتى تعرضلك البيانات وتشتغل وياك حتى بالبحيرات أو البحار (المي المفتوح).",
+        "url": "https://m.media-amazon.com/images/I/71kddRk-EvL._AC_SX522_.jpg",
+        "condition": "used",
+        "featured": true,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 2
+    },
+    {
+        "id": 1790877628571,
+        "title": "Q10 Smart Ear Canal Detector, SEALED - New in Box كبس فاحص اذن ",
+        "price": "30000",
+        "originalPrice": "50000",
+        "currency": "د.ع",
+        "category": "home",
+        "quantity": 1,
+        "isSoldOut": false,
+        "image": "https://s.alicdn.com/@sc04/kf/H73cb9c960a1c47c087d09da8e38247a3z.jpg?avif=close&webp=close",
+        "description": "كاشف ذكي مع شاشة (Q10) - منظار تنظيف الأذن 1080P HD\n🔍 الآن العناية بالأذن تتم بسهولة فائقة\n✨ المميزات:\n✅ شاشة عرض مدمجة - bina mobile connect kiye مشاهدة مباشرة.\n✅ عدسة 1080P HD - صورة/فيديو واضح.\n✅ خيار التقاط الصور ومقاطع الفيديو.\n✅ تصميم آمن مع نصائح صديقة للأذن.\n✅ قابل لإعادة الشحن ومحمول.",
+        "url": "https://s.alicdn.com/@sc04/kf/H73cb9c960a1c47c087d09da8e38247a3z.jpg?avif=close&webp=close",
+        "condition": "new",
+        "featured": false,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 3
+    },
+    {
+        "id": 1790877355777,
+        "title": "Fifine microphone A6V مايك فيفاين ",
+        "price": "35000",
+        "originalPrice": "55000",
+        "currency": "د.ع",
+        "category": "photography",
+        "quantity": 1,
+        "isSoldOut": false,
+        "image": "https://fifinemicrophone.com/cdn/shop/files/FIFINEAmpliGameA6VUSBRGBMicrophoneforGaming.jpg?v=1767063753&width=1100",
+        "description": "For flawless broadcasts? Get FIFINE AmpliGame A6V USB condenser microphone! Vibrant RGB, a pop filter, built-in shock mount, gain control, and a sturdy tripod stand keep your gaming and streaming voice natural, stable, and confidently precise.",
+        "url": "https://fifinemicrophone.com/cdn/shop/files/FIFINE-A6V-microphone-black-left.png?v=1767063492&width=1100",
+        "condition": "new",
+        "featured": true,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 4
+    },
+    {
         "id": 1790816049556,
         "title": "CHAOMIN Inverter 12v to 110v,6000W Pure Sine Wave Power Inverter Dc 12V to 220V,",
         "price": "60000",
@@ -42,7 +114,7 @@ const products = [
         "featured": true,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 1
+        "sortOrder": 5
     },
     {
         "id": 1790815925173,
@@ -60,7 +132,7 @@ const products = [
         "featured": true,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 1
+        "sortOrder": 6
     },
     {
         "id": 1790815410557,
@@ -77,7 +149,7 @@ const products = [
         "featured": false,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 1
+        "sortOrder": 7
     },
     {
         "id": 1790462797558,
@@ -95,7 +167,7 @@ const products = [
         "featured": true,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 1
+        "sortOrder": 8
     },
     {
         "id": 1790462559566,
@@ -113,7 +185,7 @@ const products = [
         "featured": false,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 1
+        "sortOrder": 9
     },
     {
         "id": 1789808812625,
@@ -130,7 +202,7 @@ const products = [
         "featured": true,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 1
+        "sortOrder": 10
     },
     {
         "id": 1789809625269,
@@ -148,7 +220,7 @@ const products = [
         "featured": false,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 2
+        "sortOrder": 11
     },
     {
         "id": 1789809313238,
@@ -166,7 +238,7 @@ const products = [
         "featured": true,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 3
+        "sortOrder": 12
     },
     {
         "id": 1789809181784,
@@ -184,7 +256,7 @@ const products = [
         "featured": true,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 4
+        "sortOrder": 13
     },
     {
         "id": 1779378765389,
@@ -202,7 +274,24 @@ const products = [
         "featured": false,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 5
+        "sortOrder": 14
+    },
+    {
+        "id": 1790878732474,
+        "title": "Keychron b6 pro keyboard كيبورد جودة عالية للماك ",
+        "price": "45000",
+        "currency": "د.ع",
+        "category": "pc",
+        "quantity": 1,
+        "isSoldOut": false,
+        "image": "https://www.keychron.com/cdn/shop/files/B6-Pro-Iconic-Features.jpg?v=1761279632&width=1000",
+        "description": "لوحة المفاتيح Keychron B6 Pro هي كيبورد لاسلكي فائق النحافة وكامل الحجم مصمم خصيصاً للإنتاجية والعمل المكتبي الهادئ.\nالمواصفات الرئيسية\n• الحجم والتصميم: كامل الحجم (100% مع لوحة أرقام Numpad)، بتخطيط يضم 109 مفتاحاً، وبتصميم فائق النحافة.\n• خيارات الاتصال: يدعم 3 طرق للاتصال (لاسلكي 2.4 جيجاهرتز، بلوتوث 5.2، وسلكي عبر كابل USB Type-C).\n• معدل الاستطلاع (Polling Rate): يصل إلى 1000 هرتز في وضع 2.4GHz والوضع السلكي، و100 هرتز في وضع البلوتوث.\n• عمر البطارية: بطارية بسعة 800 أمبير/ساعة توفر ما يصل إلى 1200 ساعة من الاستخدام المتواصل، مع منفذ شحن USB-C.\n• التوافق والبرمجيات: متوافق بسلاسة مع أنظمة تشغيل Windows و macOS و iOS، ويدعم التخصيص وإعادة تعيين المفاتيح عبر تطبيق الويب [Keychron Launcher] دون الحاجة لتثبيت برامج دائمية.\n• نوع المفاتيح: مفاتيح مقصية (Scissor switches) هادئة ومريحة للكتابة الطويلة.",
+        "url": "https://www.keychron.com/cdn/shop/files/B6-Pro-Iconic-Features.jpg?v=1761279632&width=1000",
+        "condition": "new",
+        "featured": true,
+        "isDemo": false,
+        "noCrop": false,
+        "sortOrder": 15
     },
     {
         "id": 1779378489358,
@@ -220,7 +309,7 @@ const products = [
         "featured": false,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 6
+        "sortOrder": 16
     },
     {
         "id": 1777149291882,
@@ -238,7 +327,7 @@ const products = [
         "featured": false,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 7
+        "sortOrder": 17
     },
     {
         "id": 1777148744013,
@@ -254,7 +343,7 @@ const products = [
         "condition": "new",
         "featured": true,
         "isDemo": false,
-        "sortOrder": 8,
+        "sortOrder": 18,
         "originalPrice": "178000"
     },
     {
@@ -273,7 +362,7 @@ const products = [
         "featured": false,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 9
+        "sortOrder": 19
     },
     {
         "id": 1776611664989,
@@ -291,12 +380,13 @@ const products = [
         "featured": false,
         "isDemo": false,
         "noCrop": false,
-        "sortOrder": 10
+        "sortOrder": 20
     },
     {
         "id": 1776611502245,
         "title": "Mella ساعة ذكية لتعليم وقت النوم للاطفال",
-        "price": "25000",
+        "price": "15000",
+        "originalPrice": "77500",
         "currency": "د.ع",
         "category": "home",
         "quantity": 1,
@@ -307,8 +397,8 @@ const products = [
         "condition": "new",
         "featured": true,
         "isDemo": false,
-        "sortOrder": 11,
-        "originalPrice": "77500"
+        "noCrop": false,
+        "sortOrder": 21
     },
     {
         "id": 10,
@@ -324,7 +414,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 12,
+        "sortOrder": 22,
         "originalPrice": "50000"
     },
     {
@@ -341,7 +431,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 13,
+        "sortOrder": 23,
         "originalPrice": "55000"
     },
     {
@@ -358,7 +448,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 14,
+        "sortOrder": 24,
         "originalPrice": "80000"
     },
     {
@@ -375,7 +465,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 15,
+        "sortOrder": 25,
         "originalPrice": "250000"
     },
     {
@@ -392,7 +482,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 16,
+        "sortOrder": 26,
         "originalPrice": "100000"
     },
     {
@@ -409,7 +499,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 17,
+        "sortOrder": 27,
         "originalPrice": "150000"
     },
     {
@@ -426,7 +516,7 @@ const products = [
         "condition": "new",
         "featured": false,
         "isDemo": true,
-        "sortOrder": 18,
+        "sortOrder": 28,
         "originalPrice": "500000"
     }
 ];
